@@ -1,2 +1,4 @@
 # yxy-Android
-for you，to share you love
+For you,It's a good chance to share your favorite picture!
+
+So,please join us!
