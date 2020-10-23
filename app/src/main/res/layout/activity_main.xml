@@ -1,123 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:orientation="vertical">
+    tools:context=".MainActivity">
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_height="wrap_content">
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/topAppBar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:title="广场(测试标题)"
+            style="@style/Widget.MaterialComponents.Toolbar.Primary"
+            />
+    </com.google.android.material.appbar.AppBarLayout>
 
-    <ImageView
-        android:layout_marginTop="100dp"
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_cloud_"
-        android:contentDescription="@string/logo" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_marginTop="20dp"
-        android:layout_height="wrap_content">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/Appname"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            android:gravity="center">
-        </TextView>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_marginTop="50dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/username"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            app:boxCornerRadiusBottomEnd="30dp"
-            app:boxCornerRadiusTopEnd="30dp"
-            app:boxCornerRadiusBottomStart="30dp"
-            app:boxCornerRadiusTopStart="30dp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-
-            app:hintTextColor="@color/blue"
-            android:layout_marginRight="20dp"
-            android:hint="@string/username"
-            android:textColorHint="@color/black"
-            app:boxStrokeColor="@color/blue"
-            android:layout_marginLeft="20dp">
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/yxyUsername"
-                android:layout_width="match_parent"
-                android:maxLines="1"
-                android:layout_height="wrap_content"
-                />
-        </com.google.android.material.textfield.TextInputLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_marginTop="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/password"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            app:boxCornerRadiusBottomEnd="30dp"
-            app:boxCornerRadiusTopEnd="30dp"
-            app:boxCornerRadiusBottomStart="30dp"
-            app:boxCornerRadiusTopStart="30dp"
-            android:layout_width="match_parent"
-            android:layout_marginRight="20dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="20dp"
-            app:boxStrokeColor="@color/blue"
-            android:textColorHint="@color/black"
-            app:hintTextColor="@color/blue"
-            app:endIconMode="password_toggle"
-            android:hint="@string/password">
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/yxyPassword"
-                android:maxLines="1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                />
-        </com.google.android.material.textfield.TextInputLayout>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:gravity="center"
-        android:layout_marginTop="30dp"
-        android:layout_height="wrap_content">
-        <Button
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:menu="@menu/bottom_navigation_menu"
+        />
 
 
-            android:id="@+id/login"
-            android:layout_width="match_parent"
-            android:layout_height="58dp"
-            android:layout_marginStart="80dp"
-            android:layout_marginEnd="80dp"
-            android:background="@drawable/round_normal"
-            android:text="@string/login_zh"
-            android:textSize="16sp"
-            android:textColor="@android:color/white"
-            app:backgroundTint="#2CBEA9" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:gravity="center"
-        android:layout_height="wrap_content">
-        <Button
-            android:id="@+id/btn_rigister"
-            android:layout_width="wrap_content"
-            android:backgroundTint="@android:color/white"
-            android:outlineProvider="none"
-            android:textColor="@color/black"
-            android:layout_height="wrap_content"
-            android:text="@string/rigister"
-            />
-    </LinearLayout>
-</LinearLayout>
-
+</androidx.constraintlayout.widget.ConstraintLayout>

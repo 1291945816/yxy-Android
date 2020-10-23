@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="kilig.ink.yxy.LoginActivity"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_marginTop="100dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_cloud_"
+        android:contentDescription="@string/logo" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_marginTop="20dp"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/Appname"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:gravity="center">
+        </TextView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/username"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            app:boxCornerRadiusBottomEnd="30dp"
+            app:boxCornerRadiusTopEnd="30dp"
+            app:boxCornerRadiusBottomStart="30dp"
+            app:boxCornerRadiusTopStart="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            app:hintTextColor="@color/blue"
+            android:layout_marginRight="20dp"
+            android:hint="@string/username"
+            android:textColorHint="@color/black"
+            app:boxStrokeColor="@color/blue"
+            android:layout_marginLeft="20dp">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/yxyUsername"
+                android:layout_width="match_parent"
+                android:maxLines="1"
+                android:layout_height="wrap_content"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/password"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            app:boxCornerRadiusBottomEnd="30dp"
+            app:boxCornerRadiusTopEnd="30dp"
+            app:boxCornerRadiusBottomStart="30dp"
+            app:boxCornerRadiusTopStart="30dp"
+            android:layout_width="match_parent"
+            android:layout_marginRight="20dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
+            app:boxStrokeColor="@color/blue"
+            android:textColorHint="@color/black"
+            app:hintTextColor="@color/blue"
+            app:endIconMode="password_toggle"
+            android:hint="@string/password">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/yxyPassword"
+                android:maxLines="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:layout_marginTop="30dp"
+        android:layout_height="wrap_content">
+        <Button
+
+
+            android:id="@+id/login"
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:layout_marginStart="80dp"
+            android:layout_marginEnd="80dp"
+            android:background="@drawable/round_normal"
+            android:text="@string/login_zh"
+            android:textSize="16sp"
+            android:textColor="@android:color/white"
+            app:backgroundTint="#2CBEA9" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/btn_rigister"
+            android:layout_width="wrap_content"
+            android:backgroundTint="@android:color/white"
+            android:outlineProvider="none"
+            android:textColor="@color/black"
+            android:layout_height="wrap_content"
+            android:text="@string/rigister"
+            />
+    </LinearLayout>
+</LinearLayout>
+

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/publish" android:title="@string/publish" android:icon="@drawable/ic_publish" android:enabled="true" />
+    <item android:id="@+id/album" android:title="@string/myalbum" android:icon="@drawable/ic_album" android:enabled="true"/>
+    <item android:id="@+id/my" android:title="@string/my" android:icon="@drawable/ic_my" android:enabled="true" />
+
+</menu>

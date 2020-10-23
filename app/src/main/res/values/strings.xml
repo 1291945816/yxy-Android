@@ -7,4 +7,7 @@
     <string name="logo">LOGO</string>
     <string name="password">密码</string>
     <string name="rigister">我要注册>></string>
+    <string name="my">我的</string>
+    <string name="myalbum">个人相册</string>
+    <string name="publish">广场</string>
 </resources>
