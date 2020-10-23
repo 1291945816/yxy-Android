@@ -49,6 +49,7 @@
             app:boxStrokeColor="@color/blue"
             android:layout_marginLeft="20dp">
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/yxyUsername"
                 android:layout_width="match_parent"
                 android:maxLines="1"
                 android:layout_height="wrap_content"
@@ -77,6 +78,7 @@
             app:endIconMode="password_toggle"
             android:hint="@string/password">
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/yxyPassword"
                 android:maxLines="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -89,7 +91,9 @@
         android:layout_marginTop="30dp"
         android:layout_height="wrap_content">
         <Button
-            android:id="@+id/btn_login"
+
+
+            android:id="@+id/login"
             android:layout_width="match_parent"
             android:layout_height="58dp"
             android:layout_marginStart="80dp"
