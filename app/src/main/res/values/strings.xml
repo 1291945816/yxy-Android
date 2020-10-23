@@ -1,6 +1,10 @@
 <resources>
-    <string name="app_name">Yxy</string>
-    <string name="Appname">伊享云,与朋友共享你的小秘密</string>
+    <string name="app_name">伊享云</string>
+    <string name="Appname">伊享云,与伊人分享生活的美好时刻</string>
     <string name="username">用户名</string>
     <string name="login">Sign in</string>
+    <string name="login_zh">登录</string>
+    <string name="logo">LOGO</string>
+    <string name="password">密码</string>
+    <string name="rigister">我要注册</string>
 </resources>

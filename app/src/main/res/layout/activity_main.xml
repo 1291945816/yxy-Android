@@ -7,13 +7,21 @@
     tools:context=".MainActivity"
     android:orientation="vertical">
 
+    <ImageView
+        android:layout_marginTop="100dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_cloud_"
+        android:contentDescription="@string/logo" />
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp">
-
+        android:layout_marginTop="20dp"
+        android:layout_height="wrap_content">
         <TextView
             android:layout_width="match_parent"
             android:text="@string/Appname"
+            android:textColor="@color/ty"
             android:textSize="20sp"
             android:gravity="center"
             android:layout_height="match_parent">
@@ -21,7 +29,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="50dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <com.google.android.material.textfield.TextInputLayout
@@ -29,12 +37,16 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+
+            app:hintTextColor="@color/ty"
             android:layout_marginRight="20dp"
             android:hint="@string/username"
-            app:shapeAppearanceOverlay="@style/AppTheme"
+            android:textColorHint="@color/ty"
+            app:boxStrokeColor="@color/ty"
             android:layout_marginLeft="20dp">
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
+                android:maxLines="1"
                 android:layout_height="wrap_content"
                 />
         </com.google.android.material.textfield.TextInputLayout>
@@ -50,11 +62,15 @@
             android:layout_marginRight="20dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="20dp"
-
+            app:boxStrokeColor="@color/ty"
+            android:textColorHint="@color/ty"
+            app:hintTextColor="@color/ty"
+            app:endIconMode="password_toggle"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
 
-            android:hint="密码">
+            android:hint="@string/password">
             <com.google.android.material.textfield.TextInputEditText
+                android:maxLines="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 />
@@ -63,18 +79,34 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:gravity="center"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="30dp"
         android:layout_height="wrap_content">
         <Button
-            android:id="@+id/textButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/login"
-            android:textColor="@android:color/white"
-            android:backgroundTint="@color/colorPrimary"
-            style="?attr/materialButtonOutlinedStyle"
-            />
 
+            android:id="@+id/textButton"
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:layout_marginStart="80dp"
+            android:layout_marginEnd="80dp"
+            android:background="@drawable/round_normal"
+            android:text="@string/login_zh"
+            android:textColor="@android:color/white"
+            app:backgroundTint="@color/ty" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:gravity="center"
+
+        android:layout_height="wrap_content">
+        <Button
+            android:layout_width="wrap_content"
+            android:backgroundTint="@android:color/white"
+            android:outlineProvider="none"
+            android:textColor="@color/ty"
+            android:layout_height="wrap_content"
+            android:text="@string/rigister"
+            />
     </LinearLayout>
 </LinearLayout>
 
