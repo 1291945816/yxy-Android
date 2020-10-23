@@ -4,4 +4,4 @@ For you,It's a good chance to share your favorite picture.
 So,please join us!
 
 ## Some photos
-![](./images/Login.png)
+![](./images/Login.jpg)
