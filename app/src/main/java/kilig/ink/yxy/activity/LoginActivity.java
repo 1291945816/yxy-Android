@@ -1,4 +1,4 @@
-package kilig.ink.yxy;
+package kilig.ink.yxy.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -24,6 +24,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
+import kilig.ink.yxy.R;
 import kilig.ink.yxy.entity.ResponeObject;
 import kilig.ink.yxy.utils.OkhttpUtils;
 import okhttp3.Call;
@@ -123,7 +124,7 @@ public class LoginActivity extends AppCompatActivity {
         rigister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(LoginActivity.this,RigisterActivity.class);
+                Intent intent = new Intent(LoginActivity.this, RigisterActivity.class);
                 startActivity(intent);
             }
         });
