@@ -91,8 +91,6 @@
         android:layout_marginTop="30dp"
         android:layout_height="wrap_content">
         <Button
-
-
             android:id="@+id/login"
             android:layout_width="match_parent"
             android:layout_height="58dp"
@@ -107,8 +105,16 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:gravity="center"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:gravity="center">
+        <CheckBox
+            android:id="@+id/ckb_rememberpsw"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="记住密码"
+            android:layout_marginRight="30dp">
+        </CheckBox>
+
         <Button
             android:id="@+id/btn_rigister"
             android:layout_width="wrap_content"
