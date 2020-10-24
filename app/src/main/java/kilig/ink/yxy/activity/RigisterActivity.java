@@ -1,8 +1,10 @@
-package kilig.ink.yxy;
+package kilig.ink.yxy.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import kilig.ink.yxy.R;
 
 public class RigisterActivity extends AppCompatActivity {
 

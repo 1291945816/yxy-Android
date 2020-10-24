@@ -3,14 +3,11 @@ package kilig.ink.yxy;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.Toast;
 
 
@@ -32,8 +29,6 @@ import okhttp3.ResponseBody;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
-    private SharedPreferences pref;
-    private SharedPreferences.Editor editor;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,26 +38,10 @@ public class MainActivity extends AppCompatActivity {
         TextInputEditText username = findViewById(R.id.yxyUsername);
         //密码
         TextInputEditText password = findViewById(R.id.yxyPassword);
-        //登录
         Button login = findViewById(R.id.login);
-        //注册
         Button rigister = findViewById(R.id.btn_rigister);
-        //记住密码
-        CheckBox rememberpsw= findViewById(R.id.ckb_rememberpsw);
-        //获取SharedPreferences对象
-        pref = PreferenceManager.getDefaultSharedPreferences(this);
-        boolean isRemember = pref.getBoolean("remember_password", false);
-        if (isRemember) {
-            // 将账号和密码都设置到文本框中
-            String tUsername = pref.getString("account", "");
-            String tPassword = pref.getString("password", "");
-            username.setText(tUsername);
-            password.setText(tPassword);
-            rememberpsw.setChecked(true);
-        }
 
         Log.d(TAG, "onCreate: 999");
-        //登录逻辑
         login.setOnClickListener(v->{
 
             Map<String,String> loginInfo=new HashMap<>();
@@ -98,7 +77,6 @@ public class MainActivity extends AppCompatActivity {
 
         });
 
-        //跳转到注册页面
         rigister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -106,6 +84,5 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        
     }
 }
