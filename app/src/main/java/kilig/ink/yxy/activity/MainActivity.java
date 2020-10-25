@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
         replaceFragment(FragmentSingleton.getFragment(FragmentEnum.PUBLISH));
         topBar.setTitle(FragmentEnum.PUBLISH.getName());
         bottomNavigationView=findViewById(R.id.bottom_navigation);
+
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
             switch (item.getItemId()){
                 case R.id.album:

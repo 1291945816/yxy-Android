@@ -72,6 +72,7 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         Log.d(TAG, "onCreate: 999");
+
         //登录逻辑
         login.setOnClickListener(v->{
 
