@@ -38,26 +38,23 @@ public  class OkhttpUtils {
 
 
     //普通的get请求
-    public static String get(String url, Map<String,String> queryParams){
+    public static void get(String url, Map<String,String> queryParams,Callback callback){
         Request.Builder builder = new Request.Builder()
                 .url(OkhttpUtils.BASE_URL + url); //添加url
         Request request = builder.addHeader("token", OkhttpUtils.token).build();//携带token
         //构建一个参数的url
         final HttpUrl.Builder newBuilder = request.url().newBuilder();
-        //装载请求参数
-        Iterator<Map.Entry<String, String>> iterator = queryParams.entrySet().iterator();
-        iterator.forEachRemaining(e->{
-            newBuilder.addQueryParameter(e.getKey(),e.getValue());
-        });
+        if (queryParams != null) {
+            //装载请求参数
+            Iterator<Map.Entry<String, String>> iterator = queryParams.entrySet().iterator();
+            iterator.forEachRemaining(e -> {
+                newBuilder.addQueryParameter(e.getKey(), e.getValue());
+            });
+        }
+
         //构建完成
         Request last_request = builder.url(newBuilder.build()).build();
-
-        try(Response execute=okHttpClient.newCall(last_request).execute()) {
-            return Objects.requireNonNull(execute.body()).string();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return "";
-        }
+        okHttpClient.newCall(request).enqueue(callback);
 
     }
 
