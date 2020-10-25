@@ -5,8 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.w3c.dom.Entity;
-
 import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
@@ -31,7 +29,7 @@ public class SquareFragment extends Fragment
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.pubulish_fragment, container,false);
+        view = inflater.inflate(R.layout.fragment_square, container,false);
         initView();
         initData();
         initEvent();
@@ -51,15 +49,28 @@ public class SquareFragment extends Fragment
     private void initData()
     {
         squareList = new ArrayList<>();
-        SquareViewEntity entity = new SquareViewEntity("1", "https://i.loli.net/2019/06/07/5cfa08739110842627.jpg", "动漫人物", 1, "宋淳", "https://gitforwindows.org/img/git_logo.png");
-        SquareViewEntity entity2 = new SquareViewEntity("2", "https://i.loli.net/2020/10/21/UPfIW3MGgxOqsYS.png", "环境变量", 1, "宋淳", "https://gitforwindows.org/img/git_logo.png");
-        SquareViewEntity entity3 = new SquareViewEntity("2", "https://i.loli.net/2020/10/21/pcLmKRCPx9zl2TO.png", "Debug", 1, "宋淳", "https://gitforwindows.org/img/git_logo.png");
-        squareList.add(entity);
+
+        SquareViewEntity entity1 = new SquareViewEntity("1", "https://i.loli.net/2019/06/07/5cfa08739110842627.jpg", "动漫人物", 86, "宋淳", "https://gitforwindows.org/img/git_logo.png");
+        SquareViewEntity entity2 = new SquareViewEntity("2", "https://hbimg.huabanimg.com/9f40b04f45a7f81409a0b08221f82c1cc4605edd4796d-5nIsQy_fw658/format/webp", "环境变量", 521, "宋淳", "https://hbimg.huabanimg.com/bac707919ff201dce07e8597a672047abdec4fed54523-9ddBTa_fw658/format/webp");
+        SquareViewEntity entity3 = new SquareViewEntity("2", "https://hbimg.huabanimg.com/7664c5a9021856518df37d5633ae6049da481db0d4119-3ahehJ_fw658/format/webp", "Debug", 231, "宋淳", "https://hbimg.huabanimg.com/71290e6035eb9c9c71f395e42cb416c9a77b84cdc20a-IUlccn_fw658/format/webp");
+        SquareViewEntity entity4 = new SquareViewEntity("2", "https://hbimg.huabanimg.com/65d6e304e78aa9827fe1f76633ea9e66dd0169db77000-BhZb5g_fw658/format/webp", "Debug", 93, "宋淳", "https://hbimg.huabanimg.com/9638b6bea1d64e5f0d06a067598fc6b0bcf935c92ab62-762GC0_fw658/format/webp");
+        SquareViewEntity entity5 = new SquareViewEntity("2", "https://hbimg.huabanimg.com/3a5a14118d10fb31e7a9319594e6ab14c4c1b80ad2e4a-YaIOja_fw658/format/webp", "Debug", 77, "宋淳", "https://hbimg.huabanimg.com/5ac04527742698185f90faf8c1c06d0af47952535a969-5UvFRN_fw658/format/webp");
+        squareList.add(entity2);
+        squareList.add(entity4);
+        squareList.add(entity3);
         squareList.add(entity2);
         squareList.add(entity3);
-        squareList.add(entity);
-        squareList.add(entity2);
+        squareList.add(entity4);
+        squareList.add(entity5);
+        squareList.add(entity1);
+        squareList.add(entity5);
+        squareList.add(entity1);
+        squareList.add(entity5);
         squareList.add(entity3);
+        squareList.add(entity4);
+        squareList.add(entity3);
+        squareList.add(entity2);
+
         adapter = new SquareViewAdapter(getContext(), squareList);
         recyclerView.setAdapter(adapter);
     }

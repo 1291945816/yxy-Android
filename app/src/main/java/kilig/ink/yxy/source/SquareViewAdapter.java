@@ -30,6 +30,7 @@ public class SquareViewAdapter extends RecyclerView.Adapter<SquareViewAdapter.Vi
         TextView  squareImgNameTextView;
         TextView  squareAuthorNameTextView;
         ImageView squareAuthorProfileImgView;
+        TextView  squareStarNumTextView;
 
         public ViewHolder(View v)
         {
@@ -39,6 +40,7 @@ public class SquareViewAdapter extends RecyclerView.Adapter<SquareViewAdapter.Vi
             squareImgNameTextView = v.findViewById(R.id.textView_square_imgName);
             squareAuthorNameTextView = v.findViewById(R.id.textView_square_authorName);
             squareAuthorProfileImgView = v.findViewById(R.id.imageView_square_author_profile);
+            squareStarNumTextView = v.findViewById(R.id.textView_square_likeNum);
         }
     }
 
@@ -109,6 +111,7 @@ public class SquareViewAdapter extends RecyclerView.Adapter<SquareViewAdapter.Vi
                 .into(holder.squareAuthorProfileImgView);
         holder.squareImgNameTextView.setText(entity.getDisplayImgName());
         holder.squareAuthorNameTextView.setText(entity.getAuthorName());
+        holder.squareStarNumTextView.setText(String.valueOf(entity.getStarNum()));
     }
 
     @Override
