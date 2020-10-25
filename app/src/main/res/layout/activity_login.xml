@@ -51,6 +51,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/yxyUsername"
                 android:layout_width="match_parent"
+                android:inputType="text"
                 android:maxLines="1"
                 android:layout_height="wrap_content"
                 />
@@ -80,6 +81,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/yxyPassword"
                 android:maxLines="1"
+                android:inputType="text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 />
