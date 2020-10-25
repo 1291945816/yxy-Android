@@ -94,9 +94,22 @@ public class LoginActivity extends AppCompatActivity {
                 OkhttpUtils.post("yxyUser/login", info, new Callback() {
                     @Override
                     public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                        Log.d(TAG, "onFailure: "+e.getMessage());
+
+                        try {
+                            Thread.sleep(1000);
+
+                        } catch (InterruptedException q) {
+                            q.printStackTrace();
+                        }
+                        runOnUiThread(()->{
+
+                            FancyToast.makeText(LoginActivity.this,"由于未知的原因，登录失败，请检查一下您的网络是否有问题?",
+                                    FancyToast.LENGTH_SHORT,
+                                    FancyToast.WARNING,
+                                    false).show();
                         mView.onDestroyView();
-                        Log.d(TAG, "onFailure: 666");
+                        });
+
 
                     }
 
@@ -107,11 +120,15 @@ public class LoginActivity extends AppCompatActivity {
                         String s = responseBody.string();
                         ResponeObject object = gson.fromJson(s, ResponeObject.class);
                         //关闭窗口
-                        mView.onDestroyView();
-
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                         //判断状态码 200 ok xxx 不ok
                         if(object.getCode() == null || !object.getCode().equals("200")){
                             runOnUiThread(()->{
+                                mView.onDestroyView();
                                 FancyToast.makeText(LoginActivity.this,object.getMessage(),
                                         FancyToast.LENGTH_SHORT,
                                         FancyToast.ERROR,
@@ -119,13 +136,18 @@ public class LoginActivity extends AppCompatActivity {
                             });
                         }else {
                             runOnUiThread(()->{
+                                mView.onDestroyView();
                                 FancyToast.makeText(LoginActivity.this,object.getMessage(),
                                         FancyToast.LENGTH_SHORT,
                                         FancyToast.SUCCESS,
                                         false).show();
                             });
                             OkhttpUtils.setToken((String) object.getData()); //传递token
+
+
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                            //禁止后退回到登录界面
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
 
 
