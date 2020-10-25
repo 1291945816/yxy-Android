@@ -13,6 +13,6 @@
     <string name="check_password">确认密码</string>
     <string name="nickname">昵称</string>
     <string name="verification_code">验证码</string>
-    <string name="fresh_vfcode">看不清，点击刷新</string>
+    <string name="fresh_vfcode">看不清，点图刷新</string>
     <string name="risiter_zh">注 册</string>
 </resources>

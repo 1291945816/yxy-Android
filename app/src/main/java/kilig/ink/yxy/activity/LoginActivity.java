@@ -12,7 +12,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.Toast;
 
 
 import com.google.android.material.textfield.TextInputEditText;
@@ -61,10 +60,11 @@ public class LoginActivity extends AppCompatActivity {
         CheckBox rememberpsw= findViewById(R.id.ckb_rememberpsw);
         //获取SharedPreferences对象
         pref = PreferenceManager.getDefaultSharedPreferences(this);
-        boolean isRemember = pref.getBoolean("remember_password", false);
+
+        boolean isRemember = pref.getBoolean("记住密码", false);
         if (isRemember) {
             // 将账号和密码都设置到文本框中
-            String tUsername = pref.getString("account", "");
+            String tUsername = pref.getString("username", "");
             String tPassword = pref.getString("password", "");
             username.setText(tUsername);
             password.setText(tPassword);
@@ -75,10 +75,11 @@ public class LoginActivity extends AppCompatActivity {
 
         //登录逻辑
         login.setOnClickListener(v->{
-
+            String mUsername = username.getText().toString();
+            String mPassword = password.getText().toString();
             Map<String,String> loginInfo=new HashMap<>();
-            loginInfo.put("username",username.getText().toString());
-            loginInfo.put("password",password.getText().toString());
+            loginInfo.put("username",mUsername);
+            loginInfo.put("password",mPassword);
 
             Gson gson=new Gson();
             String info = gson.toJson(loginInfo);
@@ -144,18 +145,22 @@ public class LoginActivity extends AppCompatActivity {
                             });
                             OkhttpUtils.setToken((String) object.getData()); //传递token
 
+                            //记住密码逻辑
+                            editor=pref.edit();
+                            if (rememberpsw.isChecked()){//检查复选框是否被选中
+                                editor.putBoolean("记住密码",true);
+                                editor.putString("username",mUsername);
+                                editor.putString("password",mPassword);
+                            }else {
+                                editor.clear();
+                            }
+                            editor.commit();
 
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             //禁止后退回到登录界面
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
-
-
                         }
-
-
-
-
                     }
                 });
             } catch (IOException e) {
@@ -169,7 +174,7 @@ public class LoginActivity extends AppCompatActivity {
         rigister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(LoginActivity.this, RigisterActivity.class);
+                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
                 startActivity(intent);
             }
         });
