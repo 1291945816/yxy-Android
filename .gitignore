@@ -1,3 +1,5 @@
+# gradle版本不一致，屏蔽其修改  by 宋淳
+build.gradle
 
 # Compiled class file
 *.class

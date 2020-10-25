@@ -11,9 +11,6 @@ import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import kilig.ink.yxy.R;
-import kilig.ink.yxy.frament.AblumFragment;
-import kilig.ink.yxy.frament.MyFragment;
-import kilig.ink.yxy.frament.PublishFragment;
 import kilig.ink.yxy.utils.FragmentEnum;
 import kilig.ink.yxy.utils.FragmentSingleton;
 

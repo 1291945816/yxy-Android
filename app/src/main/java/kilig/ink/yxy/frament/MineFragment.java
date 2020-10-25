@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment;
 
 import kilig.ink.yxy.R;
 
-public class MyFragment extends Fragment {
+public class MineFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
