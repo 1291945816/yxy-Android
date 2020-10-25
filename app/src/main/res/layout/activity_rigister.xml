@@ -12,22 +12,18 @@
         android:orientation="vertical">
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="60dp"
-            android:layout_marginLeft="28dp">
-            <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <androidx.appcompat.widget.Toolbar
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="加入我们"
-                android:textSize="40sp"
-                android:textColor="@color/black"
-                android:fontFamily="cursive">
-            </TextView>
+                android:layout_height="50dp"
+                app:layout_collapseMode="pin"
+                app:title="加入我们">
+            </androidx.appcompat.widget.Toolbar>
         </LinearLayout>
 
         <LinearLayout
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="25dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <com.google.android.material.textfield.TextInputLayout

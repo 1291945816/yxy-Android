@@ -3,8 +3,8 @@ package kilig.ink.yxy.utils;
 import androidx.fragment.app.Fragment;
 
 import kilig.ink.yxy.frament.AblumFragment;
-import kilig.ink.yxy.frament.MyFragment;
-import kilig.ink.yxy.frament.PublishFragment;
+import kilig.ink.yxy.frament.MineFragment;
+import kilig.ink.yxy.frament.SquareFragment;
 
 /**
  * 单例模式实践
@@ -14,10 +14,10 @@ public class FragmentSingleton {
         private static final Fragment ABLUMFRAGMENT=new AblumFragment();
     }
     private static class MyHolder{
-        private static final Fragment MYFRAGMENT=new MyFragment();
+        private static final Fragment MYFRAGMENT=new MineFragment();
     }
     private static class PublishHolder{
-        private static final Fragment PUBLISHFRAGMENT=new PublishFragment();
+        private static final Fragment PUBLISHFRAGMENT=new SquareFragment();
     }
     private FragmentSingleton() {
     }
