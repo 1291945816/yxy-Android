@@ -10,4 +10,9 @@
     <string name="my">我的</string>
     <string name="myalbum">个人相册</string>
     <string name="publish">广场</string>
+    <string name="check_password">确认密码</string>
+    <string name="nickname">昵称</string>
+    <string name="verification_code">验证码</string>
+    <string name="fresh_vfcode">看不清，点击刷新</string>
+    <string name="risiter_zh">注 册</string>
 </resources>
