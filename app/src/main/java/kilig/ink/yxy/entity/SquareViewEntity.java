@@ -8,17 +8,19 @@ public class SquareViewEntity
     private int    starNum;
     private String authorName;
     private String authorProfileImgUrl;
+    private boolean isStared;
 
     public SquareViewEntity() {}
 
-    public SquareViewEntity(String imgID, String imgUrl, String imgName, int starNum, String authorName, String authorImgUrl)
+    public SquareViewEntity(String imgID, String displayImgUrl, String displayImgName, int starNum, String authorName, String authorProfileImgUrl, boolean isStared)
     {
         this.imgID = imgID;
-        displayImgUrl = imgUrl;
-        this.displayImgName = imgName;
+        this.displayImgUrl = displayImgUrl;
+        this.displayImgName = displayImgName;
         this.starNum = starNum;
         this.authorName = authorName;
-        this.authorProfileImgUrl = authorImgUrl;
+        this.authorProfileImgUrl = authorProfileImgUrl;
+        this.isStared = isStared;
     }
 
     public String getImgID()
@@ -49,5 +51,20 @@ public class SquareViewEntity
     public String getAuthorProfileImgUrl()
     {
         return authorProfileImgUrl;
+    }
+
+    public boolean isStared()
+    {
+        return isStared;
+    }
+
+    public void setStared(boolean stared)
+    {
+        isStared = stared;
+    }
+
+    public void setStarNum(int starNum)
+    {
+        this.starNum = starNum;
     }
 }
