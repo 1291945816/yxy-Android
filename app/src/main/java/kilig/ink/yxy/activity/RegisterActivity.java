@@ -6,7 +6,7 @@ import android.os.Bundle;
 
 import kilig.ink.yxy.R;
 
-public class RigisterActivity extends AppCompatActivity {
+public class RegisterActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
