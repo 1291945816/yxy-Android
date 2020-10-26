@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -30,6 +31,8 @@ public class SquareViewAdapter extends RecyclerView.Adapter<SquareViewAdapter.Vi
         TextView  squareImgNameTextView;
         TextView  squareAuthorNameTextView;
         ImageView squareAuthorProfileImgView;
+        TextView  squareStarNumTextView;
+        ImageView squareLikeImgView;
 
         public ViewHolder(View v)
         {
@@ -39,6 +42,8 @@ public class SquareViewAdapter extends RecyclerView.Adapter<SquareViewAdapter.Vi
             squareImgNameTextView = v.findViewById(R.id.textView_square_imgName);
             squareAuthorNameTextView = v.findViewById(R.id.textView_square_authorName);
             squareAuthorProfileImgView = v.findViewById(R.id.imageView_square_author_profile);
+            squareStarNumTextView = v.findViewById(R.id.textView_square_likeNum);
+            squareLikeImgView = v.findViewById(R.id.imageView_square_like);
         }
     }
 
@@ -92,6 +97,56 @@ public class SquareViewAdapter extends RecyclerView.Adapter<SquareViewAdapter.Vi
 //            }
 //        });
 
+        holder.squareDisplayImgView.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                int position = holder.getAdapterPosition();
+                SquareViewEntity entity = squareList.get(position);
+                //todo 跳转到详情界面
+                Toast.makeText(context, entity.getDisplayImgName(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        holder.squareLikeImgView.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                int position = holder.getAdapterPosition();
+                SquareViewEntity entity = squareList.get(position);
+                if (entity.isStared())  //已经点赞，则取消
+                {
+                    entity.setStared(false);
+                    entity.setStarNum(entity.getStarNum() - 1);
+                    holder.squareStarNumTextView.setText(String.valueOf(entity.getStarNum()));
+                    holder.squareLikeImgView.setImageResource(R.drawable.ic_like);
+                    //todo 更新云端数据
+                }
+                else    //未点赞，则加上
+                {
+                    entity.setStared(true);
+                    entity.setStarNum(entity.getStarNum() + 1);
+                    holder.squareStarNumTextView.setText(String.valueOf(entity.getStarNum()));
+                    holder.squareLikeImgView.setImageResource(R.drawable.ic_unlike);
+                    //todo 更新云端数据
+                }
+            }
+        });
+
+        holder.squareAuthorProfileImgView.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                int position = holder.getAdapterPosition();
+                SquareViewEntity entity = squareList.get(position);
+                //todo 跳转到用户主页
+                Toast.makeText(context, entity.getAuthorName(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
         return holder;
     }
 
@@ -109,6 +164,15 @@ public class SquareViewAdapter extends RecyclerView.Adapter<SquareViewAdapter.Vi
                 .into(holder.squareAuthorProfileImgView);
         holder.squareImgNameTextView.setText(entity.getDisplayImgName());
         holder.squareAuthorNameTextView.setText(entity.getAuthorName());
+        holder.squareStarNumTextView.setText(String.valueOf(entity.getStarNum()));
+        if (entity.isStared())  //已经点赞
+        {
+            holder.squareLikeImgView.setImageResource(R.drawable.ic_unlike);
+        }
+        else //未点赞
+        {
+            holder.squareLikeImgView.setImageResource(R.drawable.ic_like);
+        }
     }
 
     @Override
