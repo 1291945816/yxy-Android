@@ -62,10 +62,13 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 break;
             case R.id.btn_backup:
                 finish();
+                break;
             case R.id.img_vfcode:
+                //点击图片加载验证码
                 Glide.with(context).load(OkhttpUtils.BASE_URL+"captcha/?time="+
                         Calendar.getInstance()
                         .getTimeInMillis()).into(img_vfcode);
+                break;
             default:
                 break;
         }
