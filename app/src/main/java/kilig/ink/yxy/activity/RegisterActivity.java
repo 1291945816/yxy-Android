@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.android.material.textfield.TextInputEditText;
 
 
@@ -50,7 +51,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         backup.setOnClickListener(this);
         img_vfcode.setOnClickListener(this);
         Glide.with(context).load(OkhttpUtils.BASE_URL+"captcha/?time="+ Calendar.getInstance()
-                .getTimeInMillis()).into(img_vfcode);
+                .getTimeInMillis())
+                .skipMemoryCache(true) //不缓存
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .into(img_vfcode);
 
     }
 
@@ -63,9 +67,11 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             case R.id.btn_backup:
                 finish();
             case R.id.img_vfcode:
-                Glide.with(context).load(OkhttpUtils.BASE_URL+"captcha/?time="+
-                        Calendar.getInstance()
-                        .getTimeInMillis()).into(img_vfcode);
+                Glide.with(context).load(OkhttpUtils.BASE_URL+"captcha/?time="+ Calendar.getInstance()
+                        .getTimeInMillis())
+                        .skipMemoryCache(true) //不缓存
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .into(img_vfcode);
             default:
                 break;
         }
