@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.Toast;
 
 
 import com.google.android.material.textfield.TextInputEditText;
@@ -43,10 +44,37 @@ public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
     private SharedPreferences pref;
     private SharedPreferences.Editor editor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+       // SharedPreferences login_state = getSharedPreferences("login", MODE_PRIVATE);
+     //   boolean isLogin = login_state.getBoolean("isLogin", false);
+        final Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+//        if(isLogin)
+//        {
+////            //刷新一下token
+////            OkhttpUtils.get("refreshToken", null, new Callback() {
+////                @Override
+////                public void onFailure(@NotNull Call call, @NotNull IOException e) {
+////
+////                }
+////
+////                @Override
+////                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+////                    String string = response.body().string(); //获取的返回数据
+////                    /**
+////                     * 后续更新
+////                     */
+////
+////                }
+////
+////            });
+//            //跳转
+//            startActivity(intent);
+//            finish();
+//        }
 
         //用户名
         TextInputEditText username = findViewById(R.id.yxyUsername);
@@ -157,10 +185,19 @@ public class LoginActivity extends AppCompatActivity {
                             }
                             editor.commit();
 
-                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                            //记录登录状态
+                            SharedPreferences.Editor editor = getSharedPreferences("login", MODE_PRIVATE).edit();
+                            editor.putBoolean("isLogin",true);
+                            editor.apply();
+                            //禁止后退回到登录界面
+                            //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
                             finish();
                         }
+
+
+
+
                     }
                 });
             } catch (IOException e) {
@@ -174,7 +211,7 @@ public class LoginActivity extends AppCompatActivity {
         rigister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+                Intent intent = new Intent(LoginActivity.this, RigisterActivity.class);
                 startActivity(intent);
             }
         });

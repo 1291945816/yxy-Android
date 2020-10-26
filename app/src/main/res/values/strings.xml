@@ -15,4 +15,5 @@
     <string name="verification_code">验证码</string>
     <string name="fresh_vfcode">看不清，点图刷新</string>
     <string name="risiter_zh">注 册</string>
+    <string name="login_tip_msg">啊哈?你好像没有登录欸！</string>
 </resources>

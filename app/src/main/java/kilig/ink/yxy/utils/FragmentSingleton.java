@@ -39,6 +39,7 @@ public class FragmentSingleton {
                 break;
             }case PUBLISH:{
                 fragment =PublishHolder.PUBLISHFRAGMENT;
+                break;
             }
         }
         return fragment;
