@@ -21,23 +21,29 @@
                 app:layout_collapseMode="pin">
                 <Button
                     android:id="@+id/btn_backup"
-                    android:layout_width="50dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
                     android:background="@drawable/btn_backup">
-
                 </Button>
                 <TextView
                     android:id="@+id/tv_welcome"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="加入我们"
-                    android:textSize="28sp"
-                    android:textColor="@color/black"
+                    android:textSize="24sp"
+                    android:textColor="#6E6E6E"
                     android:layout_gravity="center">
 
                 </TextView>
             </androidx.appcompat.widget.Toolbar>
+
         </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray">
+        </View>
 
         <LinearLayout
             android:layout_marginTop="25dp"
@@ -183,7 +189,6 @@
                 android:id="@+id/img_vfcode"
                 android:layout_width="120dp"
                 android:layout_height="match_parent"
-                android:background="@drawable/image_view_whit_bg"
                 android:layout_marginRight="20dp"
                 />
         </LinearLayout>

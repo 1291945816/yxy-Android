@@ -40,7 +40,7 @@ import okhttp3.ResponseBody;
 
 public class LoginActivity extends AppCompatActivity {
     private CatLoadingView mView;
-    private static final String TAG = "MainActivity";
+    private static final String TAG = "LoginActivity";
     private SharedPreferences pref;
     private SharedPreferences.Editor editor;
     @Override
@@ -119,6 +119,7 @@ public class LoginActivity extends AppCompatActivity {
                         ResponseBody responseBody = response.body();
                         assert responseBody != null;
                         String s = responseBody.string();
+                        Log.d(TAG, s);
                         ResponeObject object = gson.fromJson(s, ResponeObject.class);
                         //关闭窗口
                         try {
@@ -157,9 +158,8 @@ public class LoginActivity extends AppCompatActivity {
                             editor.commit();
 
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                            //禁止后退回到登录界面
-                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
+                            finish();
                         }
                     }
                 });
