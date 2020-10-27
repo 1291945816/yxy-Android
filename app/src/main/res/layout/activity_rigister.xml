@@ -122,7 +122,8 @@
                     android:inputType="textPassword"
                     android:maxLines="1"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    />
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 
@@ -182,7 +183,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:maxLines="1"
-                    android:inputType="number"/>
+                    android:inputType="text"/>
             </com.google.android.material.textfield.TextInputLayout>
             <ImageView
                 android:id="@+id/img_vfcode"
