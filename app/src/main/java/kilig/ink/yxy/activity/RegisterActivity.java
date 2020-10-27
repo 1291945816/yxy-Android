@@ -187,7 +187,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         OkhttpUtils.get("captcha/", map, new Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                FancyToast.makeText(RegisterActivity.this,"可能是网络的问题导致了注册的失败",FancyToast.LENGTH_SHORT,FancyToast.ERROR,false);
+                runOnUiThread(()->{
+                    FancyToast.makeText(RegisterActivity.this,"可能是网络的问题导致了注册的失败",FancyToast.LENGTH_SHORT,FancyToast.ERROR,false);
+                });
+
             }
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
