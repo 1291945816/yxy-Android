@@ -1,6 +1,7 @@
 package kilig.ink.yxy.source;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,15 +10,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.FutureTarget;
 import com.bumptech.glide.request.RequestOptions;
 
+import java.io.File;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import kilig.ink.yxy.R;
 import kilig.ink.yxy.entity.SquareViewEntity;
+import kilig.ink.yxy.utils.MyFileUtils;
 
 public class SquareViewAdapter extends RecyclerView.Adapter<SquareViewAdapter.ViewHolder>
 {
@@ -33,6 +38,8 @@ public class SquareViewAdapter extends RecyclerView.Adapter<SquareViewAdapter.Vi
         ImageView squareAuthorProfileImgView;
         TextView  squareStarNumTextView;
         ImageView squareLikeImgView;
+        TextView  squareDownloadNumTextView;
+        ImageView squareDownloadImgView;
 
         public ViewHolder(View v)
         {
@@ -44,6 +51,8 @@ public class SquareViewAdapter extends RecyclerView.Adapter<SquareViewAdapter.Vi
             squareAuthorProfileImgView = v.findViewById(R.id.imageView_square_author_profile);
             squareStarNumTextView = v.findViewById(R.id.textView_square_likeNum);
             squareLikeImgView = v.findViewById(R.id.imageView_square_like);
+            squareDownloadNumTextView = v.findViewById(R.id.textView_square_downloadNum);
+            squareDownloadImgView = v.findViewById(R.id.imageView_square_download);
         }
     }
 
@@ -122,7 +131,7 @@ public class SquareViewAdapter extends RecyclerView.Adapter<SquareViewAdapter.Vi
                     entity.setStarNum(entity.getStarNum() - 1);
                     holder.squareStarNumTextView.setText(String.valueOf(entity.getStarNum()));
                     holder.squareLikeImgView.setImageResource(R.drawable.ic_like);
-                    //todo 更新云端数据
+                    //todo 更新云端数据：此用户对此图片取消点赞
                 }
                 else    //未点赞，则加上
                 {
@@ -130,8 +139,44 @@ public class SquareViewAdapter extends RecyclerView.Adapter<SquareViewAdapter.Vi
                     entity.setStarNum(entity.getStarNum() + 1);
                     holder.squareStarNumTextView.setText(String.valueOf(entity.getStarNum()));
                     holder.squareLikeImgView.setImageResource(R.drawable.ic_unlike);
-                    //todo 更新云端数据
+                    //todo 更新云端数据：此用户对此图片点赞
                 }
+            }
+        });
+
+        holder.squareDownloadImgView.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                int position = holder.getAdapterPosition();
+                SquareViewEntity entity = squareList.get(position);
+
+                holder.squareDownloadImgView.setClickable(false);
+                entity.setDownloadNum(entity.getDownloadNum() + 1);
+                holder.squareDownloadNumTextView.setText(String.valueOf(entity.getDownloadNum()));
+                //todo 更新云端数据：此图片下载数加一
+
+                //下载
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try
+                        {
+                            FutureTarget<File> target = Glide.with(context)
+                                    .asFile()
+                                    .load(entity.getDisplayImgUrl())
+                                    .submit();
+                            final File imageFile = target.get();
+                            MyFileUtils.saveFile(imageFile, entity.getDisplayImgName());
+                        }
+                        catch (Exception e)
+                        {
+                            e.printStackTrace();
+                        }
+                    }
+                }).start();
+                Toast.makeText(context, "图片已保存~", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -157,6 +202,7 @@ public class SquareViewAdapter extends RecyclerView.Adapter<SquareViewAdapter.Vi
 
         Glide.with(context)
                 .load(entity.getDisplayImgUrl())
+                .error(R.drawable.cloudlogo)
                 .into(holder.squareDisplayImgView);
         Glide.with(context)
                 .load(entity.getAuthorProfileImgUrl())
@@ -173,6 +219,7 @@ public class SquareViewAdapter extends RecyclerView.Adapter<SquareViewAdapter.Vi
         {
             holder.squareLikeImgView.setImageResource(R.drawable.ic_like);
         }
+        holder.squareDownloadNumTextView.setText(String.valueOf(entity.getDownloadNum()));
     }
 
     @Override

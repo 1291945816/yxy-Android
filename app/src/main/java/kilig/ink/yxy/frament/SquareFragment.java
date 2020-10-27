@@ -28,11 +28,11 @@ public class SquareFragment extends Fragment
     View view;
 
     //测试数据
-    SquareViewEntity entity1 = new SquareViewEntity("1", "https://i.loli.net/2019/06/07/5cfa08739110842627.jpg", "动漫人物", 86, "宋淳", "https://gitforwindows.org/img/git_logo.png", true);
-    SquareViewEntity entity2 = new SquareViewEntity("2", "https://hbimg.huabanimg.com/9f40b04f45a7f81409a0b08221f82c1cc4605edd4796d-5nIsQy_fw658/format/webp", "好看的图片", 521, "cc", "https://hbimg.huabanimg.com/bac707919ff201dce07e8597a672047abdec4fed54523-9ddBTa_fw658/format/webp", false);
-    SquareViewEntity entity3 = new SquareViewEntity("2", "https://hbimg.huabanimg.com/7664c5a9021856518df37d5633ae6049da481db0d4119-3ahehJ_fw658/format/webp", "非常好看", 231, "chunson", "https://hbimg.huabanimg.com/71290e6035eb9c9c71f395e42cb416c9a77b84cdc20a-IUlccn_fw658/format/webp", true);
-    SquareViewEntity entity4 = new SquareViewEntity("2", "https://hbimg.huabanimg.com/65d6e304e78aa9827fe1f76633ea9e66dd0169db77000-BhZb5g_fw658/format/webp", "爱了爱了", 93, "songchun", "https://hbimg.huabanimg.com/9638b6bea1d64e5f0d06a067598fc6b0bcf935c92ab62-762GC0_fw658/format/webp", false);
-    SquareViewEntity entity5 = new SquareViewEntity("2", "https://hbimg.huabanimg.com/3a5a14118d10fb31e7a9319594e6ab14c4c1b80ad2e4a-YaIOja_fw658/format/webp", "电脑壁纸", 77, "纯纯", "https://hbimg.huabanimg.com/5ac04527742698185f90faf8c1c06d0af47952535a969-5UvFRN_fw658/format/webp", true);
+    SquareViewEntity entity1 = new SquareViewEntity("1", "1", "https://i.loli.net/2019/06/07/5cfa08739110842627.jpg", "动漫人物", 86, 92, "宋淳", "https://gitforwindows.org/img/git_logo.png", true);
+    SquareViewEntity entity2 = new SquareViewEntity("2", "1", "https://hbimg.huabanimg.com/9f40b04f45a7f81409a0b08221f82c1cc4605edd4796d-5nIsQy_fw658/format/webp", "好看的图片", 521, 55, "cc", "https://hbimg.huabanimg.com/bac707919ff201dce07e8597a672047abdec4fed54523-9ddBTa_fw658/format/webp", false);
+    SquareViewEntity entity3 = new SquareViewEntity("3", "1", "https://hbimg.huabanimg.com/7664c5a9021856518df37d5633ae6049da481db0d4119-3ahehJ_fw658/format/webp", "非常好看", 23, 231, "chunson", "https://hbimg.huabanimg.com/71290e6035eb9c9c71f395e42cb416c9a77b84cdc20a-IUlccn_fw658/format/webp", true);
+    SquareViewEntity entity4 = new SquareViewEntity("4", "1", "https://hbimg.huabanimg.com/65d6e304e78aa9827fe1f76633ea9e66dd0169db77000-BhZb5g_fw658/format/webp", "爱了爱了", 53, 93, "songchun", "https://hbimg.huabanimg.com/9638b6bea1d64e5f0d06a067598fc6b0bcf935c92ab62-762GC0_fw658/format/webp", false);
+    SquareViewEntity entity5 = new SquareViewEntity("5", "1", "https://hbimg.huabanimg.com/3a5a14118d10fb31e7a9319594e6ab14c4c1b80ad2e4a-YaIOja_fw658/format/webp", "电脑壁纸", 82, 77, "纯纯", "https://hbimg.huabanimg.com/5ac04527742698185f90faf8c1c06d0af47952535a969-5UvFRN_fw658/format/webp", true);
     SquareViewEntity[] entities = {entity1, entity2, entity3, entity4, entity5};
 
     @Nullable

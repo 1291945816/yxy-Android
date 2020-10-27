@@ -1,10 +1,15 @@
 package kilig.ink.yxy.activity;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 
 import android.preference.PreferenceManager;
@@ -27,6 +32,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import kilig.ink.yxy.R;
 import kilig.ink.yxy.entity.ResponeObject;
 import kilig.ink.yxy.utils.OkhttpUtils;
@@ -39,7 +46,14 @@ import okhttp3.ResponseBody;
  * 登录界面+逻辑处理
  */
 
+@RequiresApi(api = 30)
 public class LoginActivity extends AppCompatActivity {
+
+    //要申请的权限
+    String[] permissions = {Manifest.permission.READ_EXTERNAL_STORAGE,
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                            Manifest.permission.MANAGE_EXTERNAL_STORAGE};
+
     private CatLoadingView mView;
     private static final String TAG = "LoginActivity";
     private SharedPreferences pref;
@@ -49,6 +63,10 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        //授权
+        initPermissions();
+
        // SharedPreferences login_state = getSharedPreferences("login", MODE_PRIVATE);
      //   boolean isLogin = login_state.getBoolean("isLogin", false);
         final Intent intent = new Intent(LoginActivity.this, MainActivity.class);
@@ -194,10 +212,6 @@ public class LoginActivity extends AppCompatActivity {
                             startActivity(intent);
                             finish();
                         }
-
-
-
-
                     }
                 });
             } catch (IOException e) {
@@ -215,5 +229,57 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    private void initPermissions()
+    {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+        {
+            for (String permission : permissions)
+            {
+                if (PackageManager.PERMISSION_GRANTED != ContextCompat.checkSelfPermission(LoginActivity.this, permission))
+                {
+                    ActivityCompat.requestPermissions(LoginActivity.this, permissions, 1);
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults)
+    {
+        switch (requestCode)
+        {
+            case 1:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+                if (grantResults.length>0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                {
+                    break;
+                }
+                else
+                {
+                    new android.app.AlertDialog.Builder(LoginActivity.this)
+                            .setMessage("权限不足")
+                            .setPositiveButton("重新授权", new DialogInterface.OnClickListener()
+                            {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which)
+                                {
+                                    initPermissions();
+                                }
+                            })
+                            .setNegativeButton("退出应用", new DialogInterface.OnClickListener()
+                            {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which)
+                                {
+                                    finish();
+                                }
+                            })
+                            .setCancelable(false)
+                            .show();
+                }
+                break;
+        }
     }
 }
