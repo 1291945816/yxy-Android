@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -39,7 +40,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private TextInputEditText vf_code;
     private ImageView img_vfcode;
     private Button register;
-    private Button backup;
+    private ImageButton backup;
     private Context context=RegisterActivity.this;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
