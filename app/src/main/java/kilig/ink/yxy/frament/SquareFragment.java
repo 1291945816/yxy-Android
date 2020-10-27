@@ -5,6 +5,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.scwang.smart.refresh.footer.ClassicsFooter;
+import com.scwang.smart.refresh.header.ClassicsHeader;
+import com.scwang.smart.refresh.layout.api.RefreshLayout;
+import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -23,7 +29,7 @@ public class SquareFragment extends Fragment
 {
     SquareViewAdapter adapter;
     RecyclerView recyclerView;
-    SwipeRefreshLayout refreshLayout;
+    RefreshLayout refreshLayout;
     ArrayList<SquareViewEntity> squareList;
     View view;
 
@@ -41,7 +47,6 @@ public class SquareFragment extends Fragment
         view = inflater.inflate(R.layout.fragment_square, container,false);
         initView();
         initData();
-        initEvent();
         return view;
     }
 
@@ -49,6 +54,24 @@ public class SquareFragment extends Fragment
     {
         refreshLayout = view.findViewById(R.id.refreshLayout_square);
         recyclerView = view.findViewById(R.id.recyclerView_square);
+        refreshLayout.setOnRefreshListener(new OnRefreshListener()
+        {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout)
+            {
+                addData();
+                refreshlayout.finishRefresh(1000/*,false*/);//传入false表示刷新失败
+            }
+        });
+        refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener()
+        {
+            @Override
+            public void onLoadMore(RefreshLayout refreshlayout)
+            {
+                addData();
+                refreshlayout.finishLoadMore(800);//传入false表示加载失败
+            }
+        });
 
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         manager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -74,32 +97,5 @@ public class SquareFragment extends Fragment
         squareList.add(0, entities[new Random().nextInt(entities.length)]);
         squareList.add(0, entities[new Random().nextInt(entities.length)]);
         adapter.notifyDataSetChanged();
-        refreshLayout.setRefreshing(false);
-    }
-
-    public void initEvent()
-    {
-        // 设置手指在屏幕下拉多少距离会触发下拉刷新
-//        refreshLayout.setDistanceToTriggerSync(300);
-        // 设定下拉圆圈的背景
-//        refreshLayout.setProgressBackgroundColorSchemeColor(Color.WHITE);
-        // 设置圆圈的大小
-//        refreshLayout.setSize(SwipeRefreshLayout.LARGE);
-
-        // 设置下拉监听
-        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener()
-        {
-            @Override
-            public void onRefresh()
-            {
-                addData();
-            }
-        });
-        // 刷新渐变颜色
-        refreshLayout.setColorSchemeResources(
-                R.color.colorPrimary,
-                R.color.colorPrimaryDark,
-                R.color.colorAccent
-        );
     }
 }
