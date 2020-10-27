@@ -7,6 +7,7 @@
     tools:context=".activity.MainActivity">
 
     <com.google.android.material.appbar.AppBarLayout
+        android:orientation="vertical"
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -20,7 +21,18 @@
             style="@style/Widget.MaterialComponents.Toolbar.Primary"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:title="广场(测试标题)" />
+           >
+            <TextView
+                android:id="@+id/topTitle"
+                android:layout_width="wrap_content"
+                android:textSize="24sp"
+                android:layout_gravity="center"
+                android:textColor="@android:color/white"
+                android:text="广场"
+                android:layout_height="wrap_content">
+            </TextView>
+        </com.google.android.material.appbar.MaterialToolbar>
+
     </com.google.android.material.appbar.AppBarLayout>
 
 

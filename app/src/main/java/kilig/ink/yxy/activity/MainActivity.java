@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentTransaction;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.widget.TextView;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -21,15 +22,15 @@ import kilig.ink.yxy.utils.FragmentSingleton;
  */
 public class MainActivity extends AppCompatActivity {
     private BottomNavigationView bottomNavigationView=null;
-    private MaterialToolbar topBar=null;
+    private TextView topBar=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        topBar=findViewById(R.id.topAppBar);
+        topBar=findViewById(R.id.topTitle);
         replaceFragment(FragmentSingleton.getFragment(FragmentEnum.PUBLISH));
-        topBar.setTitle(FragmentEnum.PUBLISH.getName());
+        topBar.setText(FragmentEnum.PUBLISH.getName());
         bottomNavigationView=findViewById(R.id.bottom_navigation);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
@@ -37,17 +38,17 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.album:
                 {
                     replaceFragment(FragmentSingleton.getFragment(FragmentEnum.ABLUM));
-                    topBar.setTitle(FragmentEnum.ABLUM.getName());
+                    topBar.setText(FragmentEnum.ABLUM.getName());
                     break;
                 }
                 case R.id.publish:{
                     replaceFragment(FragmentSingleton.getFragment(FragmentEnum.PUBLISH));
-                    topBar.setTitle(FragmentEnum.PUBLISH.getName());
+                    topBar.setText(FragmentEnum.PUBLISH.getName());
                     break;
                 }
                 case R.id.my:{
                    replaceFragment(FragmentSingleton.getFragment(FragmentEnum.MY));
-                   topBar.setTitle(FragmentEnum.MY.getName());
+                   topBar.setText(FragmentEnum.MY.getName());
                    break;
                 }
 
