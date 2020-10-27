@@ -54,6 +54,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private Button register;
     private ImageButton backup;
     private Context context=RegisterActivity.this;
+    private Map<String,String> map=new HashMap<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

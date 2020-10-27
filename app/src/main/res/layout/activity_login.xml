@@ -128,7 +128,7 @@
             android:layout_width="wrap_content"
             android:backgroundTint="@android:color/white"
             android:outlineProvider="none"
-            android:textColor="@color/black"
+            android:textColor="@android:color/holo_blue_bright"
             android:layout_height="wrap_content"
             android:text="@string/rigister"
             />
