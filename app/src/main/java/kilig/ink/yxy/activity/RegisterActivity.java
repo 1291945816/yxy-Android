@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,7 +15,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.Gson;
 import com.roger.catloadinglibrary.CatLoadingView;
@@ -27,6 +28,7 @@ import com.shashank.sony.fancytoastlib.FancyToast;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
+
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -52,12 +54,14 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private Button register;
     private ImageButton backup;
     private Context context=RegisterActivity.this;
+    private HashMap<String, String> map = new HashMap<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rigister);
+       // Glide.get(RegisterActivity.this).getRegistry().append(GlideUrl.class, InputStream.class,new OkHttpUrlLoader.Factory(OkhttpUtils.okHttpClient));
 
-
+        map.put("time", String.valueOf(Calendar.getInstance().getTimeInMillis()));
         //控件初始化
         rgstUsername = findViewById(R.id.rgstUsername);
         rgstPassword = findViewById(R.id.rgstPassword);
@@ -72,11 +76,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         register.setOnClickListener(this);
         backup.setOnClickListener(this);
         img_vfcode.setOnClickListener(this);
-
-        //加载验证码
-        Glide.with(context).load(OkhttpUtils.BASE_URL+"captcha/?time="+ Calendar.getInstance()
-                .getTimeInMillis()).into(img_vfcode);
-
+        getVercode();
     }
 
     @Override
@@ -87,7 +87,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 registerInfo.put("username",rgstUsername.getText().toString());
                 registerInfo.put("password",rgstPassword.getText().toString());
                 registerInfo.put("nickname",nickname.getText().toString());
-                registerInfo.put("vercode",vf_code.getText().toString());
+                registerInfo.put("verCode",vf_code.getText().toString());
 
                 Gson gson = new Gson();
                 String rginfo = gson.toJson(registerInfo);
@@ -176,13 +176,31 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 finish();
                 break;
             case R.id.img_vfcode:
-                //点击图片刷新验证码
-                Glide.with(context).load(OkhttpUtils.BASE_URL+"captcha/?time="+
-                        Calendar.getInstance()
-                        .getTimeInMillis()).into(img_vfcode);
+                getVercode();
                 break;
             default:
                 break;
         }
+    }
+
+    private void getVercode(){
+        OkhttpUtils.get("captcha/", map, new Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                FancyToast.makeText(RegisterActivity.this,"可能是网络的问题导致了注册的失败",FancyToast.LENGTH_SHORT,FancyToast.ERROR,false);
+            }
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                if(response.isSuccessful()){
+                    byte[] bytes = response.body().bytes();
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                    runOnUiThread(()->{ img_vfcode.setImageBitmap(bitmap); });
+                }else {
+                    FancyToast.makeText(RegisterActivity.this,"后台出问题了，请及时联系产品人员^-^",FancyToast.LENGTH_SHORT,FancyToast.ERROR,false);
+                }
+
+            }
+        });
+
     }
 }

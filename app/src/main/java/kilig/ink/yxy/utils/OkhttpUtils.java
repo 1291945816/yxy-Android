@@ -1,10 +1,13 @@
 package kilig.ink.yxy.utils;
 
+import com.bumptech.glide.Glide;
+
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 
+import kilig.ink.yxy.entity.CookiesManager;
 import okhttp3.Callback;
 import okhttp3.FormBody;
 import okhttp3.Headers;
@@ -25,7 +28,8 @@ public  class OkhttpUtils {
      */
     public static final String BASE_URL="http://yxyserver.kilig.ink/";
 
-    private static OkHttpClient okHttpClient=new OkHttpClient();
+    public static OkHttpClient okHttpClient=new OkHttpClient.Builder().cookieJar(new CookiesManager()).build();
+
     private static String token="";
 
     /**
@@ -38,18 +42,16 @@ public  class OkhttpUtils {
 
 
     //普通的get请求
-    public static void get(String url, Map<String,String> queryParams,Callback callback){
+    public static void get(String url, Map<String,String> queryParams, Callback callback){
         Request.Builder builder = new Request.Builder()
                 .url(OkhttpUtils.BASE_URL + url); //添加url
         Request request = builder.addHeader("token", OkhttpUtils.token).build();//携带token
         //构建一个参数的url
         final HttpUrl.Builder newBuilder = request.url().newBuilder();
         if (queryParams != null) {
-            //装载请求参数
-            Iterator<Map.Entry<String, String>> iterator = queryParams.entrySet().iterator();
-            iterator.forEachRemaining(e -> {
-                newBuilder.addQueryParameter(e.getKey(), e.getValue());
-            });
+            for (Map.Entry<String,String> entry:queryParams.entrySet()){
+                newBuilder.addQueryParameter(entry.getKey(),entry.getValue());
+            }
         }
 
         //构建完成
