@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.Gson;
 
@@ -63,7 +64,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         backup.setOnClickListener(this);
         img_vfcode.setOnClickListener(this);
         Glide.with(context).load(OkhttpUtils.BASE_URL+"captcha/?time="+ Calendar.getInstance()
-                .getTimeInMillis()).into(img_vfcode);
+                .getTimeInMillis())
+                .skipMemoryCache(true) //不缓存
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .into(img_vfcode);
 
     }
 
@@ -101,10 +105,11 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 break;
             case R.id.img_vfcode:
                 //点击图片加载验证码
-                Glide.with(context).load(OkhttpUtils.BASE_URL+"captcha/?time="+
-                        Calendar.getInstance()
-                        .getTimeInMillis()).into(img_vfcode);
-                break;
+                Glide.with(context).load(OkhttpUtils.BASE_URL+"captcha/?time="+ Calendar.getInstance()
+                        .getTimeInMillis())
+                        .skipMemoryCache(true) //不缓存
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .into(img_vfcode);
             default:
                 break;
         }
