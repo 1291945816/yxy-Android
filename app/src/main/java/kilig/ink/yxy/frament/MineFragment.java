@@ -24,7 +24,7 @@ public class MineFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         view = inflater.inflate(R.layout.fragment_mine,container,false);
-        Button exit = view.findViewById(R.id.btn_exit);
+        //Button exit = view.findViewById(R.id.btn_exit);
         ImageView imgProfile = view.findViewById(R.id.img_profile);
 
         //加载头像
@@ -33,12 +33,12 @@ public class MineFragment extends Fragment {
                 .apply(RequestOptions.bitmapTransform(new CropCircleTransformation())) //头像变圆
                 .into(imgProfile);
 
-        exit.setOnClickListener(new View.OnClickListener() {
+        /*exit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                  getActivity().finish();
             }
-        });
+        });*/
 
         return view;
     }
