@@ -6,14 +6,47 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    <com.scwang.smart.refresh.layout.SmartRefreshLayout
         android:id="@+id/refreshLayout_square"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:srlHeaderHeight="40dp"
+        app:srlFooterHeight="32dp"
+        app:srlEnablePureScrollMode="false">
+
+        <com.scwang.smart.refresh.header.ClassicsHeader
+            app:srlDrawableMarginRight="-10dp"
+            android:id="@+id/square_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srlEnableLastTime="false"
+            app:srlFinishDuration="100"
+            app:srlTextPulling=""
+            app:srlTextLoading=""
+            app:srlTextRelease=""
+            app:srlTextFinish=""
+            app:srlTextFailed=""
+            app:srlTextUpdate=""
+            app:srlTextSecondary=""
+            app:srlTextRefreshing=""/>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView_square"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+        <com.scwang.smart.refresh.footer.ClassicsFooter
+            app:srlAccentColor="@android:color/white"
+            app:srlPrimaryColor="@color/blue"
+            android:id="@+id/square_footer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srlTextLoading="加载中..."
+            app:srlTextRefreshing="加载中..."
+            app:srlTextFinish=""
+            app:srlTextFailed=""
+            app:srlTextNothing=""
+            app:srlFinishDuration="10"
+            app:srlDrawableMarginRight="4dp"/>
+    </com.scwang.smart.refresh.layout.SmartRefreshLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

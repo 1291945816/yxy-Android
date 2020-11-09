@@ -149,8 +149,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                             if(object.getCode() == null || !object.getCode().equals("200")){
                                 runOnUiThread(()->{
                                     mView.onDestroyView();
-                                    FancyToast.makeText(RegisterActivity.this,
-                                            object.getMessage(),
+                                    FancyToast.makeText(RegisterActivity.this,object.getMessage(),
                                             FancyToast.LENGTH_SHORT,
                                             FancyToast.ERROR,
                                             false).show();
@@ -158,17 +157,14 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                             }else {
                                 runOnUiThread(() -> {
                                     mView.onDestroyView();
-                                    FancyToast.makeText(RegisterActivity.this,
-                                            object.getMessage(),
+                                    FancyToast.makeText(RegisterActivity.this, object.getMessage(),
                                             FancyToast.LENGTH_SHORT,
                                             FancyToast.SUCCESS,
                                             false).show();
                                 });
 
-                                Intent intent = new Intent(RegisterActivity.this,
-                                        LoginActivity.class);
+                                Intent intent = new Intent(RegisterActivity.this,LoginActivity.class);
                                 startActivity(intent);
-                                finish();
                             }
                         }
                     });
@@ -192,10 +188,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         OkhttpUtils.get("captcha/", map, new Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                FancyToast.makeText(RegisterActivity.this,
-                        "可能是网络的问题导致了注册的失败",
-                        FancyToast.LENGTH_SHORT,FancyToast.ERROR,
-                        false);
+                FancyToast.makeText(RegisterActivity.this,"可能是网络的问题导致了注册的失败",FancyToast.LENGTH_SHORT,FancyToast.ERROR,false);
             }
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
@@ -204,10 +197,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                     Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
                     runOnUiThread(()->{ img_vfcode.setImageBitmap(bitmap); });
                 }else {
-                    FancyToast.makeText(RegisterActivity.this,
-                            "后台出问题了，请及时联系产品人员^-^",
-                            FancyToast.LENGTH_SHORT,FancyToast.ERROR,
-                            false);
+                    FancyToast.makeText(RegisterActivity.this,"后台出问题了，请及时联系产品人员^-^",FancyToast.LENGTH_SHORT,FancyToast.ERROR,false);
                 }
 
             }
