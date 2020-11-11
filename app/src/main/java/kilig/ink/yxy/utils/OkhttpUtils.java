@@ -56,8 +56,7 @@ public  class OkhttpUtils {
 
         //构建完成
         Request last_request = builder.url(newBuilder.build()).build();
-        okHttpClient.newCall(request).enqueue(callback);
-
+        okHttpClient.newCall(last_request).enqueue(callback);
     }
 
     /**
@@ -82,7 +81,6 @@ public  class OkhttpUtils {
         // 设置自定义的 builder
         builder.headers(headerBuilder.build()).post(requestBody);
         okHttpClient.newCall(builder.build()).enqueue(callback);
-
     }
 
 }
