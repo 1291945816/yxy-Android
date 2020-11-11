@@ -1,17 +1,31 @@
 package kilig.ink.yxy.frament;
 //广场界面
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.scwang.smart.refresh.footer.ClassicsFooter;
 import com.scwang.smart.refresh.header.ClassicsHeader;
 import com.scwang.smart.refresh.layout.api.RefreshLayout;
 import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.io.IOException;
+import java.lang.reflect.Array;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import androidx.annotation.NonNull;
@@ -22,8 +36,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import kilig.ink.yxy.R;
+import kilig.ink.yxy.entity.ResponeObject;
 import kilig.ink.yxy.entity.SquareViewEntity;
 import kilig.ink.yxy.source.SquareViewAdapter;
+import kilig.ink.yxy.utils.OkhttpUtils;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
 public class SquareFragment extends Fragment
 {
@@ -32,14 +51,9 @@ public class SquareFragment extends Fragment
     RefreshLayout refreshLayout;
     ArrayList<SquareViewEntity> squareList;
     View view;
-
-    //测试数据
-    SquareViewEntity entity1 = new SquareViewEntity("1", "1", "https://i.loli.net/2019/06/07/5cfa08739110842627.jpg", "动漫人物", 86, 92, "宋淳", "https://gitforwindows.org/img/git_logo.png", true);
-    SquareViewEntity entity2 = new SquareViewEntity("2", "1", "https://hbimg.huabanimg.com/9f40b04f45a7f81409a0b08221f82c1cc4605edd4796d-5nIsQy_fw658/format/webp", "好看的图片", 521, 55, "cc", "https://hbimg.huabanimg.com/bac707919ff201dce07e8597a672047abdec4fed54523-9ddBTa_fw658/format/webp", false);
-    SquareViewEntity entity3 = new SquareViewEntity("3", "1", "https://hbimg.huabanimg.com/7664c5a9021856518df37d5633ae6049da481db0d4119-3ahehJ_fw658/format/webp", "非常好看", 23, 231, "chunson", "https://hbimg.huabanimg.com/71290e6035eb9c9c71f395e42cb416c9a77b84cdc20a-IUlccn_fw658/format/webp", true);
-    SquareViewEntity entity4 = new SquareViewEntity("4", "1", "https://hbimg.huabanimg.com/65d6e304e78aa9827fe1f76633ea9e66dd0169db77000-BhZb5g_fw658/format/webp", "爱了爱了", 53, 93, "songchun", "https://hbimg.huabanimg.com/9638b6bea1d64e5f0d06a067598fc6b0bcf935c92ab62-762GC0_fw658/format/webp", false);
-    SquareViewEntity entity5 = new SquareViewEntity("5", "1", "https://hbimg.huabanimg.com/3a5a14118d10fb31e7a9319594e6ab14c4c1b80ad2e4a-YaIOja_fw658/format/webp", "电脑壁纸", 82, 77, "纯纯", "https://hbimg.huabanimg.com/5ac04527742698185f90faf8c1c06d0af47952535a969-5UvFRN_fw658/format/webp", true);
-    SquareViewEntity[] entities = {entity1, entity2, entity3, entity4, entity5};
+    String json;
+    int pageNum = 4;
+    private static final int pageSize = 5;
 
     @Nullable
     @Override
@@ -59,7 +73,7 @@ public class SquareFragment extends Fragment
             @Override
             public void onRefresh(RefreshLayout refreshlayout)
             {
-                addData();
+                addDataToTop();
                 refreshlayout.finishRefresh(1000/*,false*/);//传入false表示刷新失败
             }
         });
@@ -68,7 +82,7 @@ public class SquareFragment extends Fragment
             @Override
             public void onLoadMore(RefreshLayout refreshlayout)
             {
-                addData();
+                addDataToBottom();
                 refreshlayout.finishLoadMore(800);//传入false表示加载失败
             }
         });
@@ -78,24 +92,70 @@ public class SquareFragment extends Fragment
         recyclerView.setLayoutManager(manager);
     }
 
+
+
     private void initData()
     {
+        Map<String, String> map = new HashMap<>();
+        map.put("pageNum", String.valueOf(pageNum));
+        ++pageNum;
+        map.put("size", String.valueOf(pageSize));
         squareList = new ArrayList<>();
+        OkhttpUtils.get("picture/pictures", map, new Callback()
+        {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e)
+            {
+            }
 
-        squareList.add(entities[new Random().nextInt(entities.length)]);
-        squareList.add(entities[new Random().nextInt(entities.length)]);
-        squareList.add(entities[new Random().nextInt(entities.length)]);
-        squareList.add(entities[new Random().nextInt(entities.length)]);
-        squareList.add(entities[new Random().nextInt(entities.length)]);
-
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException
+            {
+                 json = response.body().string();
+                 Log.e("json", json);
+                 Type type = new TypeToken<ResponeObject<List<SquareViewEntity>>>(){}.getType();
+                ResponeObject<ArrayList<SquareViewEntity>> responeObject = new Gson().fromJson(json, type);
+                squareList.addAll(responeObject.getData());
+                new Handler(Looper.getMainLooper()).post(()->{
+                    adapter.notifyDataSetChanged();
+                });
+            }
+        });
         adapter = new SquareViewAdapter(getContext(), squareList);
         recyclerView.setAdapter(adapter);
     }
 
-    private void addData()
+    private void addDataToTop()
     {
-        squareList.add(0, entities[new Random().nextInt(entities.length)]);
-        squareList.add(0, entities[new Random().nextInt(entities.length)]);
         adapter.notifyDataSetChanged();
+    }
+
+
+    private void addDataToBottom()
+    {
+        Map<String, String> map = new HashMap<>();
+        map.put("pageNum", String.valueOf(pageNum));
+        ++pageNum;
+        map.put("size", String.valueOf(pageSize));
+        OkhttpUtils.get("picture/pictures", map, new Callback()
+        {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e)
+            {
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException
+            {
+                json = response.body().string();
+                Log.e("json", json);
+                Type type = new TypeToken<ResponeObject<List<SquareViewEntity>>>(){}.getType();
+                ResponeObject<ArrayList<SquareViewEntity>> responeObject = new Gson().fromJson(json, type);
+                squareList.addAll(responeObject.getData());
+                new Handler(Looper.getMainLooper()).post(()->{
+                    adapter.notifyDataSetChanged();
+                });
+            }
+        });
     }
 }

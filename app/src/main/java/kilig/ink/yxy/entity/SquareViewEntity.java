@@ -1,5 +1,9 @@
 package kilig.ink.yxy.entity;
 
+import com.google.gson.annotations.SerializedName;
+
+import kilig.ink.yxy.utils.OkhttpUtils;
+
 public class SquareViewEntity
 {
     private String imgID;
@@ -10,11 +14,16 @@ public class SquareViewEntity
     private int    downloadNum;
     private String authorName;
     private String authorProfileImgUrl;
+    @SerializedName("stared")
     private boolean isStared;
+    private String thumbnailUrl;
 
     public SquareViewEntity() {}
 
-    public SquareViewEntity(String imgID, String authorID, String displayImgUrl, String displayImgName, int starNum, int downloadNum, String authorName, String authorProfileImgUrl, boolean isStared)
+    public SquareViewEntity(String imgID, String authorID, String displayImgUrl,
+                            String displayImgName, int starNum, int downloadNum,
+                            String authorName, String authorProfileImgUrl, boolean isStared,
+                            String thumbnailUrl)
     {
         this.imgID = imgID;
         this.authorID = authorID;
@@ -25,17 +34,12 @@ public class SquareViewEntity
         this.authorName = authorName;
         this.authorProfileImgUrl = authorProfileImgUrl;
         this.isStared = isStared;
+        this.thumbnailUrl = thumbnailUrl;
     }
 
-    public SquareViewEntity(String imgID, String displayImgUrl, String displayImgName, int starNum, String authorName, String authorProfileImgUrl, boolean isStared)
+    public String getThumbnailUrl()
     {
-        this.imgID = imgID;
-        this.displayImgUrl = displayImgUrl;
-        this.displayImgName = displayImgName;
-        this.starNum = starNum;
-        this.authorName = authorName;
-        this.authorProfileImgUrl = authorProfileImgUrl;
-        this.isStared = isStared;
+        return thumbnailUrl;
     }
 
     public void setDownloadNum(int downloadNum)
