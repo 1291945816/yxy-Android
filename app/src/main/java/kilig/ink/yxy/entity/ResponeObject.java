@@ -1,5 +1,7 @@
 package kilig.ink.yxy.entity;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 
 /**
