@@ -36,6 +36,7 @@ public class FragmentSingleton {
                 break;
             }case ABLUM:{
                 fragment= AblumHolder.ABLUMFRAGMENT;
+
                 break;
             }case PUBLISH:{
                 fragment =PublishHolder.PUBLISHFRAGMENT;

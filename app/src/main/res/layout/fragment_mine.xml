@@ -13,15 +13,47 @@
         >
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="220dp"
             android:background="@color/blue">
             <ImageView
                 android:id="@+id/img_profile"
                 android:layout_width="110dp"
                 android:layout_height="110dp"
-                android:scaleType="fitCenter"
-                android:layout_gravity="center">
+                android:layout_marginBottom="35dp"
+                android:scaleType="center"
+                android:layout_gravity="center"
+            >
             </ImageView>
+            <TextView
+                android:id="@+id/nickname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:textSize="20sp"
+                android:textColor="@android:color/white"
+                android:text="Kilig"
+                android:textAlignment="center"
+                android:layout_gravity="center" />
+            <TextView
+                android:id="@+id/username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="65dp"
+                android:textSize="18sp"
+                android:textColor="@android:color/white"
+                android:text="1800300916"
+                android:textAlignment="center"
+                android:layout_gravity="center" />
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="190dp"
+                android:text="爱好跑步，IT人士,乐于助人，你好"
+                android:textColor="@android:color/white"
+                android:textSize="14sp"
+                android:textAlignment="center"
+                />
+
         </FrameLayout>
 
         <androidx.cardview.widget.CardView
