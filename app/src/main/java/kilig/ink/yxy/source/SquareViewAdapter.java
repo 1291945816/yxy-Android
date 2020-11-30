@@ -1,7 +1,7 @@
 package kilig.ink.yxy.source;
 
 import android.content.Context;
-import android.util.Log;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.FutureTarget;
 import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.transition.DrawableCrossFadeFactory;
 import com.google.gson.Gson;
 
 import org.jetbrains.annotations.NotNull;
@@ -21,23 +22,26 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import kilig.ink.yxy.R;
-import kilig.ink.yxy.entity.SquareViewEntity;
+import kilig.ink.yxy.activity.ImageDetailActivity;
+import kilig.ink.yxy.entity.ImageEntity;
 import kilig.ink.yxy.utils.MyFileUtils;
 import kilig.ink.yxy.utils.OkhttpUtils;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
+import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
+
 public class SquareViewAdapter extends RecyclerView.Adapter<SquareViewAdapter.ViewHolder>
 {
-    private List<SquareViewEntity> squareList;
+    private List<ImageEntity> squareList;
     private Context context;
+    DrawableCrossFadeFactory factory = new DrawableCrossFadeFactory.Builder().setCrossFadeEnabled(true).build();
 
     static class ViewHolder extends RecyclerView.ViewHolder
     {
@@ -66,7 +70,7 @@ public class SquareViewAdapter extends RecyclerView.Adapter<SquareViewAdapter.Vi
         }
     }
 
-    public SquareViewAdapter(Context context, List<SquareViewEntity> squareList)
+    public SquareViewAdapter(Context context, List<ImageEntity> squareList)
     {
         this.squareList = squareList;
         this.context = context;
@@ -75,12 +79,14 @@ public class SquareViewAdapter extends RecyclerView.Adapter<SquareViewAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull SquareViewAdapter.ViewHolder holder, int position)
     {
-        SquareViewEntity entity = squareList.get(position);
+        ImageEntity entity = squareList.get(position);
 
         Glide.with(context)
                 .load(entity.getThumbnailUrl())
 //                .load(entity.getDisplayImgUrl())
                 .error(R.drawable.cloudlogo)
+                .fitCenter()
+                .transition(withCrossFade(factory))
                 .into(holder.squareDisplayImgView);
 
         Glide.with(context)
@@ -127,9 +133,10 @@ public class SquareViewAdapter extends RecyclerView.Adapter<SquareViewAdapter.Vi
             public void onClick(View view)
             {
                 int position = holder.getAdapterPosition();
-                SquareViewEntity entity = squareList.get(position);
-                //todo 跳转到详情界面
-                Toast.makeText(context, entity.getDisplayImgName(), Toast.LENGTH_SHORT).show();
+                ImageEntity entity = squareList.get(position);
+                Intent intent = new Intent(context, ImageDetailActivity.class);
+//                intent.putExtra();    //如何把entity传过去
+                context.startActivity(intent);
             }
         });
 
@@ -139,7 +146,7 @@ public class SquareViewAdapter extends RecyclerView.Adapter<SquareViewAdapter.Vi
             public void onClick(View view)
             {
                 int position = holder.getAdapterPosition();
-                SquareViewEntity entity = squareList.get(position);
+                ImageEntity entity = squareList.get(position);
                 if (entity.isStared())  //已经点赞，则取消
                 {
                     entity.setStared(false);
@@ -186,7 +193,7 @@ public class SquareViewAdapter extends RecyclerView.Adapter<SquareViewAdapter.Vi
             public void onClick(View view)
             {
                 int position = holder.getAdapterPosition();
-                SquareViewEntity entity = squareList.get(position);
+                ImageEntity entity = squareList.get(position);
 
                 holder.squareDownloadImgView.setClickable(false);
                 entity.setDownloadNum(entity.getDownloadNum() + 1);
@@ -241,7 +248,7 @@ public class SquareViewAdapter extends RecyclerView.Adapter<SquareViewAdapter.Vi
             public void onClick(View view)
             {
                 int position = holder.getAdapterPosition();
-                SquareViewEntity entity = squareList.get(position);
+                ImageEntity entity = squareList.get(position);
                 //todo 跳转到用户主页
                 Toast.makeText(context, entity.getAuthorName(), Toast.LENGTH_SHORT).show();
             }

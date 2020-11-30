@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import kilig.ink.yxy.utils.OkhttpUtils;
 
-public class SquareViewEntity
+public class ImageEntity
 {
     private String imgID;
     private String authorID;
@@ -18,12 +18,12 @@ public class SquareViewEntity
     private boolean isStared;
     private String thumbnailUrl;
 
-    public SquareViewEntity() {}
+    public ImageEntity() {}
 
-    public SquareViewEntity(String imgID, String authorID, String displayImgUrl,
-                            String displayImgName, int starNum, int downloadNum,
-                            String authorName, String authorProfileImgUrl, boolean isStared,
-                            String thumbnailUrl)
+    public ImageEntity(String imgID, String authorID, String displayImgUrl,
+                       String displayImgName, int starNum, int downloadNum,
+                       String authorName, String authorProfileImgUrl, boolean isStared,
+                       String thumbnailUrl)
     {
         this.imgID = imgID;
         this.authorID = authorID;

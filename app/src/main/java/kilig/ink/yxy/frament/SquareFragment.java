@@ -10,8 +10,6 @@ import android.view.ViewGroup;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.scwang.smart.refresh.footer.ClassicsFooter;
-import com.scwang.smart.refresh.header.ClassicsHeader;
 import com.scwang.smart.refresh.layout.api.RefreshLayout;
 import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
@@ -19,14 +17,11 @@ import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -34,10 +29,9 @@ import androidx.fragment.app.Fragment;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import kilig.ink.yxy.R;
 import kilig.ink.yxy.entity.ResponeObject;
-import kilig.ink.yxy.entity.SquareViewEntity;
+import kilig.ink.yxy.entity.ImageEntity;
 import kilig.ink.yxy.source.SquareViewAdapter;
 import kilig.ink.yxy.utils.OkhttpUtils;
 import okhttp3.Call;
@@ -49,10 +43,10 @@ public class SquareFragment extends Fragment
     SquareViewAdapter adapter;
     RecyclerView recyclerView;
     RefreshLayout refreshLayout;
-    ArrayList<SquareViewEntity> squareList;
+    ArrayList<ImageEntity> squareList;
     View view;
     String json;
-    int pageNum = 4;
+    int pageNum = 0;
     private static final int pageSize = 5;
 
     @Nullable
@@ -113,8 +107,8 @@ public class SquareFragment extends Fragment
             {
                  json = response.body().string();
                  Log.e("json", json);
-                 Type type = new TypeToken<ResponeObject<List<SquareViewEntity>>>(){}.getType();
-                ResponeObject<ArrayList<SquareViewEntity>> responeObject = new Gson().fromJson(json, type);
+                 Type type = new TypeToken<ResponeObject<List<ImageEntity>>>(){}.getType();
+                ResponeObject<ArrayList<ImageEntity>> responeObject = new Gson().fromJson(json, type);
                 squareList.addAll(responeObject.getData());
                 new Handler(Looper.getMainLooper()).post(()->{
                     adapter.notifyDataSetChanged();
@@ -149,8 +143,8 @@ public class SquareFragment extends Fragment
             {
                 json = response.body().string();
                 Log.e("json", json);
-                Type type = new TypeToken<ResponeObject<List<SquareViewEntity>>>(){}.getType();
-                ResponeObject<ArrayList<SquareViewEntity>> responeObject = new Gson().fromJson(json, type);
+                Type type = new TypeToken<ResponeObject<List<ImageEntity>>>(){}.getType();
+                ResponeObject<ArrayList<ImageEntity>> responeObject = new Gson().fromJson(json, type);
                 squareList.addAll(responeObject.getData());
                 new Handler(Looper.getMainLooper()).post(()->{
                     adapter.notifyDataSetChanged();
