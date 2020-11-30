@@ -69,6 +69,5 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction transaction = supportFragmentManager.beginTransaction();
         transaction.replace(R.id.content,fragment);
         transaction.commit();
-
     }
 }

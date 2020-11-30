@@ -79,8 +79,8 @@ public class MineFragment extends Fragment {
                 //只完成了远程头像的更新
                 getActivity().runOnUiThread(()->{
                     //加载头像
-                    Glide.with(getActivity()).
-                            load(responeObject.getData().getYxyUserAvatar())
+                    Glide.with(getActivity())
+                            .load(responeObject.getData().getYxyUserAvatar())
                             .transition(withCrossFade(factory))
                             .skipMemoryCache(true)
                             .apply(RequestOptions.bitmapTransform(new CropCircleTransformation())) //头像变圆
