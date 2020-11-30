@@ -2,7 +2,7 @@ package kilig.ink.yxy.utils;
 
 import androidx.fragment.app.Fragment;
 
-import kilig.ink.yxy.frament.AblumFragment;
+import kilig.ink.yxy.frament.AlbumFragment;
 import kilig.ink.yxy.frament.MineFragment;
 import kilig.ink.yxy.frament.SquareFragment;
 
@@ -11,7 +11,7 @@ import kilig.ink.yxy.frament.SquareFragment;
  */
 public class FragmentSingleton {
     private static  class AblumHolder{
-        private static final Fragment ABLUMFRAGMENT=new AblumFragment();
+        private static final Fragment ABLUMFRAGMENT=new AlbumFragment();
     }
     private static class MyHolder{
         private static final Fragment MYFRAGMENT=new MineFragment();
@@ -36,6 +36,7 @@ public class FragmentSingleton {
                 break;
             }case ABLUM:{
                 fragment= AblumHolder.ABLUMFRAGMENT;
+
                 break;
             }case PUBLISH:{
                 fragment =PublishHolder.PUBLISHFRAGMENT;

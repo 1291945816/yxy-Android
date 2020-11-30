@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -37,6 +38,9 @@ import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOption
 
 public class MineFragment extends Fragment {
     View view;
+    private TextView nickName;
+    private TextView userName;
+    private TextView userIntro;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -44,8 +48,9 @@ public class MineFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_mine,container,false);
         //Button exit = view.findViewById(R.id.btn_exit);
         ImageView imgProfile = view.findViewById(R.id.img_profile);
-
-
+        nickName= view.findViewById(R.id.nickname);
+        userName=view.findViewById(R.id.username);
+        userIntro=view.findViewById(R.id.user_intro);
         OkhttpUtils.get("yxyUser/userInfo", null, new Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
@@ -61,6 +66,13 @@ public class MineFragment extends Fragment {
                 }.getType());
 
                 Log.i("MineFragment", "onResponse: "+responeObject.getData());
+                String yxyUserIntro = responeObject.getData().getYxyUserIntro();
+                String yxyUserName = responeObject.getData().getYxyUserName();
+                String yxyNickName = responeObject.getData().getYxyNickName();
+                userIntro.setText(yxyUserIntro==null?"暂无介绍":yxyUserIntro);
+                userName.setText(yxyUserName);
+                nickName.setText(yxyNickName);
+                //这里应该存储起来个人的信息
 
                 DrawableCrossFadeFactory factory =
                         new DrawableCrossFadeFactory.Builder().setCrossFadeEnabled(true).build();
@@ -77,8 +89,6 @@ public class MineFragment extends Fragment {
 
             }
         });
-
-
 
         /*exit.setOnClickListener(new View.OnClickListener() {
             @Override

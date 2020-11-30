@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp">
+
+    <ImageButton
+        android:id="@+id/album_item"
+        android:layout_width="180dp"
+        android:layout_height="160dp"
+        android:background="@color/design_default_color_background"
+        android:scaleType="fitCenter"
+        android:orientation="horizontal">
+    </ImageButton>
+
+
+    <TextView
+        android:id="@+id/album_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="left"
+        android:layout_alignEnd="@+id/album_item"
+        android:layout_below="@+id/album_item"
+        android:text="dsadsadssdsdddsdsd"
+        android:textColor="@color/colorAccent"
+        android:ellipsize = "end"
+        android:singleLine = "true"
+        android:textSize="18sp">
+    </TextView>
+
+    <TextView
+        android:id="@+id/album_num"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="left"
+        android:layout_alignEnd="@+id/album_item"
+        android:layout_below="@+id/album_title"
+        android:text="100"
+        android:textColor="@color/colorAccent"
+        android:textSize="15sp">
+    </TextView>
+</RelativeLayout>

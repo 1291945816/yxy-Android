@@ -91,6 +91,7 @@ public class SquareFragment extends Fragment
     private void initData()
     {
         Map<String, String> map = new HashMap<>();
+        pageNum=0; //重新初始化数据，避免保存上次的浏览记录导致再次切换时会在上一次的基础上进行刷新7
         map.put("pageNum", String.valueOf(pageNum));
         ++pageNum;
         map.put("size", String.valueOf(pageSize));
@@ -135,7 +136,7 @@ public class SquareFragment extends Fragment
         {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e)
-            {
+    {
             }
 
             @Override
@@ -149,7 +150,7 @@ public class SquareFragment extends Fragment
                 new Handler(Looper.getMainLooper()).post(()->{
                     adapter.notifyDataSetChanged();
                 });
-            }
-        });
     }
+        });
+}
 }

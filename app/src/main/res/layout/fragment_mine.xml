@@ -13,15 +13,48 @@
         >
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="220dp"
             android:background="@color/blue">
             <ImageView
                 android:id="@+id/img_profile"
                 android:layout_width="110dp"
                 android:layout_height="110dp"
-                android:scaleType="fitCenter"
-                android:layout_gravity="center">
+                android:layout_marginBottom="35dp"
+                android:scaleType="center"
+                android:layout_gravity="center"
+            >
             </ImageView>
+            <TextView
+                android:id="@+id/nickname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:textSize="20sp"
+                android:textColor="@android:color/white"
+                android:text=""
+                android:textAlignment="center"
+                android:layout_gravity="center" />
+            <TextView
+                android:id="@+id/username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="65dp"
+                android:textSize="18sp"
+                android:textStyle="italic"
+                android:textColor="@android:color/white"
+                android:text=""
+                android:textAlignment="center"
+                android:layout_gravity="center" />
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/user_intro"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="190dp"
+                android:textColor="@android:color/white"
+                android:textSize="14sp"
+                android:textAlignment="center"
+                />
+
         </FrameLayout>
 
         <androidx.cardview.widget.CardView
@@ -135,13 +168,112 @@
                 </RelativeLayout>
 
 
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
                     android:background="#7CF2F2F2">
 
-                </RelativeLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <kilig.ink.yxy.source.SettingItem
+
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:setting_icon="@drawable/ic_change"
+                            app:setting_title="修改信息" />
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="0.5dp"
+                            android:background="@color/black"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginRight="16dp"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <kilig.ink.yxy.source.SettingItem
+
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:setting_icon="@drawable/ic_setting"
+                            app:setting_title="设置" />
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="0.5dp"
+                            android:background="@color/black"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginRight="16dp"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <kilig.ink.yxy.source.SettingItem
+
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:setting_icon="@drawable/ic_help"
+                            app:setting_title="帮助" />
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="0.5dp"
+                            android:background="@color/black"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginRight="16dp"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <kilig.ink.yxy.source.SettingItem
+
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:setting_icon="@drawable/ic_about"
+                            app:setting_title="关于" />
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="0.1dp"
+                            android:background="@color/black"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginRight="16dp"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
+                        android:layout_marginBottom="0dp"
+                        android:layout_gravity="bottom"
+                        android:layout_weight="1"
+                        android:gravity="bottom"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="14sp"
+                            android:textAlignment="center"
+                            android:text="伊享云团队 版权所有" />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="14sp"
+                            android:textAlignment="center"
+                            android:text="Copyright © 2020-2021 Yxy" />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textAlignment="center"
+                            android:textSize="14sp"
+                            android:text="All Rights Reserved" />
+                    </LinearLayout>
+
+                </LinearLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
