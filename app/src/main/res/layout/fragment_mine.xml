@@ -31,7 +31,7 @@
                 android:layout_marginTop="40dp"
                 android:textSize="20sp"
                 android:textColor="@android:color/white"
-                android:text="Kilig"
+                android:text=""
                 android:textAlignment="center"
                 android:layout_gravity="center" />
             <TextView
@@ -40,15 +40,16 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="65dp"
                 android:textSize="18sp"
+                android:textStyle="italic"
                 android:textColor="@android:color/white"
-                android:text="1800300916"
+                android:text=""
                 android:textAlignment="center"
                 android:layout_gravity="center" />
             <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/user_intro"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="190dp"
-                android:text="爱好跑步，IT人士,乐于助人，你好"
                 android:textColor="@android:color/white"
                 android:textSize="14sp"
                 android:textAlignment="center"
@@ -177,17 +178,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="0.5dp"
-                            android:background="@color/black"
-                            android:layout_marginLeft="16dp"
-                            android:layout_marginRight="16dp"/>
                         <kilig.ink.yxy.source.SettingItem
 
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            app:setting_icon="@drawable/ic_edit"
+                            app:setting_icon="@drawable/ic_change"
                             app:setting_title="修改信息" />
                         <View
                             android:layout_width="match_parent"
@@ -245,10 +240,37 @@
                             app:setting_title="关于" />
                         <View
                             android:layout_width="match_parent"
-                            android:layout_height="0.5dp"
+                            android:layout_height="0.1dp"
                             android:background="@color/black"
                             android:layout_marginLeft="16dp"
                             android:layout_marginRight="16dp"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
+                        android:layout_marginBottom="0dp"
+                        android:layout_gravity="bottom"
+                        android:layout_weight="1"
+                        android:gravity="bottom"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="14sp"
+                            android:textAlignment="center"
+                            android:text="伊享云团队 版权所有" />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="14sp"
+                            android:textAlignment="center"
+                            android:text="Copyright © 2020-2021 Yxy" />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textAlignment="center"
+                            android:textSize="14sp"
+                            android:text="All Rights Reserved" />
                     </LinearLayout>
 
                 </LinearLayout>
