@@ -6,9 +6,9 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".activity.MainActivity">
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+<!--    <FrameLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent">-->
         <GridView
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
@@ -30,5 +30,5 @@
             android:layout_margin="16dp"
             app:srcCompat="@drawable/ic_baseline_add_24"/>
 
-    </FrameLayout>
+<!--    </FrameLayout>-->
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -9,8 +9,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        >
+        android:orientation="vertical">
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="220dp"
@@ -21,9 +20,7 @@
                 android:layout_height="110dp"
                 android:layout_marginBottom="35dp"
                 android:scaleType="center"
-                android:layout_gravity="center"
-            >
-            </ImageView>
+                android:layout_gravity="center"/>
             <TextView
                 android:id="@+id/nickname"
                 android:layout_width="match_parent"
@@ -52,8 +49,7 @@
                 android:layout_marginTop="190dp"
                 android:textColor="@android:color/white"
                 android:textSize="14sp"
-                android:textAlignment="center"
-                />
+                android:textAlignment="center" />
 
         </FrameLayout>
 
@@ -69,7 +65,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
-                <RelativeLayout
+
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
                     android:orientation="horizontal"
@@ -79,93 +76,58 @@
                         android:id="@+id/like"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_toLeftOf="@+id/isnull"
-                        android:layout_centerVertical="true"
-                        android:layout_marginTop="3dp"
-                        android:layout_marginBottom="1dp"
-                        android:background="@drawable/ic_baseline_favorite_24">
-
-                    </ImageView>
-                    <ImageView
-                        android:id="@+id/isnull"
-                        android:layout_width="34dp"
-                        android:layout_height="34dp"
-                        android:layout_marginRight="40dp"
-                        android:layout_marginLeft="40dp"
-                        android:layout_centerInParent="true">
-                    </ImageView>
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toLeftOf="@id/total_publish"
+                        android:background="@drawable/ic_baseline_favorite_24"/>
 
                     <ImageView
                         android:id="@+id/total_publish"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
-                        android:layout_toRightOf="@id/isnull"
-                        android:layout_centerVertical="true"
-                        android:background="@drawable/ic_baseline_near_me_24">
-
-                    </ImageView>
+                        app:layout_constraintTop_toTopOf="@id/like"
+                        app:layout_constraintBottom_toBottomOf="@id/like"
+                        app:layout_constraintLeft_toRightOf="@id/like"
+                        app:layout_constraintRight_toRightOf="parent"
+                        android:background="@drawable/ic_baseline_near_me_24"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        app:layout_constraintLeft_toLeftOf="@id/like"
+                        app:layout_constraintRight_toRightOf="@id/like"
+                        app:layout_constraintBottom_toTopOf="@id/like"
                         android:text="喜 欢"
                         android:textSize="18sp"
-                        android:textColor="@color/black"
-                        android:layout_above="@+id/like"
-                        android:layout_toLeftOf="@id/text_null">
+                        android:textColor="@color/black" />
 
-                    </TextView>
-                    <TextView
-                        android:id="@+id/text_null"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
-                        android:layout_above="@+id/isnull"
-                        android:layout_marginLeft="50dp"
-                        android:layout_marginRight="53dp">
-                    </TextView>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        app:layout_constraintLeft_toLeftOf="@id/total_publish"
+                        app:layout_constraintRight_toRightOf="@id/total_publish"
+                        app:layout_constraintBottom_toTopOf="@id/total_publish"
                         android:text="发 布"
                         android:textSize="18sp"
-                        android:textColor="@color/black"
-                        android:layout_above="@+id/total_publish"
-                        android:layout_toRightOf="@id/text_null"
-                        android:layout_centerVertical="true">
-
-                    </TextView>
+                        android:textColor="@color/black" />
 
                     <TextView
-                        android:layout_width="35dp"
-                        android:layout_height="30dp"
-                        android:text="22"
-                        android:layout_below="@+id/like"
-                        android:layout_toLeftOf="@id/text_null2"
-                        android:layout_marginTop="3dp">
-
-                    </TextView>
-                    <TextView
-                        android:id="@+id/text_null2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/isnull"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginRight="68dp"
-                        android:layout_marginLeft="45dp">
-                    </TextView>
+                        app:layout_constraintLeft_toLeftOf="@id/total_publish"
+                        app:layout_constraintRight_toRightOf="@id/total_publish"
+                        app:layout_constraintTop_toBottomOf="@id/total_publish"
+                        android:text="22"/>
+
                     <TextView
-                        android:layout_width="35dp"
-                        android:layout_height="30dp"
-                        android:text="56"
-                        android:layout_toRightOf="@id/text_null2"
-                        android:layout_below="@+id/total_publish"
-                        android:layout_marginTop="3dp">
-
-                    </TextView>
-
-                </RelativeLayout>
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintLeft_toLeftOf="@id/like"
+                        app:layout_constraintRight_toRightOf="@id/like"
+                        app:layout_constraintTop_toBottomOf="@id/like"
+                        android:text="56"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
 
                 <LinearLayout
@@ -202,12 +164,13 @@
                             android:layout_height="wrap_content"
                             app:setting_icon="@drawable/ic_setting"
                             app:setting_title="设置" />
+
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="0.5dp"
-                            android:background="@color/black"
                             android:layout_marginLeft="16dp"
-                            android:layout_marginRight="16dp"/>
+                            android:layout_marginRight="16dp"
+                            android:background="@color/black" />
                     </LinearLayout>
 
                     <LinearLayout

@@ -1,4 +1,4 @@
-package kilig.ink.yxy.frament;
+package kilig.ink.yxy.fragment;
 //广场界面
 import android.os.Bundle;
 import android.os.Handler;
