@@ -1,4 +1,4 @@
-package kilig.ink.yxy.frament;
+package kilig.ink.yxy.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,8 +14,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.transition.DrawableCrossFadeFactory;
 import com.google.gson.Gson;
@@ -93,8 +90,8 @@ public class MineFragment extends Fragment  {
                 //只完成了远程头像的更新
                 getActivity().runOnUiThread(()->{
                     //加载头像
-                    Glide.with(getActivity()).
-                            load(responeObject.getData().getYxyUserAvatar())
+                    Glide.with(getActivity())
+                            .load(responeObject.getData().getYxyUserAvatar())
                             .transition(withCrossFade(factory))
                             .skipMemoryCache(true)
                             .apply(RequestOptions.bitmapTransform(new CropCircleTransformation())) //头像变圆

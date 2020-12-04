@@ -2,9 +2,9 @@ package kilig.ink.yxy.utils;
 
 import androidx.fragment.app.Fragment;
 
-import kilig.ink.yxy.frament.AlbumFragment;
-import kilig.ink.yxy.frament.MineFragment;
-import kilig.ink.yxy.frament.SquareFragment;
+import kilig.ink.yxy.fragment.AlbumFragment;
+import kilig.ink.yxy.fragment.MineFragment;
+import kilig.ink.yxy.fragment.SquareFragment;
 
 /**
  * 单例模式实践
