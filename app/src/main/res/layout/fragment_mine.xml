@@ -179,7 +179,7 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
                         <kilig.ink.yxy.source.SettingItem
-
+                            android:id="@+id/changeInfo"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             app:setting_icon="@drawable/ic_change"
@@ -197,7 +197,7 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
                         <kilig.ink.yxy.source.SettingItem
-
+                            android:id="@+id/yxySetting"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             app:setting_icon="@drawable/ic_setting"

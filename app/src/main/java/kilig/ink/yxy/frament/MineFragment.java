@@ -1,5 +1,6 @@
 package kilig.ink.yxy.frament;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -27,8 +28,10 @@ import java.io.IOException;
 
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import kilig.ink.yxy.R;
+import kilig.ink.yxy.activity.SettingActivity;
 import kilig.ink.yxy.entity.ResponeObject;
 import kilig.ink.yxy.entity.YxyUser;
+import kilig.ink.yxy.source.SettingItem;
 import kilig.ink.yxy.utils.OkhttpUtils;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -36,11 +39,13 @@ import okhttp3.Response;
 
 import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 
-public class MineFragment extends Fragment {
+public class MineFragment extends Fragment  {
     View view;
     private TextView nickName;
     private TextView userName;
     private TextView userIntro;
+    private SettingItem changeInfo;
+    private SettingItem settingButton;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -51,6 +56,15 @@ public class MineFragment extends Fragment {
         nickName= view.findViewById(R.id.nickname);
         userName=view.findViewById(R.id.username);
         userIntro=view.findViewById(R.id.user_intro);
+        changeInfo=view.findViewById(R.id.changeInfo);
+        settingButton=view.findViewById(R.id.yxySetting);
+
+        //跳转到设置界面
+        settingButton.setOnClickListener(v->{
+            Intent intent = new Intent(getActivity(), SettingActivity.class);
+            getActivity().startActivity(intent);
+        });
+
         OkhttpUtils.get("yxyUser/userInfo", null, new Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
