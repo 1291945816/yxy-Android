@@ -52,7 +52,7 @@ public class SquareFragment extends Fragment
     ArrayList<SquareViewEntity> squareList;
     View view;
     String json;
-    int pageNum = 4;
+    int pageNum = 0;
     private static final int pageSize = 5;
 
     @Nullable
@@ -141,7 +141,7 @@ public class SquareFragment extends Fragment
         {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e)
-            {
+    {
             }
 
             @Override
@@ -155,7 +155,7 @@ public class SquareFragment extends Fragment
                 new Handler(Looper.getMainLooper()).post(()->{
                     adapter.notifyDataSetChanged();
                 });
-            }
-        });
     }
+        });
+}
 }
