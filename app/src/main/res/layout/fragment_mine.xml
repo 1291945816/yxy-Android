@@ -10,53 +10,84 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="220dp"
-            android:background="@color/blue">
-            <ImageView
-                android:id="@+id/img_profile"
-                android:layout_width="110dp"
-                android:layout_height="110dp"
-                android:layout_marginBottom="35dp"
-                android:scaleType="center"
-                android:layout_gravity="center"/>
-            <TextView
-                android:id="@+id/nickname"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
-                android:textSize="20sp"
-                android:textColor="@android:color/white"
-                android:text=""
-                android:textAlignment="center"
-                android:layout_gravity="center" />
-            <TextView
-                android:id="@+id/username"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="65dp"
-                android:textSize="18sp"
-                android:textStyle="italic"
-                android:textColor="@android:color/white"
-                android:text=""
-                android:textAlignment="center"
-                android:layout_gravity="center" />
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/user_intro"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="190dp"
-                android:textColor="@android:color/white"
-                android:textSize="14sp"
-                android:textAlignment="center" />
 
-        </FrameLayout>
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="160dp"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="2dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/blue">
+
+                <ImageView
+                    android:id="@+id/img_profile"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:scaleType="center"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.241"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.266" />
+
+                <TextView
+                    android:id="@+id/nickname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text=""
+                    android:textAlignment="center"
+                    android:textColor="@android:color/white"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.286"
+                    app:layout_constraintStart_toEndOf="@+id/img_profile"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.279" />
+
+                <TextView
+                    android:id="@+id/username"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text=""
+                    android:textAlignment="center"
+                    android:textColor="@android:color/white"
+                    android:textSize="15sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/nickname"
+                    app:layout_constraintTop_toBottomOf="@+id/nickname"
+                    app:layout_constraintVertical_bias="0.135" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/user_intro"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.827"
+                    tools:layout_editor_absoluteX="0dp" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:cardCornerRadius="15dp"
+            app:cardCornerRadius="10dp"
             app:cardElevation="2dp"
             android:layout_margin="10dp"
             android:background="#7CF2F2F2"
@@ -178,7 +209,7 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
                         <kilig.ink.yxy.source.SettingItem
-
+                            android:id="@+id/yxyHelp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             app:setting_icon="@drawable/ic_help"
@@ -196,7 +227,7 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
                         <kilig.ink.yxy.source.SettingItem
-
+                            android:id="@+id/yxyAbout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             app:setting_icon="@drawable/ic_about"

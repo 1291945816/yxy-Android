@@ -35,6 +35,9 @@ dependencies {
 
     //Glide
     implementation 'com.github.bumptech.glide:glide:4.11.0'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
     //Glide Transformations 一个对Glide进行图片转换的包，使图片变圆
     implementation 'jp.wasabeef:glide-transformations:4.1.0'
