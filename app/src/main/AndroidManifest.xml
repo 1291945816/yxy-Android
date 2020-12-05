@@ -18,13 +18,18 @@
         android:usesCleartextTraffic="true"
         android:requestLegacyExternalStorage="true"
         tools:targetApi="q">
-        <activity android:name=".activity.MainActivity" android:theme="@style/AppMainTheme" >
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
-        </activity>
+        <activity android:name=".activity.ImageDetailActivity"></activity>
+        <activity
+            android:name=".activity.MainActivity"
+            android:theme="@style/AppMainTheme">
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
+        <activity android:name=".activity.SettingActivity"></activity>
         <activity android:name=".activity.RegisterActivity" />
+        <activity android:name=".activity.InAlbumActivity" />
         <activity
             android:name=".activity.LoginActivity">
             <intent-filter>

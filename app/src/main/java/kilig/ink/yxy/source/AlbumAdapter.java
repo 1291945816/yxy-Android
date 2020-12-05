@@ -1,36 +1,27 @@
 package kilig.ink.yxy.source;
 
-import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.ListAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.DiffUtil;
-import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
 import kilig.ink.yxy.R;
+import kilig.ink.yxy.activity.InAlbumActivity;
 import kilig.ink.yxy.entity.AblumItem;
 
-public class AblumAdapter extends BaseAdapter
+public class AlbumAdapter extends BaseAdapter
 {
     private List<AblumItem> mAblumData;
     private Context mContext;
     private int resourceId;
 
-    public AblumAdapter(Context context, List<AblumItem> Items)
+    public AlbumAdapter(Context context, List<AblumItem> Items)
     {
         mContext = context;
         mAblumData = Items;
@@ -68,15 +59,16 @@ public class AblumAdapter extends BaseAdapter
         {
             viewHolder = new ViewHolderInAblum();
             LayoutInflater mInflater = LayoutInflater.from(mContext);
-            convertView = mInflater.inflate(R.layout.item_ablum, null);
+            convertView = mInflater.inflate(R.layout.item_album, null);
 
-            viewHolder.itemButton = convertView.findViewById(R.id.ablum_item);
-            viewHolder.tv_title = convertView.findViewById(R.id.ablum_title);
-            viewHolder.tv_num = convertView.findViewById(R.id.ablum_num);
+            viewHolder.itemButton = convertView.findViewById(R.id.album_item);
+            viewHolder.tv_title = convertView.findViewById(R.id.album_title);
+            viewHolder.tv_num = convertView.findViewById(R.id.album_num);
             viewHolder.itemButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    Intent intent = new Intent(v.getContext(), InAlbumActivity.class);
+                    v.getContext().startActivity(intent);
                 }
             });
 

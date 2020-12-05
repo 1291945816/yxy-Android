@@ -20,6 +20,7 @@ import android.widget.CheckBox;
 
 
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.Gson;
 import com.roger.catloadinglibrary.CatLoadingView;
 import com.shashank.sony.fancytoastlib.FancyToast;
@@ -57,6 +58,8 @@ public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
     private SharedPreferences pref;
     private SharedPreferences.Editor editor;
+    private TextInputLayout usernameLayout;
+    private TextInputLayout passwordLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,8 +98,12 @@ public class LoginActivity extends AppCompatActivity {
 
         //用户名
         TextInputEditText username = findViewById(R.id.yxyUsername);
+        usernameLayout=findViewById(R.id.username);
+
         //密码
         TextInputEditText password = findViewById(R.id.yxyPassword);
+        passwordLayout=findViewById(R.id.password);
+
         //登录
         Button login = findViewById(R.id.login);
         //注册
@@ -116,109 +123,117 @@ public class LoginActivity extends AppCompatActivity {
             rememberpsw.setChecked(true);
         }
 
-        Log.d(TAG, "onCreate: 999");
 
         //登录逻辑
         login.setOnClickListener(v->{
             String mUsername = username.getText().toString();
             String mPassword = password.getText().toString();
-            Map<String,String> loginInfo=new HashMap<>();
-            loginInfo.put("username",mUsername);
-            loginInfo.put("password",mPassword);
+            if (mUsername.isEmpty()){
+                usernameLayout.setError("用户名不能够为空");
+            }else if (mPassword.isEmpty()){
+                usernameLayout.setError(null);
+                passwordLayout.setError("密码不能够为空");
+            }else {
+                usernameLayout.setError(null);
+                passwordLayout.setError(null);
+                Map<String, String> loginInfo = new HashMap<>();
+                loginInfo.put("username", mUsername);
+                loginInfo.put("password", mPassword);
 
-            Gson gson=new Gson();
-            String info = gson.toJson(loginInfo);
-            Log.d(TAG, info);
-            mView=new CatLoadingView();
-            mView.show(getSupportFragmentManager(), "");
-            mView.setCancelable(false);
-            mView.setText("正在努力载入中...");
-            mView.setBackgroundColor(Color.parseColor("#2CBEA9"));
-
-
-            try {
-                OkhttpUtils.post("yxyUser/login", info, new Callback() {
-                    @Override
-                    public void onFailure(@NotNull Call call, @NotNull IOException e) {
-
-                        try {
-                            Thread.sleep(1000);
-
-                        } catch (InterruptedException q) {
-                            q.printStackTrace();
-                        }
-                        runOnUiThread(()->{
-
-                            FancyToast.makeText(LoginActivity.this,"由于未知的原因，登录失败，请检查一下您的网络是否有问题?",
-                                    FancyToast.LENGTH_SHORT,
-                                    FancyToast.WARNING,
-                                    false).show();
-                        mView.onDestroyView();
-                        });
+                Gson gson = new Gson();
+                String info = gson.toJson(loginInfo);
+                Log.d(TAG, info);
+                mView = new CatLoadingView();
+                mView.show(getSupportFragmentManager(), "");
+                mView.setCancelable(false);
+                mView.setText("正在努力载入中...");
+                mView.setBackgroundColor(Color.parseColor("#2CBEA9"));
 
 
-                    }
+                try {
+                    OkhttpUtils.post("yxyUser/login", info, new Callback() {
+                        @Override
+                        public void onFailure(@NotNull Call call, @NotNull IOException e) {
 
-                    @Override
-                    public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                        ResponseBody responseBody = response.body();
-                        assert responseBody != null;
-                        String s = responseBody.string();
-                        Log.d(TAG, s);
-                        ResponeObject object = gson.fromJson(s, ResponeObject.class);
-                        //关闭窗口
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                        //判断状态码 200 ok xxx 不ok
-                        if(object.getCode() == null || !object.getCode().equals("200")){
-                            runOnUiThread(()->{
-                                mView.onDestroyView();
-                                FancyToast.makeText(LoginActivity.this,object.getMessage(),
-                                        FancyToast.LENGTH_SHORT,
-                                        FancyToast.ERROR,
-                                        false).show();
-                            });
-                        }else {
-                            runOnUiThread(()->{
-                                mView.onDestroyView();
-                                FancyToast.makeText(LoginActivity.this,object.getMessage(),
-                                        FancyToast.LENGTH_SHORT,
-                                        FancyToast.SUCCESS,
-                                        false).show();
-                            });
-                            OkhttpUtils.setToken((String) object.getData()); //传递token
+                            try {
+                                Thread.sleep(1000);
 
-                            //记住密码逻辑
-                            editor=pref.edit();
-                            if (rememberpsw.isChecked()){//检查复选框是否被选中
-                                editor.putBoolean("记住密码",true);
-                                editor.putString("username",mUsername);
-                                editor.putString("password",mPassword);
-                            }else {
-                                editor.clear();
+                            } catch (InterruptedException q) {
+                                q.printStackTrace();
                             }
-                            editor.commit();
+                            runOnUiThread(() -> {
 
-                            //记录登录状态
-                            SharedPreferences.Editor editor = getSharedPreferences("login", MODE_PRIVATE).edit();
-                            editor.putBoolean("isLogin",true);
-                            editor.apply();
-                            //禁止后退回到登录界面
-                            //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-                            startActivity(intent);
-                            finish();
+                                FancyToast.makeText(LoginActivity.this, "由于未知的原因，登录失败，请检查一下您的网络是否有问题?",
+                                        FancyToast.LENGTH_SHORT,
+                                        FancyToast.WARNING,
+                                        false).show();
+                                mView.onDestroyView();
+                            });
+
+
                         }
-                    }
-                });
-            } catch (IOException e) {
-                e.printStackTrace();
+
+                        @Override
+                        public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                            ResponseBody responseBody = response.body();
+                            assert responseBody != null;
+                            String s = responseBody.string();
+                            Log.d(TAG, s);
+                            ResponeObject object = gson.fromJson(s, ResponeObject.class);
+                            //关闭窗口
+                            try {
+                                Thread.sleep(1000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            //判断状态码 200 ok xxx 不ok
+                            if (object.getCode() == null || !object.getCode().equals("200")) {
+                                runOnUiThread(() -> {
+                                    mView.onDestroyView();
+                                    FancyToast.makeText(LoginActivity.this, object.getMessage(),
+                                            FancyToast.LENGTH_SHORT,
+                                            FancyToast.ERROR,
+                                            false).show();
+                                });
+                            } else {
+                                runOnUiThread(() -> {
+                                    mView.onDestroyView();
+                                    FancyToast.makeText(LoginActivity.this, object.getMessage(),
+                                            FancyToast.LENGTH_SHORT,
+                                            FancyToast.SUCCESS,
+                                            false).show();
+                                });
+                                OkhttpUtils.setToken((String) object.getData()); //传递token
+
+                                //记住密码逻辑
+                                editor = pref.edit();
+                                if (rememberpsw.isChecked()) {//检查复选框是否被选中
+                                    editor.putBoolean("记住密码", true);
+                                    editor.putString("username", mUsername);
+                                    editor.putString("password", mPassword);
+                                } else {
+                                    editor.clear();
+                                }
+                                editor.commit();
+
+                                //记录登录状态
+                                SharedPreferences.Editor editor = getSharedPreferences("login", MODE_PRIVATE).edit();
+                                editor.putBoolean("isLogin", true);
+                                editor.apply();
+                                //禁止后退回到登录界面
+                                //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
+                                finish();
+                            }
+                        }
+                    });
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
             }
-
-
         });
+
 
         //跳转到注册页面
         rigister.setOnClickListener(new View.OnClickListener() {
