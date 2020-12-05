@@ -1,15 +1,11 @@
 package kilig.ink.yxy.activity;
 
-import android.app.Activity;
 import android.content.ContentResolver;
-import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.GridView;
@@ -25,7 +21,6 @@ import java.util.List;
 
 import kilig.ink.yxy.R;
 import kilig.ink.yxy.entity.PhotoItem;
-import kilig.ink.yxy.source.AlbumAdapter;
 import kilig.ink.yxy.source.InAlbumAdapter;
 
 public class InAlbumActivity extends AppCompatActivity {
