@@ -28,10 +28,6 @@ public class SettingActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(SettingActivity.this,LoginActivity.class);
-
-
-
-
                 editor.remove("isLogin");
                 editor.clear(); //清除用户的所有信息
                 editor.apply();

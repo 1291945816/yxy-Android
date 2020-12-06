@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.ChangePswActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="?attr/actionBarSize"
+            android:background="@color/colorAccent"
+            app:layout_collapseMode="pin">
+            <ImageButton
+                android:id="@+id/btn_backup"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:background="@drawable/btn_backup"
+                >
+            </ImageButton>
+            <TextView
+                android:id="@+id/tv_welcome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="修改信息"
+                android:textSize="24sp"
+                android:textColor="@android:color/white"
+                android:layout_gravity="center">
+
+            </TextView>
+        </androidx.appcompat.widget.Toolbar>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray">
+        </View>
+
+        <LinearLayout
+            android:layout_marginTop="25dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:id="@+id/oldPsw_layout"
+                app:boxCornerRadiusBottomEnd="30dp"
+                app:boxCornerRadiusTopEnd="30dp"
+                app:boxCornerRadiusBottomStart="30dp"
+                app:boxCornerRadiusTopStart="30dp"
+                android:layout_width="match_parent"
+                android:layout_marginRight="20dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="20dp"
+                app:boxStrokeColor="@color/blue"
+                android:textColorHint="@color/black"
+                app:hintTextColor="@color/blue"
+                app:endIconMode="password_toggle"
+                android:hint="旧密码">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/changeinfo_oldpassword"
+                    android:inputType="textPassword"
+                    android:maxLines="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:id="@+id/newPsw_layout"
+                app:boxCornerRadiusBottomEnd="30dp"
+                app:boxCornerRadiusTopEnd="30dp"
+                app:boxCornerRadiusBottomStart="30dp"
+                app:boxCornerRadiusTopStart="30dp"
+                app:errorEnabled="true"
+                android:layout_width="match_parent"
+                android:layout_marginRight="20dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="20dp"
+                app:boxStrokeColor="@color/blue"
+                android:textColorHint="@color/black"
+                app:hintTextColor="@color/blue"
+                app:endIconMode="password_toggle"
+                android:hint="新密码">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/changeinfo_newpassword"
+                    android:inputType="textPassword"
+                    android:maxLines="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:id="@+id/checkPsw_layout"
+                app:boxCornerRadiusBottomEnd="30dp"
+                app:boxCornerRadiusTopEnd="30dp"
+                app:boxCornerRadiusBottomStart="30dp"
+                app:boxCornerRadiusTopStart="30dp"
+                app:errorEnabled="true"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                app:hintTextColor="@color/blue"
+                android:layout_marginRight="20dp"
+                android:hint="确认密码"
+                android:textColorHint="@color/black"
+                app:boxStrokeColor="@color/blue"
+                android:layout_marginLeft="20dp"
+                app:endIconMode="password_toggle">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/checkPsw"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:inputType="textPassword"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:layout_marginTop="30dp"
+            android:layout_height="wrap_content">
+            <Button
+                android:id="@+id/changeinfo_ok"
+                android:layout_width="match_parent"
+                android:layout_height="58dp"
+                android:layout_marginStart="80dp"
+                android:layout_marginEnd="80dp"
+                android:background="@drawable/round_normal"
+                android:text="完  成"
+                android:textSize="16sp"
+                android:textColor="@android:color/white"
+                app:backgroundTint="#2CBEA9" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

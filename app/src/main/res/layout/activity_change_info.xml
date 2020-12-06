@@ -6,4 +6,34 @@
     android:layout_height="match_parent"
     tools:context=".activity.ChangeInfoActivity">
 
+    <Button
+        android:id="@+id/btn_changenickname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="修改昵称"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.065"
+        tools:layout_editor_absoluteX="0dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
+
+    </Button>
+
+    <Button
+        android:id="@+id/btn_changePsw"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="修改密码"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_changenickname"
+        app:layout_constraintVertical_bias="0.035"
+        tools:layout_editor_absoluteX="0dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
+
+    </Button>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

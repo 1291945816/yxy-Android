@@ -1,7 +1,6 @@
 package kilig.ink.yxy.fragment;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,7 +14,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
@@ -31,6 +29,7 @@ import java.io.IOException;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import kilig.ink.yxy.R;
 import kilig.ink.yxy.activity.ChangeInfoActivity;
+import kilig.ink.yxy.activity.ChangePswActivity;
 import kilig.ink.yxy.activity.SettingActivity;
 import kilig.ink.yxy.entity.ResponeObject;
 import kilig.ink.yxy.entity.YxyUser;
