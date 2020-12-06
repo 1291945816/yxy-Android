@@ -3,31 +3,40 @@ package kilig.ink.yxy.entity;
 import android.widget.ImageView;
 
 public class AblumItem {
-    private String mName;
-    private int mImageId;
-    private int mNum;
+    private String ablumName;
+    private int ablumId;
+    private int nums;
+    private String ablumCreateTime;
 
-    public String getmName() {
-        return mName;
+    public String getAblumName() {
+        return ablumName;
     }
 
-    public void setmName(String mName) {
-        this.mName = mName;
+    public void setAblumName(String ablumName) {
+        this.ablumName = ablumName;
     }
 
-    public int getmImageId() {
-        return mImageId;
+    public int getAblumId() {
+        return ablumId;
     }
 
-    public void setmImageId(int mImageId) {
-        this.mImageId = mImageId;
+    public void setAblumId(int ablumId) {
+        this.ablumId = ablumId;
     }
 
-    public int getmNum() {
-        return mNum;
+    public int getNums() {
+        return nums;
     }
 
-    public void setmNum(int mNum) {
-        this.mNum = mNum;
+    public void setNums(int nums) {
+        this.nums = nums;
+    }
+
+    public String getAblumCreateTime() {
+        return ablumCreateTime;
+    }
+
+    public void setAblumCreateTime(String ablumCreateTime) {
+        this.ablumCreateTime = ablumCreateTime;
     }
 }
