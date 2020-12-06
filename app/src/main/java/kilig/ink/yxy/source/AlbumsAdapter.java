@@ -1,5 +1,6 @@
 package kilig.ink.yxy.source;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.util.Log;
@@ -17,11 +18,23 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.gson.Gson;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.logging.Handler;
 
 import kilig.ink.yxy.R;
 import kilig.ink.yxy.entity.AblumItem;
+import kilig.ink.yxy.entity.ResponeObject;
+import kilig.ink.yxy.utils.OkhttpUtils;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
 
 public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.ViewHolder>  {
@@ -53,10 +66,41 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.ViewHolder
         holder.delete.setOnClickListener(v -> {
             new MaterialAlertDialogBuilder(this.context)
                     .setTitle("删除提示")
-                    .setMessage("你确定要删除这个相册吗?")
+                    .setMessage("你确定要删除这个相册吗?(会删除相册的照片!)")
                     .setNegativeButton("确定", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                            Map<String,Object> datas=new HashMap<>();
+                            datas.put("ablumId",item.getAblumId());
+                            Gson gson = new Gson();
+                            String json = gson.toJson(datas);
+                            try {
+                                OkhttpUtils.post("ablum/delete",json, new Callback() {
+                                    @Override
+                                    public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                                        /**
+                                         * 先不做处理
+                                         */
+                                    }
+
+                                    @Override
+                                    public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                                        String string = response.body().string();
+                                        ResponeObject object = gson.fromJson(string, ResponeObject.class);
+                                        if (object != null){
+                                            ((Activity)context).runOnUiThread(()->{
+                                                Toast.makeText(context,object.getMessage(),Toast.LENGTH_SHORT).show();
+                                            });
+
+                                        }
+
+                                    }
+                                });
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+
+
                             removeItem(position);
                         }
                     })
@@ -78,8 +122,55 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.ViewHolder
                     .setTitle("修改相册名称")
                     .setIcon(R.drawable.ic_change_img)
                     .setView(editText)
-                    .setNegativeButton("修改",null)
-                    .setPositiveButton("取消",null)
+                    .setNegativeButton("修改", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Map<String,Object> json=new HashMap<>();
+                            json.put("ablumId",item.getAblumId());
+                            json.put("newAblumName",editText.getText().toString());
+                            Gson gson = new Gson();
+                            String s = gson.toJson(json);
+
+                            try {
+                                OkhttpUtils.post("ablum/change", s, new Callback() {
+                                    @Override
+                                    public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                                        /**
+                                         * 先不处理
+                                         */
+
+                                    }
+
+                                    @Override
+                                    public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                                        String s1 = response.body().string();
+                                        ResponeObject dataObject = gson.fromJson(s1, ResponeObject.class);
+                                        if (dataObject != null){
+                                            ((Activity)context).runOnUiThread(()->{
+                                                Toast.makeText(context,dataObject.getMessage(),Toast.LENGTH_SHORT).show();
+                                                item.setAblumName(editText.getText().toString());
+                                                notifyDataSetChanged();
+                                            });
+
+
+                                        }
+
+
+                                    }
+                                });
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+
+
+                        }
+                    })
+                    .setPositiveButton("取消",new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Toast.makeText(context,"取消成功~",Toast.LENGTH_SHORT).show();
+                        }
+                    })
                     .show();
         });
 

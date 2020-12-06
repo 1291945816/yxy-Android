@@ -103,6 +103,7 @@ public class AlbumFragment extends Fragment {
                                             String responData = response.body().string();
                                             ResponeObject responeObject = gson.fromJson(responData, ResponeObject.class);
                                             getActivity().runOnUiThread(()->{
+                                                adapter.notifyDataSetChanged();
                                                 Toast.makeText(getActivity(),responeObject.getMessage(),Toast.LENGTH_SHORT).show();
                                             });
 
