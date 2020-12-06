@@ -22,19 +22,24 @@ import android.widget.CheckBox;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.roger.catloadinglibrary.CatLoadingView;
 import com.shashank.sony.fancytoastlib.FancyToast;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import kilig.ink.yxy.R;
+import kilig.ink.yxy.entity.ImageEntity;
 import kilig.ink.yxy.entity.ResponeObject;
 import kilig.ink.yxy.utils.OkhttpUtils;
 import okhttp3.Call;
@@ -69,32 +74,35 @@ public class LoginActivity extends AppCompatActivity {
         //授权
         initPermissions();
 
-       // SharedPreferences login_state = getSharedPreferences("login", MODE_PRIVATE);
-     //   boolean isLogin = login_state.getBoolean("isLogin", false);
+        SharedPreferences login_state = getSharedPreferences("login", MODE_PRIVATE);
+        boolean isLogin = login_state.getBoolean("isLogin", false);
         final Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-//        if(isLogin)
-//        {
-////            //刷新一下token
-////            OkhttpUtils.get("refreshToken", null, new Callback() {
-////                @Override
-////                public void onFailure(@NotNull Call call, @NotNull IOException e) {
-////
-////                }
-////
-////                @Override
-////                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-////                    String string = response.body().string(); //获取的返回数据
-////                    /**
-////                     * 后续更新
-////                     */
-////
-////                }
-////
-////            });
-//            //跳转
-//            startActivity(intent);
-//            finish();
-//        }
+
+        //这部分做登录判断 若用户登录了就进行直接跳转
+        if(isLogin)
+        {
+            //避免被kill token为空
+            OkhttpUtils.setToken(login_state.getString("token",""));
+            //刷新一下token
+            OkhttpUtils.get("yxyUser/refreshToken", null, new Callback() {
+                @Override
+                public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                    //...不做处理
+                }
+
+                @Override
+                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                    String string = response.body().string(); //获取的返回数据
+                    Type type = new TypeToken<ResponeObject<String>>(){}.getType();
+                    ResponeObject<String> responeObject = new Gson().fromJson(string, type);
+                    OkhttpUtils.setToken(responeObject.getData() == null ?"":responeObject.getData());
+                }
+            });
+
+            //跳转到主界面
+            startActivity(intent);
+            finish();
+        }
 
         //用户名
         TextInputEditText username = findViewById(R.id.yxyUsername);
@@ -219,9 +227,8 @@ public class LoginActivity extends AppCompatActivity {
                                 //记录登录状态
                                 SharedPreferences.Editor editor = getSharedPreferences("login", MODE_PRIVATE).edit();
                                 editor.putBoolean("isLogin", true);
+                                editor.putString("token",(String) object.getData());
                                 editor.apply();
-                                //禁止后退回到登录界面
-                                //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                                 startActivity(intent);
                                 finish();
                             }
