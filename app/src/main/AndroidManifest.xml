@@ -26,6 +26,7 @@
         <activity android:name=".activity.SettingActivity" />
         <activity android:name=".activity.RegisterActivity" />
         <activity android:name=".activity.InAlbumActivity" />
+        <activity android:name=".activity.ChangeInfoActivity" />
         <activity
             android:name=".activity.LoginActivity">
             <intent-filter>
