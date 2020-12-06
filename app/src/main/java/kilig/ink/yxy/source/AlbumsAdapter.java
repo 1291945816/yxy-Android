@@ -45,6 +45,7 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.ViewHolder
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
         AblumItem item = albumDatas.get(position);
+        Log.d(TAG, "onBindViewHolder: "+item);
         holder.albumName.setText(item.getAblumName());
         holder.pictureNum.setText(item.getNums()+" 张");
 

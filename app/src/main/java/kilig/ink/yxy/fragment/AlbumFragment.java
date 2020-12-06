@@ -52,7 +52,7 @@ public class AlbumFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_album, container,false);
-        initData();
+
         RecyclerView recyclerView = this.view.findViewById(R.id.recycler_album);
         refreshLayout=view.findViewById(R.id.layout_swipe_refresh);
          adapter = new AlbumsAdapter(getContext(),itemsList);
@@ -62,6 +62,7 @@ public class AlbumFragment extends Fragment {
         recyclerView.setLayoutManager(manager);
         recyclerView.addItemDecoration(new SpacesItemDecoration(18));
         recyclerView.setAdapter(adapter);
+        initData();
         refreshLayout.setOnRefreshListener(()->{
             initData();
             refreshLayout.setRefreshing(false);
