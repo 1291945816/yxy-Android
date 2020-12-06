@@ -18,7 +18,7 @@ import java.util.List;
 import kilig.ink.yxy.R;
 import kilig.ink.yxy.entity.AblumItem;
 import kilig.ink.yxy.entity.SpacesItemDecoration;
-import kilig.ink.yxy.source.AblumsAdapter;
+import kilig.ink.yxy.source.AlbumsAdapter;
 
 public class AlbumFragment extends Fragment {
 
@@ -33,7 +33,7 @@ public class AlbumFragment extends Fragment {
         initData();
         Log.d(TAG, "onCreateView: "+itemsList.size());
         RecyclerView recyclerView = this.view.findViewById(R.id.recycler_album);
-        AblumsAdapter adapter = new AblumsAdapter(getContext(),itemsList);
+        AlbumsAdapter adapter = new AlbumsAdapter(getContext(),itemsList);
 
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         manager.setOrientation(LinearLayoutManager.VERTICAL);

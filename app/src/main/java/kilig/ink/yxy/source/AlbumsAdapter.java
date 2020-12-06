@@ -5,8 +5,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -21,7 +19,7 @@ import kilig.ink.yxy.R;
 import kilig.ink.yxy.entity.AblumItem;
 
 
-public class AblumsAdapter extends RecyclerView.Adapter<AblumsAdapter.ViewHolder> {
+public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.ViewHolder> {
 
     private List<AblumItem> albumDatas;
     private Context context;
@@ -56,7 +54,7 @@ public class AblumsAdapter extends RecyclerView.Adapter<AblumsAdapter.ViewHolder
 
     }
 
-    public AblumsAdapter(Context context,List<AblumItem> albumDatas) {
+    public AlbumsAdapter(Context context, List<AblumItem> albumDatas) {
         this.context=context;
         this.albumDatas=albumDatas;
     }
@@ -85,6 +83,12 @@ public class AblumsAdapter extends RecyclerView.Adapter<AblumsAdapter.ViewHolder
         }
 
     }
+
+
+
+    private View.OnClickListener onClickListener=v->{
+
+    };
 
 
 
