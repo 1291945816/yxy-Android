@@ -137,7 +137,7 @@ public class SquareViewAdapter extends RecyclerView.Adapter<SquareViewAdapter.Vi
                 int position = holder.getAdapterPosition();
                 ImageEntity entity = squareList.get(position);
                 Intent intent = new Intent(context, ImageDetailActivity.class);
-//                intent.putExtra();    //如何把entity传过去
+                intent.putExtra("ImageEntity", entity);    //如何把entity传过去
                 context.startActivity(intent);
             }
         });
