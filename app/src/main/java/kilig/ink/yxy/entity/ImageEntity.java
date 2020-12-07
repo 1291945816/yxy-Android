@@ -2,9 +2,11 @@ package kilig.ink.yxy.entity;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 import kilig.ink.yxy.utils.OkhttpUtils;
 
-public class ImageEntity
+public class ImageEntity implements Serializable
 {
     private String imgID;
     private String authorID;

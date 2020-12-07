@@ -47,7 +47,7 @@ public class SquareFragment extends Fragment
     View view;
     String json;
     int pageNum = 0;
-    private static final int pageSize = 5;
+    private static final int pageSize = 7;
 
     @Nullable
     @Override
@@ -68,7 +68,7 @@ public class SquareFragment extends Fragment
             public void onRefresh(RefreshLayout refreshlayout)
             {
                 addDataToTop();
-                refreshlayout.finishRefresh(1000/*,false*/);//传入false表示刷新失败
+                refreshlayout.finishRefresh(400/*,false*/);//传入false表示刷新失败
             }
         });
         refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener()
@@ -77,7 +77,7 @@ public class SquareFragment extends Fragment
             public void onLoadMore(RefreshLayout refreshlayout)
             {
                 addDataToBottom();
-                refreshlayout.finishLoadMore(800);//传入false表示加载失败
+                refreshlayout.finishLoadMore(400);//传入false表示加载失败
             }
         });
 
@@ -91,7 +91,7 @@ public class SquareFragment extends Fragment
     private void initData()
     {
         Map<String, String> map = new HashMap<>();
-        pageNum=0; //重新初始化数据，避免保存上次的浏览记录导致再次切换时会在上一次的基础上进行刷新7
+        pageNum = 0; //重新初始化数据，避免保存上次的浏览记录导致再次切换时会在上一次的基础上进行刷新7
         map.put("pageNum", String.valueOf(pageNum));
         ++pageNum;
         map.put("size", String.valueOf(pageSize));
