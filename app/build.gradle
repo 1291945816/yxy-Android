@@ -33,6 +33,7 @@ dependencies {
     implementation 'com.scwang.smart:refresh-header-classics:2.0.1'
     implementation 'com.github.mcxtzhang:SwipeDelMenuLayout:V1.3.0'
     //使用文档 https://github.com/scwang90/SmartRefreshLayout/blob/master/art/md_property.md
+    implementation 'com.github.LuckSiege.PictureSelector:picture_library:v2.6.0'
 
     //Glide
     implementation 'com.github.bumptech.glide:glide:4.11.0'

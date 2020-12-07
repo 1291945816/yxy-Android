@@ -2,7 +2,9 @@ package kilig.ink.yxy.entity;
 
 import android.widget.ImageView;
 
-public class AblumItem {
+import java.io.Serializable;
+
+public class AblumItem implements Serializable {
     private String ablumName;
     private int ablumId;
     private int nums;

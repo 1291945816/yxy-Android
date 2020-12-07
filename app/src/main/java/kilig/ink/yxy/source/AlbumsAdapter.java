@@ -3,6 +3,7 @@ package kilig.ink.yxy.source;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +30,7 @@ import java.util.Map;
 import java.util.logging.Handler;
 
 import kilig.ink.yxy.R;
+import kilig.ink.yxy.activity.InAlbumActivity;
 import kilig.ink.yxy.entity.AblumItem;
 import kilig.ink.yxy.entity.ResponeObject;
 import kilig.ink.yxy.utils.OkhttpUtils;
@@ -176,7 +178,10 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.ViewHolder
 
         //整体添加监听器
         holder.layout.setOnClickListener(v->{
-            Toast.makeText(context,"你点击了"+item.getAblumName(),Toast.LENGTH_SHORT).show();
+
+            Intent toInAlbum = new Intent(((Activity) context), InAlbumActivity.class);
+            toInAlbum.putExtra("album",item);
+            context.startActivity(toInAlbum);
         });
 
 

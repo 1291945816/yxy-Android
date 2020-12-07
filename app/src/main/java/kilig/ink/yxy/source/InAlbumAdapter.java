@@ -2,6 +2,7 @@ package kilig.ink.yxy.source;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ import kilig.ink.yxy.entity.PhotoItem;
 public class InAlbumAdapter extends BaseAdapter {
     private List<PhotoItem> photos;
     private Context mContext;
+    private static final String TAG = "InAlbumAdapter";
     public InAlbumAdapter(List<PhotoItem> photos,Context context)
     {
         this.photos=photos;
@@ -53,8 +55,10 @@ public class InAlbumAdapter extends BaseAdapter {
         if (null == convertView)
         {
             viewHolder = new ViewHolderPhoto();
+            Log.d(TAG, "getView: "+mContext);
             LayoutInflater mInflater = LayoutInflater.from(mContext);
             convertView = mInflater.inflate(R.layout.item_photo, null);
+
 
             viewHolder.photo = convertView.findViewById(R.id.item_photo);
             viewHolder.photo.setOnClickListener(new View.OnClickListener() {
