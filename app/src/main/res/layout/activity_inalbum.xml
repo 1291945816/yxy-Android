@@ -17,6 +17,13 @@
                 style="@style/Widget.MaterialComponents.Toolbar.Primary"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize">
+                <ImageButton
+                    android:id="@+id/btn_backup"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:background="@drawable/btn_backup"
+                    >
+                </ImageButton>
                 <TextView
                     android:id="@+id/topTitle_in_album"
                     android:layout_width="wrap_content"
@@ -33,25 +40,15 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="10dp"
                 android:layout_marginBottom="10dp"
-                android:numColumns="4"
+                android:numColumns="3"
                 android:gravity="center"
-                android:verticalSpacing="5dp"
-                android:horizontalSpacing="5dp"
+                android:verticalSpacing="10dp"
+                android:horizontalSpacing="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/gridView_in_album"/>
         </RelativeLayout>
 
-        <TextView
-            android:id="@+id/return_in_album"
-            android:layout_width="100dp"
-            android:layout_height="55dp"
-            android:gravity="center_vertical"
-            android:text="返回相册"
-            android:textColor="@color/design_default_color_background"
-            android:paddingStart="10dp"
-            android:textSize="20sp">
-        </TextView>
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/floating_action_button_in_album"
             android:layout_width="wrap_content"

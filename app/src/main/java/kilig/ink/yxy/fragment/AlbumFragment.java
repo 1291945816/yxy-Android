@@ -44,7 +44,7 @@ public class AlbumFragment extends Fragment {
 
     private static final String TAG = "AlbumFragment";
 
-    private List<AblumItem> itemsList= new ArrayList<>();
+    private List<AblumItem> itemsList;
     private AlbumsAdapter adapter;
     private SwipeRefreshLayout refreshLayout;
     View view;
@@ -52,7 +52,7 @@ public class AlbumFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_album, container,false);
-
+        itemsList =new ArrayList<>();
         RecyclerView recyclerView = this.view.findViewById(R.id.recycler_album);
         refreshLayout=view.findViewById(R.id.layout_swipe_refresh);
          adapter = new AlbumsAdapter(getContext(),itemsList);
@@ -62,6 +62,8 @@ public class AlbumFragment extends Fragment {
         recyclerView.setLayoutManager(manager);
         recyclerView.addItemDecoration(new SpacesItemDecoration(18));
         recyclerView.setAdapter(adapter);
+
+
         initData();
         refreshLayout.setOnRefreshListener(()->{
             initData();
@@ -126,8 +128,6 @@ public class AlbumFragment extends Fragment {
             }
         });
 
-        initData();
-
         return this.view;
     }
 
@@ -162,7 +162,6 @@ public class AlbumFragment extends Fragment {
         });
 
     }
-
 
 }
 
