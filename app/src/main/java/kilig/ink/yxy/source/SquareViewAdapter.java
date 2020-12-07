@@ -2,6 +2,7 @@ package kilig.ink.yxy.source;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +36,7 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
+import static android.service.controls.ControlsProviderService.TAG;
 import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 
 public class SquareViewAdapter extends RecyclerView.Adapter<SquareViewAdapter.ViewHolder>
@@ -231,15 +233,28 @@ public class SquareViewAdapter extends RecyclerView.Adapter<SquareViewAdapter.Vi
                                 .load(entity.getDisplayImgUrl())
                                 .submit();
                         final File imageFile = target.get();
-                        MyFileUtils.saveFile(imageFile, entity.getThumbnailUrl());
+                        String fileName = entity.getDisplayImgName() + entity.getDisplayImgUrl().substring(entity.getDisplayImgUrl().lastIndexOf('/')+1);
+                        boolean saveSuccess = MyFileUtils.saveFile(imageFile, fileName);
+                        //不能在子线程用toast
+//                        if (saveSuccess)
+//                        {
+//                            Log.e(TAG, "Save：图片保存成功");
+//                            Toast.makeText(context, "图片保存成功", Toast.LENGTH_SHORT).show();
+//                        }
+//                        else
+//                        {
+//                            Log.e(TAG, "Save：图片保存失败");
+//                            Toast.makeText(context, "图片保存失败", Toast.LENGTH_SHORT).show();
+//                        }
                     }
                     catch (Exception e)
                     {
                         e.printStackTrace();
                     }
                 }).start();
-                Toast.makeText(context, "图片正在保存中~", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "图片正在保存~", Toast.LENGTH_SHORT).show();
             }
+
         });
 
         holder.squareAuthorProfileImgView.setOnClickListener(new View.OnClickListener()

@@ -18,7 +18,7 @@ public class MyFileUtils
      * @param source 输入文件
      * @param target 输出文件
      */
-    public static void copy(File source, File target)
+    public static boolean copy(File source, File target)
     {
         FileInputStream fileInputStream = null;
         FileOutputStream fileOutputStream = null;
@@ -31,9 +31,11 @@ public class MyFileUtils
             {
                 fileOutputStream.write(buffer);
             }
+            return true;
         }
         catch (Exception e)
         {
+
             e.printStackTrace();
         }
         finally
@@ -54,28 +56,32 @@ public class MyFileUtils
                 e.printStackTrace();
             }
         }
+        return false;
     }
 
-    public static void copy(File source, String targetPath)
+    public static boolean saveFile(File source, String fileName)
     {
-        File target = new File(targetPath);
-    }
-
-    public static void saveFile(File source, String fileName)
-    {
-//        String imageFileName = "yxy_" + new Random().nextInt(Integer.MAX_VALUE) + ".jpg";
-        File storageDir = new File( Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
-                + "/" + "Yxy");
-        boolean success = true;
+        File storageDir = new File( Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/" + "Yxy");
+        boolean openSuccess = storageDir.exists();
         if (!storageDir.exists())
         {
-            success = storageDir.mkdirs();
+            openSuccess = storageDir.mkdirs();
         }
-        if (success)
+//        Log.e("Path", storageDir.getPath());
+        if (openSuccess)
         {
-            File target = new File(storageDir, fileName + ".jpg");
-            copy(source, target);
+            File target = new File(storageDir, fileName);
+            if (!target.exists())
+            {
+                boolean copySuccess = copy(source, target);
+                if (!copySuccess)
+                {
+                    return false;
+                }
+            }
+            return true;
         }
+        return false;
     }
 
     //保存图片到本地
@@ -110,5 +116,10 @@ public class MyFileUtils
 //            Toast.makeText(context, "图片已保存~", Toast.LENGTH_SHORT).show();
         }
         return savedImagePath;
+    }
+
+    public static void copy(File source, String targetPath)
+    {
+        File target = new File(targetPath);
     }
 }
