@@ -1,5 +1,7 @@
 package kilig.ink.yxy.utils;
 
+import android.util.Log;
+
 import com.bumptech.glide.Glide;
 
 import java.io.IOException;
@@ -32,6 +34,7 @@ public  class OkhttpUtils {
 
     private static String token="";
 
+    private static final String TAG = "OkhttpUtils";
     /**
      * 设置token
      * @param newtoken 传进来的新的token
@@ -40,12 +43,16 @@ public  class OkhttpUtils {
         token = newtoken;
     }
 
+    public static String getToken() {
+        return token;
+    }
 
     //普通的get请求
     public static void get(String url, Map<String,String> queryParams, Callback callback){
         Request.Builder builder = new Request.Builder()
                 .url(OkhttpUtils.BASE_URL + url); //添加url
         Request request = builder.addHeader("token", OkhttpUtils.token).build();//携带token
+        Log.d(TAG, "get: "+token);
         //构建一个参数的url
         final HttpUrl.Builder newBuilder = request.url().newBuilder();
         if (queryParams != null) {

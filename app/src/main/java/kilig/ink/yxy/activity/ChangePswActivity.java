@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -38,6 +39,7 @@ public class ChangePswActivity extends AppCompatActivity {
     private TextInputLayout newPswLayout;
     private TextInputLayout checkPswLayout;
     private CatLoadingView mView;
+    private ImageButton backup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +53,10 @@ public class ChangePswActivity extends AppCompatActivity {
         newPswLayout = findViewById(R.id.newPsw_layout);
         changecheckPsw = findViewById(R.id.checkPsw);
         checkPswLayout = findViewById(R.id.checkPsw_layout);
+        backup = findViewById(R.id.btn_backup_changepsw);
+
+        //返回按钮
+        backup.setOnClickListener(v->{finish();});
 
         //用户修改密码，跳转到登录界面
         SharedPreferences.Editor editor = getSharedPreferences("login", MODE_PRIVATE).edit();

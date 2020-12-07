@@ -86,7 +86,7 @@ public class LoginActivity extends AppCompatActivity {
         if(isLogin)
         {
             //避免被kill token为空
-            OkhttpUtils.setToken(login_state.getString("token",""));
+            OkhttpUtils.setToken(login_state.getString("token","131313"));
             //刷新一下token
             OkhttpUtils.get("yxyUser/refreshToken", null, new Callback() {
                 @Override
