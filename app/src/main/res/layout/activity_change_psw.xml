@@ -18,18 +18,17 @@
             android:background="@color/colorAccent"
             app:layout_collapseMode="pin">
             <ImageButton
-                android:id="@+id/btn_backup"
+                android:id="@+id/btn_backup_changepsw"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:background="@drawable/btn_backup"
                 >
             </ImageButton>
             <TextView
-                android:id="@+id/tv_welcome"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="修改信息"
-                android:textSize="24sp"
+                android:text="修改密码"
+                android:textSize="23sp"
                 android:textColor="@android:color/white"
                 android:layout_gravity="center">
 

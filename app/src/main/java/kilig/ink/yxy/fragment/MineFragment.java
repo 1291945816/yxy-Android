@@ -50,10 +50,13 @@ public class MineFragment extends Fragment  {
     private SettingItem settingButton;
     private SettingItem helpButton;
     private SettingItem aboutButton;
+    private static final String TAG = "MineFragment";
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+
 
         view = inflater.inflate(R.layout.fragment_mine,container,false);
         //Button exit = view.findViewById(R.id.btn_exit);
@@ -102,6 +105,7 @@ public class MineFragment extends Fragment  {
             alertDialog.show();
         });
 
+        Log.d(TAG, "onCreateView: "+OkhttpUtils.getToken());
         OkhttpUtils.get("yxyUser/userInfo", null, new Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
@@ -117,6 +121,8 @@ public class MineFragment extends Fragment  {
                 }.getType());
 
                 Log.i("MineFragment", "onResponse: "+responeObject.getData());
+
+
                 String yxyUserIntro = responeObject.getData().getYxyUserIntro();
                 String yxyUserName = responeObject.getData().getYxyUserName();
                 String yxyNickName = responeObject.getData().getYxyNickName();

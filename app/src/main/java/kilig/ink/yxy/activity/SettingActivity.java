@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,6 +23,8 @@ public class SettingActivity extends AppCompatActivity {
 
         Button exitSystem = findViewById(R.id.btn_exit);
         TextView setPath = findViewById(R.id.set_path);
+        ImageButton backup = findViewById(R.id.btn_backup_setting);
+
         SharedPreferences.Editor editor = getSharedPreferences("login", MODE_PRIVATE).edit();
         //用户注销登录，跳转到登录界面
         exitSystem.setOnClickListener(new View.OnClickListener() {
@@ -42,5 +45,8 @@ public class SettingActivity extends AppCompatActivity {
         setPath.setOnClickListener(v->{
             Toast.makeText(SettingActivity.this,"谢邀，不写了，先写作业",Toast.LENGTH_SHORT).show();
         });
+
+        //返回键
+        backup.setOnClickListener(v->{finish();});
     }
 }

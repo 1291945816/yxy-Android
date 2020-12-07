@@ -6,6 +6,44 @@
     android:layout_height="match_parent"
     tools:context=".activity.SettingActivity">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorAccent"
+        android:minHeight="?attr/actionBarSize"
+        app:layout_collapseMode="pin"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        tools:layout_editor_absoluteX="0dp">
+
+        <ImageButton
+            android:id="@+id/btn_backup_setting"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:background="@drawable/btn_backup"></ImageButton>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="设置"
+            android:textColor="@android:color/white"
+            android:textSize="23sp">
+
+        </TextView>
+    </androidx.appcompat.widget.Toolbar>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintVertical_bias="0.0"
+        tools:layout_editor_absoluteX="-44dp"></View>
+
     <TextView
         android:id="@+id/set_path"
         android:layout_width="match_parent"
@@ -16,8 +54,9 @@
         android:textSize="18sp"
         android:layout_marginRight="10dp"
         android:layout_marginLeft="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/btn_exit"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintVertical_bias="0.07"
         tools:layout_editor_absoluteX="0dp">
 
     </TextView>
@@ -30,12 +69,14 @@
         android:background="@drawable/btn_background"
         android:text="注销登录"
         android:textSize="18sp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.473"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.101">
+        app:layout_constraintTop_toBottomOf="@+id/set_path"
+        app:layout_constraintVertical_bias="0.011">
 
     </Button>
 
