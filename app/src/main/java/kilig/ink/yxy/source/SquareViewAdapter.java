@@ -83,13 +83,16 @@ public class SquareViewAdapter extends RecyclerView.Adapter<SquareViewAdapter.Vi
     {
         ImageEntity entity = squareList.get(position);
 
+        //展示的图片
         Glide.with(context)
                 .load(entity.getThumbnailUrl())
 //                .load(entity.getDisplayImgUrl())
                 .error(R.drawable.cloudlogo)
+//                .crossFade(1000)
                 .fitCenter()
                 .into(holder.squareDisplayImgView);
 
+        //头像
         Glide.with(context)
                 .load(entity.getAuthorProfileImgUrl())
                 .apply(RequestOptions.bitmapTransform(new CropCircleTransformation()))

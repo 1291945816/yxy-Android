@@ -26,6 +26,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 
+import jp.wasabeef.glide.transformations.BlurTransformation;
+import jp.wasabeef.glide.transformations.ColorFilterTransformation;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import kilig.ink.yxy.R;
 import kilig.ink.yxy.activity.ChangeInfoActivity;
@@ -40,6 +42,7 @@ import okhttp3.Callback;
 import okhttp3.Response;
 
 import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
+import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
 
 public class MineFragment extends Fragment  {
     View view;
@@ -50,6 +53,7 @@ public class MineFragment extends Fragment  {
     private SettingItem settingButton;
     private SettingItem helpButton;
     private SettingItem aboutButton;
+    private ImageView   backgroundImageView;
     private static final String TAG = "MineFragment";
 
     @Nullable
@@ -61,6 +65,7 @@ public class MineFragment extends Fragment  {
         view = inflater.inflate(R.layout.fragment_mine,container,false);
         //Button exit = view.findViewById(R.id.btn_exit);
         ImageView imgProfile = view.findViewById(R.id.img_profile);
+        backgroundImageView = view.findViewById(R.id.image_background);
         nickName= view.findViewById(R.id.nickname);
         userName=view.findViewById(R.id.username);
         userIntro=view.findViewById(R.id.user_intro);
@@ -143,8 +148,13 @@ public class MineFragment extends Fragment  {
                                 .load(responeObject.getData().getYxyUserAvatar())
                                 .transition(withCrossFade(factory))
                                 .skipMemoryCache(true)
-                                .apply(RequestOptions.bitmapTransform(new CropCircleTransformation())) //头像变圆
+                                .apply(bitmapTransform(new CropCircleTransformation())) //头像变圆
                                 .into(imgProfile);
+                        //加载背景
+                        Glide.with(getActivity())
+                                .load(responeObject.getData().getYxyUserAvatar())
+                                .apply(bitmapTransform(new BlurTransformation(50, 3)))
+                                .into(backgroundImageView);
                     });
                 }
 
