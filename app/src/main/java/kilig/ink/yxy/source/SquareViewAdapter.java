@@ -86,7 +86,6 @@ public class SquareViewAdapter extends RecyclerView.Adapter<SquareViewAdapter.Vi
 //                .load(entity.getDisplayImgUrl())
                 .error(R.drawable.cloudlogo)
                 .fitCenter()
-                .transition(withCrossFade(factory))
                 .into(holder.squareDisplayImgView);
 
         Glide.with(context)

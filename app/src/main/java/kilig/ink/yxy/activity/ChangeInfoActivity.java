@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -40,6 +41,7 @@ public class ChangeInfoActivity extends AppCompatActivity {
     private TextView changePsw;
     private ImageButton backup;
     private CatLoadingView mView;
+    private View view;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,11 +56,12 @@ public class ChangeInfoActivity extends AppCompatActivity {
         changeNickname.setOnClickListener(v->{
             LayoutInflater inflater = this.getLayoutInflater();
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setView(inflater.inflate(R.layout.dialog_signin, null));
+            view=inflater.inflate(R.layout.dialog_signin, null);
+            builder.setView(view);
             builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    EditText edtNewNickname = findViewById(R.id.edt_changenickname);
+                    EditText edtNewNickname = view.findViewById(R.id.edt_changenickname);
                     String newNickname  = edtNewNickname.getText().toString();
                     Map<String,String> NicknameInfo = new HashMap<>();
                     NicknameInfo.put("nickname",newNickname);
@@ -70,58 +73,58 @@ public class ChangeInfoActivity extends AppCompatActivity {
                     mView.setText("正在努力载入中...");
                     mView.setBackgroundColor(Color.parseColor("#2CBEA9"));
                     Log.d("121", "onClick: "+OkhttpUtils.getToken());
-//                    try {
-//                        OkhttpUtils.post("yxyUser/updateNickname", nickname_info, new Callback() {
-//                            @Override
-//                            public void onFailure(@NotNull Call call, @NotNull IOException e) {
-//                                try {
-//                                    Thread.sleep(1000);
-//
-//                                } catch (InterruptedException q) {
-//                                    q.printStackTrace();
-//                                }
-//                                runOnUiThread(() -> {
-//
-//                                    FancyToast.makeText(ChangeInfoActivity.this, "由于未知的原因，登录失败，请检查一下您的网络是否有问题",
-//                                            FancyToast.LENGTH_SHORT,
-//                                            FancyToast.WARNING,
-//                                            false).show();
-//                                    mView.onDestroyView();
-//                                });
-//                            }
-//
-//                            @Override
-//                            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-//                                ResponseBody responseBody = response.body();
-//                                assert responseBody != null;
-//                                String s = responseBody.string();
-//                                ResponeObject object = gson.fromJson(s, ResponeObject.class);
-//                                //判断状态码
-//                                if (object.getCode() == null || !object.getCode().equals("200")) {
-//                                    runOnUiThread(() -> {
-//                                        mView.onDestroyView();
-//                                        FancyToast.makeText(ChangeInfoActivity.this, object.getMessage(),
-//                                                FancyToast.LENGTH_SHORT,
-//                                                FancyToast.ERROR,
-//                                                false).show();
-//                                    });
-//                                } else {
-//                                    runOnUiThread(() -> {
-//                                        mView.onDestroyView();
-//                                        FancyToast.makeText(ChangeInfoActivity.this, object.getMessage(),
-//                                                FancyToast.LENGTH_SHORT,
-//                                                FancyToast.SUCCESS,
-//                                                false).show();
-//                                    });
-//                                }
-//                                /*MineFragment mineFragment = new MineFragment();
-//                                Intent intent = new Intent(ChangeInfoActivity.this, mineFragment.getClass());
-//                                startActivity(intent);*/
-//                            }
-//                        });
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
+                    try {
+                        OkhttpUtils.post("yxyUser/updateNickname", nickname_info, new Callback() {
+                            @Override
+                            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                                try {
+                                    Thread.sleep(1000);
+
+                                } catch (InterruptedException q) {
+                                    q.printStackTrace();
+                                }
+                                runOnUiThread(() -> {
+
+                                    FancyToast.makeText(ChangeInfoActivity.this, "由于未知的原因，登录失败，请检查一下您的网络是否有问题",
+                                            FancyToast.LENGTH_SHORT,
+                                            FancyToast.WARNING,
+                                            false).show();
+                                    mView.onDestroyView();
+                                });
+                            }
+
+                            @Override
+                            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                                ResponseBody responseBody = response.body();
+                                assert responseBody != null;
+                                String s = responseBody.string();
+                                ResponeObject object = gson.fromJson(s, ResponeObject.class);
+                                //判断状态码
+                                if (object.getCode() == null || !object.getCode().equals("200")) {
+                                    runOnUiThread(() -> {
+                                        mView.onDestroyView();
+                                        FancyToast.makeText(ChangeInfoActivity.this, object.getMessage(),
+                                                FancyToast.LENGTH_SHORT,
+                                                FancyToast.ERROR,
+                                                false).show();
+                                    });
+                                } else {
+                                    runOnUiThread(() -> {
+                                        mView.onDestroyView();
+                                        FancyToast.makeText(ChangeInfoActivity.this, object.getMessage(),
+                                                FancyToast.LENGTH_SHORT,
+                                                FancyToast.SUCCESS,
+                                                false).show();
+                                    });
+                                }
+                                /*MineFragment mineFragment = new MineFragment();
+                                Intent intent = new Intent(ChangeInfoActivity.this, mineFragment.getClass());
+                                startActivity(intent);*/
+                            }
+                        });
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             });
             builder.setNegativeButton("取消",null);

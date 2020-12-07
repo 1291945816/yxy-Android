@@ -105,7 +105,6 @@ public class MineFragment extends Fragment  {
             alertDialog.show();
         });
 
-        Log.d(TAG, "onCreateView: "+OkhttpUtils.getToken());
         OkhttpUtils.get("yxyUser/userInfo", null, new Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
@@ -123,31 +122,35 @@ public class MineFragment extends Fragment  {
                 Log.i("MineFragment", "onResponse: "+responeObject.getData());
 
 
-                String yxyUserIntro = responeObject.getData().getYxyUserIntro();
-                String yxyUserName = responeObject.getData().getYxyUserName();
-                String yxyNickName = responeObject.getData().getYxyNickName();
+                if (!responeObject.getCode().equals("200")){
+                    Log.d(TAG, "onResponse: "+OkhttpUtils.getToken()+"1212");
+                }else {
+                    String yxyUserIntro = responeObject.getData().getYxyUserIntro();
+                    String yxyUserName = responeObject.getData().getYxyUserName();
+                    String yxyNickName = responeObject.getData().getYxyNickName();
 
 
-
-                DrawableCrossFadeFactory factory =
-                        new DrawableCrossFadeFactory.Builder().setCrossFadeEnabled(true).build();
-                //只完成了远程头像的更新
-                getActivity().runOnUiThread(()->{
-                    userIntro.setText(yxyUserIntro==null?"暂无介绍":yxyUserIntro);
-                    userName.setText(yxyUserName);
-                    nickName.setText(yxyNickName);
-                    //这里应该存储起来个人的信息
-                    //加载头像
-                    Glide.with(getActivity())
-                            .load(responeObject.getData().getYxyUserAvatar())
-                            .transition(withCrossFade(factory))
-                            .skipMemoryCache(true)
-                            .apply(RequestOptions.bitmapTransform(new CropCircleTransformation())) //头像变圆
-                            .into(imgProfile);
-                });
+                    DrawableCrossFadeFactory factory =
+                            new DrawableCrossFadeFactory.Builder().setCrossFadeEnabled(true).build();
+                    //只完成了远程头像的更新
+                    getActivity().runOnUiThread(() -> {
+                        userIntro.setText(yxyUserIntro == null ? "暂无介绍" : yxyUserIntro);
+                        userName.setText(yxyUserName);
+                        nickName.setText(yxyNickName);
+                        //这里应该存储起来个人的信息
+                        //加载头像
+                        Glide.with(getActivity())
+                                .load(responeObject.getData().getYxyUserAvatar())
+                                .transition(withCrossFade(factory))
+                                .skipMemoryCache(true)
+                                .apply(RequestOptions.bitmapTransform(new CropCircleTransformation())) //头像变圆
+                                .into(imgProfile);
+                    });
+                }
 
             }
         });
+
 
         /*exit.setOnClickListener(new View.OnClickListener() {
             @Override
