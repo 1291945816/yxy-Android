@@ -140,6 +140,9 @@ public class ChangePswActivity extends AppCompatActivity {
                                             false).show();
                                 });
                                 Intent intent = new Intent(ChangePswActivity.this,LoginActivity.class);
+                                //像登录界面传回已改密码的状态  用于取消记住密码
+                                intent.putExtra("changedPsw",true);
+
                                 editor.remove("isLogin");
                                 editor.clear(); //清除用户的所有信息
                                 editor.apply();

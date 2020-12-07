@@ -71,6 +71,10 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        //判断是否已修改密码
+        Intent changePswIntent = getIntent();
+        boolean pswFlag = changePswIntent.getBooleanExtra("changedPsw",false);
+
         //授权
         initPermissions();
 
@@ -118,10 +122,20 @@ public class LoginActivity extends AppCompatActivity {
         Button rigister = findViewById(R.id.btn_rigister);
         //记住密码
         CheckBox rememberpsw= findViewById(R.id.ckb_rememberpsw);
+
         //获取SharedPreferences对象
         pref = PreferenceManager.getDefaultSharedPreferences(this);
 
         boolean isRemember = pref.getBoolean("记住密码", false);
+
+        //密码被修改过，则取消勾选记住密码，并清空文本框
+        if(pswFlag){
+            isRemember = false;
+            username.setText("");
+            password.setText("");
+            rememberpsw.setChecked(false);
+            Log.d(TAG,"hello");
+        }
         if (isRemember) {
             // 将账号和密码都设置到文本框中
             String tUsername = pref.getString("username", "");
