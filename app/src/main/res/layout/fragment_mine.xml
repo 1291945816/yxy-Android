@@ -114,9 +114,20 @@
                         android:layout_height="wrap_content"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintLeft_toRightOf="@id/comment"
                         app:layout_constraintRight_toLeftOf="@id/total_publish"
-                        android:background="@drawable/ic_baseline_favorite_24"/>
+                        android:background="@drawable/ic_baseline_favorite_24"
+                        android:contentDescription="TODO" />
+                    <ImageView
+                        android:id="@+id/comment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toLeftOf="@id/like"
+                        android:src="@drawable/ic_comment_24"
+                        android:contentDescription="TODO" />
 
                     <ImageView
                         android:id="@+id/total_publish"
@@ -126,7 +137,18 @@
                         app:layout_constraintBottom_toBottomOf="@id/like"
                         app:layout_constraintLeft_toRightOf="@id/like"
                         app:layout_constraintRight_toRightOf="parent"
-                        android:background="@drawable/ic_baseline_near_me_24"/>
+                        android:background="@drawable/ic_baseline_near_me_24"
+                        android:contentDescription="TODO" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="18sp"
+                        android:text="获 评"
+                        app:layout_constraintBottom_toTopOf="@id/comment"
+                        app:layout_constraintRight_toLeftOf="@id/like"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        android:textColor="@color/black"
+                        />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -149,20 +171,33 @@
                         android:textColor="@color/black" />
 
                     <TextView
+                        android:id="@+id/publishSum"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:layout_constraintLeft_toLeftOf="@id/total_publish"
                         app:layout_constraintRight_toRightOf="@id/total_publish"
                         app:layout_constraintTop_toBottomOf="@id/total_publish"
-                        android:text="22"/>
+                        android:text="0"/>
 
                     <TextView
+                        android:id="@+id/starNums"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:layout_constraintLeft_toLeftOf="@id/like"
                         app:layout_constraintRight_toRightOf="@id/like"
                         app:layout_constraintTop_toBottomOf="@id/like"
-                        android:text="56"/>
+                        android:text="0"/>
+                    <TextView
+                        android:id="@+id/commentNum"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/comment"
+                        app:layout_constraintRight_toLeftOf="@id/like"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        android:text="0"
+
+
+                        />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
 

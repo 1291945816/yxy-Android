@@ -49,6 +49,9 @@ public class MineFragment extends Fragment  {
     private TextView nickName;
     private TextView userName;
     private TextView userIntro;
+    private TextView publishSumView;
+    private TextView starNumsView;
+    private TextView commentSumView;
     private SettingItem changeInfo;
     private SettingItem settingButton;
     private SettingItem helpButton;
@@ -73,6 +76,9 @@ public class MineFragment extends Fragment  {
         settingButton=view.findViewById(R.id.yxySetting);
         helpButton=view.findViewById(R.id.yxyHelp);
         aboutButton=view.findViewById(R.id.yxyAbout);
+        publishSumView=view.findViewById(R.id.publishSum);
+        starNumsView=view.findViewById(R.id.starNums);
+        commentSumView=view.findViewById(R.id.commentNum);
 
         //跳转到设置界面
         settingButton.setOnClickListener(v->{
@@ -133,7 +139,9 @@ public class MineFragment extends Fragment  {
                     String yxyUserIntro = responeObject.getData().getYxyUserIntro();
                     String yxyUserName = responeObject.getData().getYxyUserName();
                     String yxyNickName = responeObject.getData().getYxyNickName();
-
+                    long starNums = responeObject.getData().getStarNums();
+                    long publishSum = responeObject.getData().getPublishSum();
+                    long commentSum = responeObject.getData().getCommentSum();
 
                     DrawableCrossFadeFactory factory =
                             new DrawableCrossFadeFactory.Builder().setCrossFadeEnabled(true).build();
@@ -142,6 +150,9 @@ public class MineFragment extends Fragment  {
                         userIntro.setText(yxyUserIntro == null ? "暂无介绍" : yxyUserIntro);
                         userName.setText(yxyUserName);
                         nickName.setText(yxyNickName);
+                        starNumsView.setText(String.valueOf(starNums));
+                        publishSumView.setText(String.valueOf(publishSum));
+                        commentSumView.setText(String.valueOf(commentSum));
                         //这里应该存储起来个人的信息
                         //加载头像
                         Glide.with(getActivity())
