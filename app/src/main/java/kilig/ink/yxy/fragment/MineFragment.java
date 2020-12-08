@@ -56,6 +56,7 @@ public class MineFragment extends Fragment  {
     private SettingItem settingButton;
     private SettingItem helpButton;
     private SettingItem aboutButton;
+    private ImageView imgProfile;
     private ImageView   backgroundImageView;
     private static final String TAG = "MineFragment";
 
@@ -63,11 +64,8 @@ public class MineFragment extends Fragment  {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-
-
         view = inflater.inflate(R.layout.fragment_mine,container,false);
-        //Button exit = view.findViewById(R.id.btn_exit);
-        ImageView imgProfile = view.findViewById(R.id.img_profile);
+        imgProfile = view.findViewById(R.id.img_profile);
         backgroundImageView = view.findViewById(R.id.image_background);
         nickName= view.findViewById(R.id.nickname);
         userName=view.findViewById(R.id.username);
@@ -79,6 +77,12 @@ public class MineFragment extends Fragment  {
         publishSumView=view.findViewById(R.id.publishSum);
         starNumsView=view.findViewById(R.id.starNums);
         commentSumView=view.findViewById(R.id.commentNum);
+
+        //点击头像，进行头像上传
+        imgProfile.setOnClickListener(v->{
+            Toast.makeText(getActivity(),"等一下，马上就能上传头像啦^_^",Toast.LENGTH_SHORT).show();
+
+        });
 
         //跳转到设置界面
         settingButton.setOnClickListener(v->{
@@ -105,7 +109,7 @@ public class MineFragment extends Fragment  {
         //关于
         aboutButton.setOnClickListener(v->{
             AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).setTitle("关于我们")
-                    .setMessage("您好，这里是伊享云开发团队，开发不易，历时三月有余，如果您对我们的软件有任何吐槽或建议，欢迎您联系我们，邮箱：1291945816@qq.com" )
+                    .setMessage("您好，这里是伊享云开发团队，开发不易，历时一个多月，如果您对我们的软件有任何吐槽或建议，欢迎您联系我们，邮箱：1291945816@qq.com" )
                     .setIcon(R.drawable.ic_cloud_)
                     .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                         @Override
