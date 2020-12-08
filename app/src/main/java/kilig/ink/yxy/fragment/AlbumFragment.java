@@ -153,9 +153,12 @@ public class AlbumFragment extends Fragment {
                 if(responeObject.getCode().equals("200")){
                     itemsList.clear();
                     itemsList.addAll(data);
-                    getActivity().runOnUiThread(()->{
-                        adapter.notifyDataSetChanged();
-                    });
+                    if (isAdded()){
+                        getActivity().runOnUiThread(()->{
+                            adapter.notifyDataSetChanged();
+                        });
+                    }
+
                 }
 
             }

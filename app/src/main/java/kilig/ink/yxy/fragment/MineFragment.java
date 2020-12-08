@@ -5,6 +5,8 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,13 +27,13 @@ import com.google.gson.reflect.TypeToken;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
-import com.luck.picture.lib.engine.ImageEngine;
 import com.luck.picture.lib.entity.LocalMedia;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 import jp.wasabeef.glide.transformations.BlurTransformation;
 import jp.wasabeef.glide.transformations.ColorFilterTransformation;
@@ -177,8 +179,11 @@ public class MineFragment extends Fragment  {
 
                     DrawableCrossFadeFactory factory =
                             new DrawableCrossFadeFactory.Builder().setCrossFadeEnabled(true).build();
+
+                    new Handler(Looper.getMainLooper()).post(()->{
+
                     //只完成了远程头像的更新
-                    getActivity().runOnUiThread(() -> {
+
                         userIntro.setText(yxyUserIntro == null ? "暂无介绍" : yxyUserIntro);
                         userName.setText(yxyUserName);
                         nickName.setText(yxyNickName);
@@ -187,17 +192,22 @@ public class MineFragment extends Fragment  {
                         commentSumView.setText(String.valueOf(commentSum));
                         //这里应该存储起来个人的信息
                         //加载头像
-                        Glide.with(getActivity())
-                                .load(responeObject.getData().getYxyUserAvatar())
-                                .transition(withCrossFade(factory))
-                                .skipMemoryCache(true)
-                                .apply(bitmapTransform(new CropCircleTransformation())) //头像变圆
-                                .into(imgProfile);
-                        //加载背景
-                        Glide.with(getActivity())
-                                .load(responeObject.getData().getYxyUserAvatar())
-                                .apply(bitmapTransform(new BlurTransformation(50, 3)))
-                                .into(backgroundImageView);
+                        //避免碎片还未加载进活动就调用活动，导致空指针
+                        if (isAdded()){
+                            Glide.with(getActivity())
+                                    .load(responeObject.getData().getYxyUserAvatar())
+                                    .transition(withCrossFade(factory))
+                                    .skipMemoryCache(true)
+                                    .apply(bitmapTransform(new CropCircleTransformation())) //头像变圆
+                                    .into(imgProfile);
+                            //加载背景
+                            Glide.with(getActivity())
+                                    .load(responeObject.getData().getYxyUserAvatar())
+                                    .apply(bitmapTransform(new BlurTransformation(50, 3)))
+                                    .into(backgroundImageView);
+                        }
+
+
                     });
                 }
 

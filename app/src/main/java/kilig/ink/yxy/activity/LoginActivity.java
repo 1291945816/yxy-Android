@@ -57,7 +57,9 @@ public class LoginActivity extends AppCompatActivity {
     //要申请的权限
     String[] permissions = {Manifest.permission.READ_EXTERNAL_STORAGE,
                             Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                            Manifest.permission.MANAGE_EXTERNAL_STORAGE};
+                            Manifest.permission.MANAGE_EXTERNAL_STORAGE,
+                            Manifest.permission.CAMERA,
+    };
 
     private CatLoadingView mView;
     private static final String TAG = "LoginActivity";
