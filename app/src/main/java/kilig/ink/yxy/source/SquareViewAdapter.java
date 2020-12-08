@@ -43,7 +43,6 @@ public class SquareViewAdapter extends RecyclerView.Adapter<SquareViewAdapter.Vi
 {
     private List<ImageEntity> squareList;
     private Context context;
-    DrawableCrossFadeFactory factory = new DrawableCrossFadeFactory.Builder().setCrossFadeEnabled(true).build();
 
     static class ViewHolder extends RecyclerView.ViewHolder
     {
@@ -88,7 +87,6 @@ public class SquareViewAdapter extends RecyclerView.Adapter<SquareViewAdapter.Vi
                 .load(entity.getThumbnailUrl())
 //                .load(entity.getDisplayImgUrl())
                 .error(R.drawable.cloudlogo)
-//                .crossFade(1000)
                 .fitCenter()
                 .into(holder.squareDisplayImgView);
 
@@ -139,7 +137,7 @@ public class SquareViewAdapter extends RecyclerView.Adapter<SquareViewAdapter.Vi
                 int position = holder.getAdapterPosition();
                 ImageEntity entity = squareList.get(position);
                 Intent intent = new Intent(context, ImageDetailActivity.class);
-                intent.putExtra("ImageEntity", entity);    //如何把entity传过去
+                intent.putExtra("ImageEntity", entity);
                 context.startActivity(intent);
             }
         });
@@ -235,7 +233,7 @@ public class SquareViewAdapter extends RecyclerView.Adapter<SquareViewAdapter.Vi
                                 .load(entity.getDisplayImgUrl())
                                 .submit();
                         final File imageFile = target.get();
-                        String fileName = entity.getDisplayImgName() + entity.getDisplayImgUrl().substring(entity.getDisplayImgUrl().lastIndexOf('/')+1);
+                        String fileName = entity.getDisplayImgName() + "_" + entity.getDisplayImgUrl().substring(entity.getDisplayImgUrl().lastIndexOf('/')+1);
                         boolean saveSuccess = MyFileUtils.saveFile(imageFile, fileName);
                         //不能在子线程用toast
 //                        if (saveSuccess)
