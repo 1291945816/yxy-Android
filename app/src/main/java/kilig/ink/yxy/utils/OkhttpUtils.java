@@ -4,8 +4,10 @@ import android.util.Log;
 
 import com.bumptech.glide.Glide;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -15,6 +17,7 @@ import okhttp3.FormBody;
 import okhttp3.Headers;
 import okhttp3.HttpUrl;
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -87,6 +90,27 @@ public  class OkhttpUtils {
 
         // 设置自定义的 builder
         builder.headers(headerBuilder.build()).post(requestBody);
+        okHttpClient.newCall(builder.build()).enqueue(callback);
+    }
+
+    //上传头像
+    public static  void postWithBody(String url, Map<String,String> fileInfo, FileProgressRequestBody.ProgressListener listener, Callback callback) throws IOException{
+        String filePath = fileInfo.get("filePath");
+        String fileName = fileInfo.get("fileName");
+
+        File file = new File(filePath);
+        //RequestBody requestBody = FormBody.create(file, );
+        FileProgressRequestBody fileProgressRequestBody = new FileProgressRequestBody(file, "application/form-data;charset=utf-8", listener);
+        MultipartBody file1 = new MultipartBody.Builder().setType(MultipartBody.FORM)
+                .addFormDataPart("file", fileName, fileProgressRequestBody ).build();
+        Request.Builder builder = new Request.Builder();
+        // 创建一个 request
+        Request request = builder.url(BASE_URL+url).build();
+        // 创建一个 Headers.Builder
+        Headers.Builder headerBuilder = request.headers().newBuilder();
+        headerBuilder.add("token",token);
+        // 设置自定义的 builder
+        builder.headers(headerBuilder.build()).post(file1);
         okHttpClient.newCall(builder.build()).enqueue(callback);
     }
 

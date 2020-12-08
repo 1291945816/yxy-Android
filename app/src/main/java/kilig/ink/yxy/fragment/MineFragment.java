@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -12,9 +13,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -22,17 +25,23 @@ import androidx.fragment.app.Fragment;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.transition.DrawableCrossFadeFactory;
+
+import com.github.jlmd.animatedcircleloadingview.AnimatedCircleLoadingView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
+import com.luck.picture.lib.listener.OnResultCallbackListener;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import jp.wasabeef.glide.transformations.BlurTransformation;
@@ -46,6 +55,8 @@ import kilig.ink.yxy.entity.ResponeObject;
 import kilig.ink.yxy.entity.YxyUser;
 import kilig.ink.yxy.source.GlideEngine;
 import kilig.ink.yxy.source.SettingItem;
+import kilig.ink.yxy.utils.FileProgressRequestBody;
+import kilig.ink.yxy.utils.MyFileUtils;
 import kilig.ink.yxy.utils.OkhttpUtils;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -70,6 +81,7 @@ public class MineFragment extends Fragment  {
     private ImageView imgProfile;
     private ImageView   backgroundImageView;
     private static final String TAG = "MineFragment";
+   //private AnimatedCircleLoadingView progressBar;
 
     @Nullable
     @Override
@@ -90,6 +102,12 @@ public class MineFragment extends Fragment  {
         publishSumView=view.findViewById(R.id.publishSum);
         starNumsView=view.findViewById(R.id.starNums);
         commentSumView=view.findViewById(R.id.commentNum);
+        //progressBar=view.findViewById(R.id.circle_loading_view);
+
+
+
+
+
 
         //点击头像，进行头像上传
         imgProfile.setOnClickListener(v->{
@@ -101,10 +119,49 @@ public class MineFragment extends Fragment  {
             PictureSelector.create(this)
                     .openGallery(PictureMimeType.ofImage())
                     .isCamera(true)
-                    .imageFormat(PictureMimeType.PNG_Q)
                     .imageEngine(GlideEngine.createGlideEngine())
                     .selectionMode(PictureConfig.SINGLE)
-                    .forResult(PictureConfig.CHOOSE_REQUEST);
+                    .forResult(new OnResultCallbackListener() {
+                        @Override
+                        public void onResult(List result) {
+                            if (result.size() != 0) {
+                                LocalMedia localMedia = (LocalMedia) result.get(0);
+                                Log.d(TAG, "onResult: "+localMedia.getRealPath());
+                                Map<String,String> map=new HashMap<>();
+                                map.put("fileName",localMedia.getFileName());
+                                map.put("filePath",localMedia.getRealPath());
+                                try {
+                                    OkhttpUtils.postWithBody("yxyUser/uploadAvatar", map,listener, new Callback() {
+                                        @Override
+                                        public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                                            Log.d(TAG, "onFailure: "+66);
+
+                                        }
+
+                                        @Override
+                                        public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                                            String string = response.body().string();
+                                            Gson gson = new Gson();
+                                            ResponeObject responeObject = gson.fromJson(string, ResponeObject.class);
+                                            if (isAdded()){
+                                                getActivity().runOnUiThread(()->{
+                                                    Toast.makeText(getActivity(),responeObject.getMessage(),Toast.LENGTH_SHORT);
+                                                });
+                                            }
+
+                                        }
+                                    });
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onCancel() {
+
+                        }
+                    });
 
 
 
@@ -225,19 +282,12 @@ public class MineFragment extends Fragment  {
         return view;
     }
 
-    @SuppressLint("RestrictedApi")
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
-            switch (requestCode) {
-                case PictureConfig.CHOOSE_REQUEST:
-                    // 结果回调
-                    List<LocalMedia> selectList = PictureSelector.obtainMultipleResult(data);
-                    break;
-                default:
-                    break;
-            }
+    FileProgressRequestBody.ProgressListener listener=(v)->{
+        int i = (int) (v * 100);
+        if (isAdded() ){
+                //进度相关
         }
-    }
+    };
+
+
 }
