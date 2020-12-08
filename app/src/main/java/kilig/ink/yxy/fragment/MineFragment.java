@@ -1,5 +1,6 @@
 package kilig.ink.yxy.fragment;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -21,10 +22,16 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.transition.DrawableCrossFadeFactory;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.luck.picture.lib.PictureSelector;
+import com.luck.picture.lib.config.PictureConfig;
+import com.luck.picture.lib.config.PictureMimeType;
+import com.luck.picture.lib.engine.ImageEngine;
+import com.luck.picture.lib.entity.LocalMedia;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
+import java.util.List;
 
 import jp.wasabeef.glide.transformations.BlurTransformation;
 import jp.wasabeef.glide.transformations.ColorFilterTransformation;
@@ -35,12 +42,14 @@ import kilig.ink.yxy.activity.ChangePswActivity;
 import kilig.ink.yxy.activity.SettingActivity;
 import kilig.ink.yxy.entity.ResponeObject;
 import kilig.ink.yxy.entity.YxyUser;
+import kilig.ink.yxy.source.GlideEngine;
 import kilig.ink.yxy.source.SettingItem;
 import kilig.ink.yxy.utils.OkhttpUtils;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
+import static androidx.media.MediaBrowserServiceCompat.RESULT_OK;
 import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
 
@@ -64,6 +73,8 @@ public class MineFragment extends Fragment  {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
+
+
         view = inflater.inflate(R.layout.fragment_mine,container,false);
         imgProfile = view.findViewById(R.id.img_profile);
         backgroundImageView = view.findViewById(R.id.image_background);
@@ -80,9 +91,26 @@ public class MineFragment extends Fragment  {
 
         //点击头像，进行头像上传
         imgProfile.setOnClickListener(v->{
+            /*
+            LayoutInflater inflaterProfile = getActivity().getLayoutInflater();
+            AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getActivity());
+            view = inflaterProfile.inflate(R.layout.dialog_profile, null);
+            alertBuilder.setView(view);*/
+            PictureSelector.create(this)
+                    .openGallery(PictureMimeType.ofImage())
+                    .isCamera(true)
+                    .imageFormat(PictureMimeType.PNG_Q)
+                    .imageEngine(GlideEngine.createGlideEngine())
+                    .selectionMode(PictureConfig.SINGLE)
+                    .forResult(PictureConfig.CHOOSE_REQUEST);
+
+
+
+
             Toast.makeText(getActivity(),"等一下，马上就能上传头像啦^_^",Toast.LENGTH_SHORT).show();
 
         });
+
 
         //跳转到设置界面
         settingButton.setOnClickListener(v->{
@@ -185,5 +213,21 @@ public class MineFragment extends Fragment  {
         });*/
 
         return view;
+    }
+
+    @SuppressLint("RestrictedApi")
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case PictureConfig.CHOOSE_REQUEST:
+                    // 结果回调
+                    List<LocalMedia> selectList = PictureSelector.obtainMultipleResult(data);
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 }
