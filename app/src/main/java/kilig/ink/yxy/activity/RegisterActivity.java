@@ -161,9 +161,14 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                                             .OnNegativeClicked(new FancyAlertDialogListener() {
                                                 @Override
                                                 public void OnClick() {
-                                                    Toast.makeText(getApplicationContext(),
-                                                            "不开启网络无法注册喔",
-                                                            Toast.LENGTH_SHORT).show();
+                                                    runOnUiThread(()->{
+                                                        Toast.makeText(getApplicationContext(),
+                                                                "不开启网络无法注册喔",
+                                                                Toast.LENGTH_SHORT).show();
+                                                        mView.onDestroyView();
+                                                    });
+
+
                                                 }
                                             })
                                             .OnPositiveClicked(new FancyAlertDialogListener() {
@@ -230,7 +235,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         OkhttpUtils.get("captcha/", map, new Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                FancyToast.makeText(RegisterActivity.this,"可能是网络的问题导致了注册的失败",FancyToast.LENGTH_SHORT,FancyToast.ERROR,false);
+                runOnUiThread(()->{
+                    FancyToast.makeText(RegisterActivity.this,"可能是网络的问题导致了注册的失败",FancyToast.LENGTH_SHORT,FancyToast.ERROR,false);
+                });
+
             }
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
@@ -239,7 +247,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                     Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
                     runOnUiThread(()->{ img_vfcode.setImageBitmap(bitmap); });
                 }else {
-                    FancyToast.makeText(RegisterActivity.this,"后台出问题了，请及时联系产品人员^-^",FancyToast.LENGTH_SHORT,FancyToast.ERROR,false);
+                    runOnUiThread(()->{
+                        FancyToast.makeText(RegisterActivity.this,"后台出问题了，请及时联系产品人员^-^",FancyToast.LENGTH_SHORT,FancyToast.ERROR,false);
+                    });
+
                 }
 
             }
