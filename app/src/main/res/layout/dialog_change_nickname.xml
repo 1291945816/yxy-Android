@@ -6,13 +6,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/imageView"
+    <TextView
+        android:id="@+id/textview1"
         android:layout_width="match_parent"
         android:layout_height="64dp"
         android:background="#6EC1B9"
         android:contentDescription="@string/app_name"
         android:scaleType="center"
+        android:text="修改昵称"
+        android:textSize="25sp"
+        android:textColor="#FFFFFF"
+        android:gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
@@ -21,11 +25,11 @@
     <EditText
         android:id="@+id/edt_changenickname"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="修改新的昵称吧~"
+        android:layout_height="65dp"
+        android:hint="输入新的昵称吧~"
         android:inputType="textEmailAddress"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        app:layout_constraintTop_toBottomOf="@+id/textview1"
         app:layout_constraintVertical_bias="0.039"
         tools:layout_editor_absoluteX="0dp" />
 

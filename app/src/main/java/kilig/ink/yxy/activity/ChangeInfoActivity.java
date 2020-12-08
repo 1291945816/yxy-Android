@@ -3,7 +3,6 @@ package kilig.ink.yxy.activity;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -11,11 +10,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.roger.catloadinglibrary.CatLoadingView;
@@ -29,7 +26,6 @@ import java.util.Map;
 
 import kilig.ink.yxy.R;
 import kilig.ink.yxy.entity.ResponeObject;
-import kilig.ink.yxy.fragment.MineFragment;
 import kilig.ink.yxy.utils.OkhttpUtils;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -56,7 +52,7 @@ public class ChangeInfoActivity extends AppCompatActivity {
         changeNickname.setOnClickListener(v->{
             LayoutInflater inflater = this.getLayoutInflater();
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            view=inflater.inflate(R.layout.dialog_signin, null);
+            view=inflater.inflate(R.layout.dialog_change_nickname, null);
             builder.setView(view);
             builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
                 @Override

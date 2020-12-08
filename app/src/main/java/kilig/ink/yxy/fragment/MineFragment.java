@@ -4,8 +4,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +25,7 @@ import com.google.gson.reflect.TypeToken;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
 
 import jp.wasabeef.glide.transformations.BlurTransformation;
@@ -38,12 +37,14 @@ import kilig.ink.yxy.activity.ChangePswActivity;
 import kilig.ink.yxy.activity.SettingActivity;
 import kilig.ink.yxy.entity.ResponeObject;
 import kilig.ink.yxy.entity.YxyUser;
+import kilig.ink.yxy.source.GlideEngine;
 import kilig.ink.yxy.source.SettingItem;
 import kilig.ink.yxy.utils.OkhttpUtils;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
+import static androidx.media.MediaBrowserServiceCompat.RESULT_OK;
 import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
 
@@ -59,6 +60,7 @@ public class MineFragment extends Fragment  {
     private SettingItem settingButton;
     private SettingItem helpButton;
     private SettingItem aboutButton;
+    private ImageView imgProfile;
     private ImageView   backgroundImageView;
     private static final String TAG = "MineFragment";
 
@@ -69,8 +71,7 @@ public class MineFragment extends Fragment  {
 
 
         view = inflater.inflate(R.layout.fragment_mine,container,false);
-        //Button exit = view.findViewById(R.id.btn_exit);
-        ImageView imgProfile = view.findViewById(R.id.img_profile);
+        imgProfile = view.findViewById(R.id.img_profile);
         backgroundImageView = view.findViewById(R.id.image_background);
         nickName= view.findViewById(R.id.nickname);
         userName=view.findViewById(R.id.username);
@@ -83,10 +84,33 @@ public class MineFragment extends Fragment  {
         starNumsView=view.findViewById(R.id.starNums);
         commentSumView=view.findViewById(R.id.commentNum);
 
+        //点击头像，进行头像上传
+        imgProfile.setOnClickListener(v->{
+            /*
+            LayoutInflater inflaterProfile = getActivity().getLayoutInflater();
+            AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getActivity());
+            view = inflaterProfile.inflate(R.layout.dialog_profile, null);
+            alertBuilder.setView(view);*/
+            PictureSelector.create(this)
+                    .openGallery(PictureMimeType.ofImage())
+                    .isCamera(true)
+                    .imageFormat(PictureMimeType.PNG_Q)
+                    .imageEngine(GlideEngine.createGlideEngine())
+                    .selectionMode(PictureConfig.SINGLE)
+                    .forResult(PictureConfig.CHOOSE_REQUEST);
+
+
+
+
+            Toast.makeText(getActivity(),"等一下，马上就能上传头像啦^_^",Toast.LENGTH_SHORT).show();
+
+        });
+
+
         //跳转到设置界面
         settingButton.setOnClickListener(v->{
             Intent intent = new Intent(getActivity(), SettingActivity.class);
-            Objects.requireNonNull(getActivity()).startActivity(intent);
+            getActivity().startActivity(intent);
             //getActivity().finish();
         });
 
@@ -108,7 +132,7 @@ public class MineFragment extends Fragment  {
         //关于
         aboutButton.setOnClickListener(v->{
             AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).setTitle("关于我们")
-                    .setMessage("您好，这里是伊享云开发团队，开发不易，历时三月有余，如果您对我们的软件有任何吐槽或建议，欢迎您联系我们，邮箱：1291945816@qq.com" )
+                    .setMessage("您好，这里是伊享云开发团队，开发不易，历时一个多月，如果您对我们的软件有任何吐槽或建议，欢迎您联系我们，邮箱：1291945816@qq.com" )
                     .setIcon(R.drawable.ic_cloud_)
                     .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                         @Override
@@ -192,5 +216,21 @@ public class MineFragment extends Fragment  {
         });*/
 
         return view;
+    }
+
+    @SuppressLint("RestrictedApi")
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case PictureConfig.CHOOSE_REQUEST:
+                    // 结果回调
+                    List<LocalMedia> selectList = PictureSelector.obtainMultipleResult(data);
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 }
