@@ -50,7 +50,7 @@
         android:layout_height="45dp"
         android:background="@drawable/textview_border"
         android:gravity="center"
-        android:text="设置图片下载路径"
+        android:text="设置图片下载位置"
         android:textSize="18sp"
         android:layout_marginRight="10dp"
         android:layout_marginLeft="10dp"
