@@ -107,7 +107,7 @@ public class SquareFragment extends Fragment
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException
             {
                  json = response.body().string();
-                 Log.e("json", json);
+//                 Log.e("json", json);
                  Type type = new TypeToken<ResponeObject<List<ImageEntity>>>(){}.getType();
                 ResponeObject<ArrayList<ImageEntity>> responeObject = new Gson().fromJson(json, type);
                 squareList.addAll(responeObject.getData());
@@ -124,7 +124,6 @@ public class SquareFragment extends Fragment
     {
         adapter.notifyDataSetChanged();
     }
-
 
     private void addDataToBottom()
     {
