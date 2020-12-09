@@ -1,90 +1,124 @@
 package kilig.ink.yxy.source;
 
+
 import android.content.Context;
-import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.PopupMenu;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
+import com.google.android.material.button.MaterialButton;
 
 import java.util.List;
 
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import kilig.ink.yxy.R;
-import kilig.ink.yxy.activity.InAlbumActivity;
-import kilig.ink.yxy.entity.AblumItem;
-import kilig.ink.yxy.entity.PhotoItem;
+import kilig.ink.yxy.entity.InalbumPicture;
 
-public class InAlbumAdapter extends BaseAdapter {
-    private List<PhotoItem> photos;
-    private Context mContext;
-    private static final String TAG = "InAlbumAdapter";
-    public InAlbumAdapter(List<PhotoItem> photos,Context context)
-    {
-        this.photos=photos;
-        mContext=context;
+import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
+import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
+
+public class InAlbumAdapter extends RecyclerView.Adapter<InAlbumAdapter.ViewHolder> {
+    private Context context;
+    private List<InalbumPicture> dataList;
+    private Listener listener;
+
+    @NonNull
+    @Override
+    public InAlbumAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(context).inflate(R.layout.item_photo, parent, false);
+        ViewHolder holder = new ViewHolder(view);
+        return holder;
     }
 
     @Override
-    public int getCount() {
-        return photos.size();
-    }
+    public void onBindViewHolder(@NonNull InAlbumAdapter.ViewHolder holder, int position) {
 
-    @Override
-    public Object getItem(int position) {
-        PhotoItem temp = null;
-        if(photos != null)
-        {
-            temp = photos.get(position);
-        }
-        return temp;
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolderPhoto viewHolder = null;
-        if (null == convertView)
-        {
-            viewHolder = new ViewHolderPhoto();
-            Log.d(TAG, "getView: "+mContext);
-            LayoutInflater mInflater = LayoutInflater.from(mContext);
-            convertView = mInflater.inflate(R.layout.item_photo, null);
-
-
-            viewHolder.photo = convertView.findViewById(R.id.item_photo);
-            viewHolder.photo.setOnClickListener(new View.OnClickListener() {
+        InalbumPicture picture = dataList.get(position);
+        if (!picture.isPublish())
+            holder.publishView.setImageResource(R.drawable.album_star_white);
+        else
+            holder.publishView.setImageResource(R.drawable.album_star_red);
+        Glide.with(context)
+                .load(picture.getThumbnailUrl())
+                .skipMemoryCache(true)
+                .into(holder.imageView);
+        holder.detail.setOnClickListener(v->{
+            PopupMenu popup = new PopupMenu(context,holder.detail);
+            popup.getMenuInflater().inflate(R.menu.menu_pop,popup.getMenu());
+            popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                 @Override
-                public void onClick(View v) {
-                    //Intent intent = new Intent(v.getContext(), InAlbumActivity.class);
-                    //v.getContext().startActivity(intent);
+                public boolean onMenuItemClick(MenuItem item) {
+                    String info="";
+                    switch (item.getItemId()){
+                        case R.id.publish:
+                            info="发布/取消";
+                            break;
+                        case R.id.detail:
+                            info="图片详情";
+                            break;
+                        case R.id.star:
+                            info="谁点赞了";
+                            break;
+                        case R.id.comment:
+                            info="谁评论了";
+                            break;
+                    }
+                    Toast.makeText(context,info,Toast.LENGTH_SHORT).show();
+                    return true;
                 }
             });
+            popup.show();
+        });
+        holder.itemView.setOnClickListener(v->{
+            if (listener != null){
+                listener.setItemOnclick(position);
+            }
+        });
 
-            convertView.setTag(viewHolder);
-        }
-        else
-        {
-            viewHolder = (ViewHolderPhoto) convertView.getTag();
-        }
-
-        PhotoItem item= (PhotoItem) getItem(position);
-        viewHolder.photo.setImageResource(item.getResourceId());
-
-
-        return convertView;
     }
 
-    static class ViewHolderPhoto
-    {
-        ImageView photo;
+    @Override
+    public int getItemCount() {
+        return dataList.size();
     }
+
+    static class ViewHolder extends RecyclerView.ViewHolder{
+        ImageView imageView;
+        ImageView publishView;
+        ImageButton detail;
+
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            imageView=itemView.findViewById(R.id.item_photo);
+            publishView=itemView.findViewById(R.id.publish);
+            detail=itemView.findViewById(R.id.dropdown_menu_photo);
+        }
+
+    }
+
+    public InAlbumAdapter(Context context, List<InalbumPicture> dataList) {
+        this.context = context;
+        this.dataList = dataList;
+    }
+
+    public interface  Listener{
+        void setItemOnclick(int position);
+    }
+
+    public void invokeListenr(Listener listener){
+        this.listener=listener;
+    }
+
 }

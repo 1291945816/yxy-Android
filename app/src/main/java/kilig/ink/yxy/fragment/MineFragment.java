@@ -185,6 +185,7 @@ public class MineFragment extends Fragment  {
                     });
         });
 
+
         //跳转到设置界面
         settingButton.setOnClickListener(v->{
             Intent intent = new Intent(getActivity(), SettingActivity.class);
@@ -300,6 +301,13 @@ public class MineFragment extends Fragment  {
         int i = (int) (v * 100);
         if (isAdded() ){
                 //进度相关
+            if (i == 100){
+                getActivity().runOnUiThread(()->{
+                    FancyToast.makeText(getContext(),"上传成功",FancyToast.SUCCESS).show();
+                });
+
+
+            }
         }
     };
 

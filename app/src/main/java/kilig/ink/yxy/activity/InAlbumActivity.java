@@ -1,5 +1,6 @@
 package kilig.ink.yxy.activity;
 
+import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -15,49 +16,86 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.hitomi.tilibrary.transfer.TransferConfig;
+import com.hitomi.tilibrary.transfer.Transferee;
+import com.vansz.glideimageloader.GlideImageLoader;
+import com.vansz.universalimageloader.UniversalImageLoader;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.Serializable;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
 import kilig.ink.yxy.R;
 import kilig.ink.yxy.entity.AblumItem;
+import kilig.ink.yxy.entity.ImageEntity;
+import kilig.ink.yxy.entity.InalbumPicture;
 import kilig.ink.yxy.entity.PhotoItem;
+import kilig.ink.yxy.entity.ResponeObject;
+import kilig.ink.yxy.entity.SpacesItemDecoration;
+import kilig.ink.yxy.source.AlbumsAdapter;
 import kilig.ink.yxy.source.InAlbumAdapter;
+import kilig.ink.yxy.utils.OkhttpUtils;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
 public class InAlbumActivity extends AppCompatActivity {
 
-    private List<PhotoItem> photosList ;
+    private List<InalbumPicture> photosList ;
+    private List<String> list;
     private TextView topTitle;
+    private RecyclerView recyclerView;
+    private Transferee transferee;
+    private TransferConfig config;
+    private AblumItem ablumItem;
+
+    private InAlbumAdapter adapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inalbum);
+        transferee = Transferee.getDefault(this);
         photosList= new ArrayList<>();
+        list=new ArrayList<>();
         Intent intent = getIntent();
         AblumItem album = (AblumItem)intent.getSerializableExtra("album");
         TextView topTitle = findViewById(R.id.topTitle_in_album);
         topTitle.setText(album.getAblumName());
         InitData();
+        config();
+       recyclerView = (RecyclerView)findViewById(R.id.inalbum_pict);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+
+         adapter = new InAlbumAdapter(this, photosList);
+        adapter.invokeListenr(pos->{
+            config.setNowThumbnailIndex(pos);
+            Log.d("111", "onCreate: "+pos);
+            transferee.apply(config).show();
+
+        });
+
+        recyclerView.setAdapter(adapter);
 
 
-        InAlbumAdapter photoAdapter = new InAlbumAdapter(photosList, this.getApplicationContext());
-        GridView gridView = findViewById(R.id.gridView_in_album);
-        gridView.setAdapter(photoAdapter);
 
-//        // 添加图片按钮
-//        com.google.android.material.floatingactionbutton.FloatingActionButton button = findViewById(R.id.floating_action_button_in_album);
-//        button.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent i = new Intent(
-//                        Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-//
-//                startActivityForResult(i, 1);
-//            }
-//        });
+
+
+
+
+
 
         // 返回相册按钮
         ImageButton tv_return = findViewById(R.id.btn_backup);
@@ -67,30 +105,54 @@ public class InAlbumActivity extends AppCompatActivity {
     }
 
     void InitData() {
-        for (int i = 0; i < 10; i++) {
-            PhotoItem photo = new PhotoItem();
-            photo.setResourceId(R.drawable.ic_cloud_);
-            photosList.add(photo);
-        }
+        OkhttpUtils.get("ablum/pictures", null, new Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                /**
+                 * //
+                 */
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                String json = response.body().string();
+                Type type = new TypeToken<ResponeObject<List<InalbumPicture>>>(){}.getType();
+                ResponeObject<ArrayList<InalbumPicture>> responeObject = new Gson().fromJson(json, type);
+                if(responeObject.getCode().equals("200")){
+                    list.clear();
+                    photosList.clear();
+                    photosList.addAll(responeObject.getData());
+                    for (InalbumPicture inalbumPicture:photosList){
+                        list.add(inalbumPicture.getImgUrl());
+                    }
+                    runOnUiThread(()->{
+                        adapter.notifyDataSetChanged();
+
+                    });
+
+
+
+
+
+                }
+
+
+            }
+        });
     }
 
-    // todo 不知道怎么用
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 1) {
-            Uri uri = data.getData();
-            ContentResolver cr = this.getContentResolver();
-            try {
-                Bitmap bitmap = BitmapFactory.decodeStream(cr.openInputStream(uri));
-                PhotoItem photo = new PhotoItem();
-                ImageView imageView = (ImageView) findViewById(photo.getResourceId());
-                /* 将Bitmap设定到ImageView */
-                imageView.setImageBitmap(bitmap);
-                photosList.add(photo);
-            } catch (FileNotFoundException e) {
-                Log.e("Exception", e.getMessage(),e);
-            }
-        }
-        super.onActivityResult(requestCode, resultCode, data);
+    protected void onDestroy() {
+        super.onDestroy();
+        transferee.destroy();
+    }
+    private void config(){
+         config=TransferConfig.build()
+                .setBackgroundColor(R.color.black)
+                .setSourceUrlList(list)
+                 .enableScrollingWithPageChange(true)
+                 .enableJustLoadHitPage(true)
+                 .setImageLoader(GlideImageLoader.with(getApplicationContext()))
+                .bindRecyclerView(recyclerView,R.id.item_photo);
     }
 }
