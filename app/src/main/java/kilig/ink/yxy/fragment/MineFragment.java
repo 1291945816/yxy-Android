@@ -30,17 +30,21 @@ import com.bumptech.glide.request.transition.DrawableCrossFadeFactory;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.hitomi.tilibrary.transfer.TransferConfig;
+import com.hitomi.tilibrary.transfer.Transferee;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.listener.OnResultCallbackListener;
 import com.shashank.sony.fancytoastlib.FancyToast;
+import com.vansz.universalimageloader.UniversalImageLoader;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -83,12 +87,15 @@ public class MineFragment extends Fragment  {
     private ImageView imgProfile;
     private ImageView   backgroundImageView;
     private static final String TAG = "MineFragment";
-   //private AnimatedCircleLoadingView progressBar;
+   private Transferee transferee;
+   private String yxyUserAvatar;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_mine,container,false);
+
+        transferee = Transferee.getDefault(getContext());
         imgProfile = view.findViewById(R.id.img_profile);
         backgroundImageView = view.findViewById(R.id.image_background);
         nickName= view.findViewById(R.id.nickname);
@@ -110,7 +117,13 @@ public class MineFragment extends Fragment  {
                     AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getActivity());
                     view = inflaterProfile.inflate(R.layout.dialog_profile, null);
                     alertBuilder.setView(view);
-                    alertBuilder.setNegativeButton("取消", null);
+                    alertBuilder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Log.d(TAG, "onClick: "+111);
+                            transferee.destroy();
+                        }
+                    });
                     alertBuilder.setCancelable(false);
                     AlertDialog alertDialog = alertBuilder.create();
                     alertDialog.show();
@@ -120,6 +133,21 @@ public class MineFragment extends Fragment  {
 
                     TextView tv_look_profile = view.findViewById(R.id.look_profile);
                     TextView tv_change_profile = view.findViewById(R.id.change_profile);
+                    List<String> a=new ArrayList<>();
+                    a.add(yxyUserAvatar);
+                    tv_look_profile.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            TransferConfig config = TransferConfig.build()
+                                    .setImageLoader(UniversalImageLoader.with(getContext()))
+                                    .setSourceUrlList(a)
+                                    .enableDragHide(false)
+                                    .create();
+
+                            transferee.apply(config
+                            ).show();
+                        }
+                    });
 
                     tv_change_profile.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -178,13 +206,6 @@ public class MineFragment extends Fragment  {
                                     });
                         }
                     });
-                    //Toast.makeText(getActivity(),"等一下，马上就能上传头像啦^_^",Toast.LENGTH_SHORT).show();
-                    tv_look_profile.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            Toast.makeText(getActivity(), "你点击了查看头像", Toast.LENGTH_SHORT).show();
-                        }
-                    });
         });
 
 
@@ -200,6 +221,8 @@ public class MineFragment extends Fragment  {
             Intent intent = new Intent(getActivity(), ChangeInfoActivity.class);
             startActivity(intent);
         });
+
+
 
         //帮助提示
         helpButton.setOnClickListener(v->{
@@ -264,12 +287,13 @@ public class MineFragment extends Fragment  {
                         starNumsView.setText(String.valueOf(starNums));
                         publishSumView.setText(String.valueOf(publishSum));
                         commentSumView.setText(String.valueOf(commentSum));
+                        yxyUserAvatar=responeObject.getData().getYxyUserAvatar();
                         //这里应该存储起来个人的信息
                         //加载头像
                         //避免碎片还未加载进活动就调用活动，导致空指针
                         if (isAdded()){
                             Glide.with(getActivity())
-                                    .load(responeObject.getData().getYxyUserAvatar())
+                                    .load(yxyUserAvatar)
                                     .transition(withCrossFade(factory))
                                     .skipMemoryCache(true)
                                     .apply(bitmapTransform(new CropCircleTransformation())) //头像变圆
@@ -298,6 +322,11 @@ public class MineFragment extends Fragment  {
 
         return view;
     }
+
+
+
+
+
 
     FileProgressRequestBody.ProgressListener listener=(v)->{
         int i = (int) (v * 100);

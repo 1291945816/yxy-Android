@@ -1,7 +1,10 @@
 package kilig.ink.yxy.source;
 
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;

@@ -1,17 +1,13 @@
 package kilig.ink.yxy.activity;
 
 import android.app.Activity;
-import android.content.ContentResolver;
+
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
+
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.GridView;
+
 import android.widget.ImageButton;
-import android.widget.ImageView;
+
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -19,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
@@ -77,6 +74,7 @@ public class InAlbumActivity extends AppCompatActivity {
     private TransferConfig config;
     private AblumItem ablumItem;
 
+
     private InAlbumAdapter adapter;
 
     @Override
@@ -89,10 +87,10 @@ public class InAlbumActivity extends AppCompatActivity {
         Intent intent = getIntent();
         ablumItem = (AblumItem)intent.getSerializableExtra("album");
         TextView topTitle = findViewById(R.id.topTitle_in_album);
+
         topTitle.setText(ablumItem.getAblumName());
         InitData();
         config();
-
        recyclerView = (RecyclerView)findViewById(R.id.inalbum_pict);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
