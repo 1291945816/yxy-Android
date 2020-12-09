@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
@@ -18,7 +19,7 @@ import kilig.ink.yxy.R;
 import kilig.ink.yxy.fragment.MineFragment;
 
 public class SettingActivity extends AppCompatActivity {
-    private int checkedItem = 0;//默认选中的Item
+    private int checkedItem = 0;//弹窗默认选中的Item
     private SharedPreferences pref;
     private SharedPreferences.Editor editor;
     @Override
@@ -59,13 +60,19 @@ public class SettingActivity extends AppCompatActivity {
             builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    Toast.makeText(SettingActivity.this,"你点击了确定",Toast.LENGTH_SHORT).show();
+
+
+
+                    //Toast.makeText(SettingActivity.this,"你点击了确定",Toast.LENGTH_SHORT).show();
                 }
             });
             builder.setNegativeButton("取消",null);
             builder.setCancelable(false);
             AlertDialog alertDialog = builder.create();
             alertDialog.show();
+            //设置弹窗按钮的颜色
+            alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextColor(Color.parseColor("#E58981"));
+            alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#A2A2AA"));
         });
 
         SharedPreferences.Editor editor = getSharedPreferences("login", MODE_PRIVATE).edit();

@@ -7,13 +7,13 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/textview1"
+        android:id="@+id/textview_intro"
         android:layout_width="match_parent"
-        android:layout_height="64dp"
+        android:layout_height="55dp"
         android:background="#6EC1B9"
         android:contentDescription="@string/app_name"
         android:scaleType="center"
-        android:text="修改昵称"
+        android:text="修改简介"
         android:textSize="22sp"
         android:textColor="#FFFFFF"
         android:gravity="center"
@@ -23,15 +23,15 @@
         tools:layout_editor_absoluteX="0dp" />
 
     <EditText
-        android:id="@+id/edt_changenickname"
+        android:id="@+id/edt_changeintro"
         android:layout_width="match_parent"
         android:layout_height="65dp"
-        android:hint="输入新的昵称吧~"
+        android:hint="点击输入~"
         android:inputType="text"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textview1"
+        app:layout_constraintTop_toBottomOf="@+id/textview_intro"
         app:layout_constraintVertical_bias="0.039"
         tools:layout_editor_absoluteX="0dp" />
 
