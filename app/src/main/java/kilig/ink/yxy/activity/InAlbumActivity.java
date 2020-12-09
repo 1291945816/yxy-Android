@@ -20,6 +20,8 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.hitomi.tilibrary.transfer.TransferConfig;
 import com.hitomi.tilibrary.transfer.Transferee;
 import com.vansz.glideimageloader.GlideImageLoader;
@@ -30,13 +32,16 @@ import org.jetbrains.annotations.NotNull;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Serializable;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
 import kilig.ink.yxy.R;
 import kilig.ink.yxy.entity.AblumItem;
+import kilig.ink.yxy.entity.ImageEntity;
 import kilig.ink.yxy.entity.InalbumPicture;
 import kilig.ink.yxy.entity.PhotoItem;
+import kilig.ink.yxy.entity.ResponeObject;
 import kilig.ink.yxy.entity.SpacesItemDecoration;
 import kilig.ink.yxy.source.AlbumsAdapter;
 import kilig.ink.yxy.source.InAlbumAdapter;
@@ -55,6 +60,7 @@ public class InAlbumActivity extends AppCompatActivity {
     private TransferConfig config;
     private AblumItem ablumItem;
 
+    private InAlbumAdapter adapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -73,7 +79,7 @@ public class InAlbumActivity extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        InAlbumAdapter adapter = new InAlbumAdapter(this, photosList);
+         adapter = new InAlbumAdapter(this, photosList);
         adapter.invokeListenr(pos->{
             config.setNowThumbnailIndex(pos);
             Log.d("111", "onCreate: "+pos);
@@ -109,7 +115,26 @@ public class InAlbumActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                String string = response.body().string();
+                String json = response.body().string();
+                Type type = new TypeToken<ResponeObject<List<InalbumPicture>>>(){}.getType();
+                ResponeObject<ArrayList<InalbumPicture>> responeObject = new Gson().fromJson(json, type);
+                if(responeObject.getCode().equals("200")){
+                    list.clear();
+                    photosList.clear();
+                    photosList.addAll(responeObject.getData());
+                    for (InalbumPicture inalbumPicture:photosList){
+                        list.add(inalbumPicture.getImgUrl());
+                    }
+                    runOnUiThread(()->{
+                        adapter.notifyDataSetChanged();
+
+                    });
+
+
+
+
+
+                }
 
 
             }
