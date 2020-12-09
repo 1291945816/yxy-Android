@@ -2,7 +2,6 @@ package kilig.ink.yxy.source;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +12,6 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.FutureTarget;
 import com.bumptech.glide.request.RequestOptions;
-import com.bumptech.glide.request.transition.DrawableCrossFadeFactory;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.gson.Gson;
 
@@ -37,7 +35,6 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
-import static android.service.controls.ControlsProviderService.TAG;
 import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 
 public class SquareViewAdapter extends RecyclerView.Adapter<SquareViewAdapter.ViewHolder>
@@ -58,9 +55,9 @@ public class SquareViewAdapter extends RecyclerView.Adapter<SquareViewAdapter.Vi
         ImageView squareLikeImgView;
         TextView  squareDownloadNumTextView;
         ImageView squareDownloadImgView;
-        ImageView squareCommentImgView;
-        TextView  squareCommentNumTextView;
-        ImageView squareMoreImgView;
+//        ImageView squareCommentImgView;
+//        TextView  squareCommentNumTextView;
+//        ImageView squareMoreImgView;
 
         public ViewHolder(View v)
         {
@@ -74,9 +71,9 @@ public class SquareViewAdapter extends RecyclerView.Adapter<SquareViewAdapter.Vi
             squareLikeImgView = v.findViewById(R.id.imageView_square_like);
             squareDownloadNumTextView = v.findViewById(R.id.textView_square_downloadNum);
             squareDownloadImgView = v.findViewById(R.id.imageView_square_download);
-            squareCommentImgView =v.findViewById(R.id.imageView_square_comment) ;
-            squareCommentNumTextView = v.findViewById(R.id.textView_square_commentNum);
-            squareMoreImgView = v.findViewById(R.id.imageView_square_more);
+//            squareCommentImgView =v.findViewById(R.id.imageView_square_comment) ;
+//            squareCommentNumTextView = v.findViewById(R.id.textView_square_commentNum);
+//            squareMoreImgView = v.findViewById(R.id.imageView_square_more);
         }
     }
 
@@ -103,6 +100,9 @@ public class SquareViewAdapter extends RecyclerView.Adapter<SquareViewAdapter.Vi
         Glide.with(context)
                 .load(entity.getAuthorProfileImgUrl())
                 .apply(RequestOptions.bitmapTransform(new CropCircleTransformation()))
+                //太耗时
+//                .placeholder(R.drawable.defalut_profile)
+//                .error(R.drawable.defalut_profile)
                 .into(holder.squareAuthorProfileImgView);
         holder.squareImgNameTextView.setText(entity.getDisplayImgName());
         holder.squareAuthorNameTextView.setText(entity.getAuthorName());
@@ -279,19 +279,19 @@ public class SquareViewAdapter extends RecyclerView.Adapter<SquareViewAdapter.Vi
             }
         });
 
-        holder.squareCommentImgView.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                dialog = new BottomSheetDialog(context);
-                View commentView = LayoutInflater.from(context).inflate(R.layout.view_comment,null);
-//                Button bt_modiprofile = commentView.findViewById(R.id.button_modi_profile);
+//        holder.squareCommentImgView.setOnClickListener(new View.OnClickListener()
+//        {
+//            @Override
+//            public void onClick(View v)
+//            {
+//                dialog = new BottomSheetDialog(context);
+//                View commentView = LayoutInflater.from(context).inflate(R.layout.view_comment,null);
+////                Button bt_modiprofile = commentView.findViewById(R.id.button_modi_profile);
+////                dialog.setContentView(commentView);
 //                dialog.setContentView(commentView);
-                dialog.setContentView(commentView);
-                dialog.show();
-            }
-        });
+//                dialog.show();
+//            }
+//        });
 
         return holder;
     }

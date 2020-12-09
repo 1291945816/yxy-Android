@@ -26,7 +26,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.transition.DrawableCrossFadeFactory;
 
-import com.github.jlmd.animatedcircleloadingview.AnimatedCircleLoadingView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.luck.picture.lib.PictureSelector;
@@ -86,9 +85,6 @@ public class MineFragment extends Fragment  {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
-
-
         view = inflater.inflate(R.layout.fragment_mine,container,false);
         imgProfile = view.findViewById(R.id.img_profile);
         backgroundImageView = view.findViewById(R.id.image_background);
@@ -103,10 +99,6 @@ public class MineFragment extends Fragment  {
         starNumsView=view.findViewById(R.id.starNums);
         commentSumView=view.findViewById(R.id.commentNum);
         //progressBar=view.findViewById(R.id.circle_loading_view);
-
-
-
-
 
 
         //点击头像，进行头像上传
