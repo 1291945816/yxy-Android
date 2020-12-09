@@ -22,5 +22,13 @@
         <item name="android:windowBackground">@drawable/splash</item>
     </style>
 
+    <style name="counterOverflow">
+        <item name="android:textColor">@color/red</item>
+    </style>
+
+    <style name="counterOverflow2">
+        <item name="android:textColor">@color/red</item>
+    </style>
+
 
 </resources>
