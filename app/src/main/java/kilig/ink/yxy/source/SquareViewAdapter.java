@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.FutureTarget;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.transition.DrawableCrossFadeFactory;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.gson.Gson;
 
 import org.jetbrains.annotations.NotNull;
@@ -43,10 +44,12 @@ public class SquareViewAdapter extends RecyclerView.Adapter<SquareViewAdapter.Vi
 {
     private List<ImageEntity> squareList;
     private Context context;
+    BottomSheetDialog dialog;
 
     static class ViewHolder extends RecyclerView.ViewHolder
     {
         View itemView;
+
         ImageView squareDisplayImgView;
         TextView  squareImgNameTextView;
         TextView  squareAuthorNameTextView;
@@ -55,6 +58,9 @@ public class SquareViewAdapter extends RecyclerView.Adapter<SquareViewAdapter.Vi
         ImageView squareLikeImgView;
         TextView  squareDownloadNumTextView;
         ImageView squareDownloadImgView;
+        ImageView squareCommentImgView;
+        TextView  squareCommentNumTextView;
+        ImageView squareMoreImgView;
 
         public ViewHolder(View v)
         {
@@ -68,6 +74,9 @@ public class SquareViewAdapter extends RecyclerView.Adapter<SquareViewAdapter.Vi
             squareLikeImgView = v.findViewById(R.id.imageView_square_like);
             squareDownloadNumTextView = v.findViewById(R.id.textView_square_downloadNum);
             squareDownloadImgView = v.findViewById(R.id.imageView_square_download);
+            squareCommentImgView =v.findViewById(R.id.imageView_square_comment) ;
+            squareCommentNumTextView = v.findViewById(R.id.textView_square_commentNum);
+            squareMoreImgView = v.findViewById(R.id.imageView_square_more);
         }
     }
 
@@ -198,6 +207,7 @@ public class SquareViewAdapter extends RecyclerView.Adapter<SquareViewAdapter.Vi
                 ImageEntity entity = squareList.get(position);
 
                 holder.squareDownloadImgView.setClickable(false);
+//                holder.squareDownloadImgView.setImageResource(R.drawable.ic_downloaded);
                 entity.setDownloadNum(entity.getDownloadNum() + 1);
                 holder.squareDownloadNumTextView.setText(String.valueOf(entity.getDownloadNum()));
 
@@ -266,6 +276,20 @@ public class SquareViewAdapter extends RecyclerView.Adapter<SquareViewAdapter.Vi
                 ImageEntity entity = squareList.get(position);
                 //todo 跳转到用户主页
                 Toast.makeText(context, entity.getAuthorName(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        holder.squareCommentImgView.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                dialog = new BottomSheetDialog(context);
+                View commentView = LayoutInflater.from(context).inflate(R.layout.view_comment,null);
+//                Button bt_modiprofile = commentView.findViewById(R.id.button_modi_profile);
+//                dialog.setContentView(commentView);
+                dialog.setContentView(commentView);
+                dialog.show();
             }
         });
 

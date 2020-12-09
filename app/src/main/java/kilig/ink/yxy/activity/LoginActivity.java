@@ -76,39 +76,10 @@ public class LoginActivity extends AppCompatActivity {
         //判断是否已修改密码
         Intent changePswIntent = getIntent();
         boolean pswFlag = changePswIntent.getBooleanExtra("changedPsw",false);
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
 
         //授权
         initPermissions();
-
-        SharedPreferences login_state = getSharedPreferences("login", MODE_PRIVATE);
-        boolean isLogin = login_state.getBoolean("isLogin", false);
-        final Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-
-        //这部分做登录判断 若用户登录了就进行直接跳转
-        if(isLogin)
-        {
-            //避免被kill token为空
-            OkhttpUtils.setToken(login_state.getString("token","131313"));
-            //刷新一下token
-            OkhttpUtils.get("yxyUser/refreshToken", null, new Callback() {
-                @Override
-                public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                    //...不做处理
-                }
-
-                @Override
-                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                    String string = response.body().string(); //获取的返回数据
-                    Type type = new TypeToken<ResponeObject<String>>(){}.getType();
-                    ResponeObject<String> responeObject = new Gson().fromJson(string, type);
-                    OkhttpUtils.setToken(responeObject.getData() == null ?"":responeObject.getData());
-                }
-            });
-
-            //跳转到主界面
-            startActivity(intent);
-            finish();
-        }
 
         //用户名
         TextInputEditText username = findViewById(R.id.yxyUsername);
