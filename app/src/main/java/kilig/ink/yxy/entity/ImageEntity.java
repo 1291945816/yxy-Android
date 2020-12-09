@@ -72,6 +72,8 @@ public class ImageEntity implements Serializable
 
     public String getDisplayImgName()
     {
+        if (displayImgName.length() > 9)
+            return displayImgName.substring(0, 9) + "···";
         return displayImgName;
     }
 

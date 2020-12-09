@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
@@ -285,7 +286,7 @@ public class SquareViewAdapter extends RecyclerView.Adapter<SquareViewAdapter.Vi
 //            public void onClick(View v)
 //            {
 //                dialog = new BottomSheetDialog(context);
-//                View commentView = LayoutInflater.from(context).inflate(R.layout.view_comment,null);
+//                View commentView = LayoutInflater.from(context).inflate(R.layout.view_add_comment,null);
 ////                Button bt_modiprofile = commentView.findViewById(R.id.button_modi_profile);
 ////                dialog.setContentView(commentView);
 //                dialog.setContentView(commentView);
