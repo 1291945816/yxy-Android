@@ -70,9 +70,9 @@ public class InAlbumActivity extends AppCompatActivity {
         photosList= new ArrayList<>();
         list=new ArrayList<>();
         Intent intent = getIntent();
-        AblumItem album = (AblumItem)intent.getSerializableExtra("album");
+        ablumItem = (AblumItem)intent.getSerializableExtra("album");
         TextView topTitle = findViewById(R.id.topTitle_in_album);
-        topTitle.setText(album.getAblumName());
+        topTitle.setText(ablumItem.getAblumName());
         InitData();
         config();
        recyclerView = (RecyclerView)findViewById(R.id.inalbum_pict);
@@ -105,7 +105,7 @@ public class InAlbumActivity extends AppCompatActivity {
     }
 
     void InitData() {
-        OkhttpUtils.get("ablum/pictures", null, new Callback() {
+        OkhttpUtils.get("ablum/pictures/"+ablumItem.getAblumId(), null, new Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
                 /**
@@ -118,7 +118,7 @@ public class InAlbumActivity extends AppCompatActivity {
                 String json = response.body().string();
                 Type type = new TypeToken<ResponeObject<List<InalbumPicture>>>(){}.getType();
                 ResponeObject<ArrayList<InalbumPicture>> responeObject = new Gson().fromJson(json, type);
-                if(responeObject.getCode().equals("200")){
+                if(responeObject != null||responeObject.getCode().equals("200")){
                     list.clear();
                     photosList.clear();
                     photosList.addAll(responeObject.getData());
@@ -129,10 +129,6 @@ public class InAlbumActivity extends AppCompatActivity {
                         adapter.notifyDataSetChanged();
 
                     });
-
-
-
-
 
                 }
 

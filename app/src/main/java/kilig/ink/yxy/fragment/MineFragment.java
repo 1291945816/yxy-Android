@@ -34,6 +34,7 @@ import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.listener.OnResultCallbackListener;
+import com.shashank.sony.fancytoastlib.FancyToast;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -298,7 +299,7 @@ public class MineFragment extends Fragment  {
                 //进度相关
             if (i == 100){
                 getActivity().runOnUiThread(()->{
-                    FancyToast.makeText(getContext(),"上传成功",FancyToast.SUCCESS).show();
+                    FancyToast.makeText(getContext(),"上传成功", FancyToast.SUCCESS).show();
                 });
 
 
