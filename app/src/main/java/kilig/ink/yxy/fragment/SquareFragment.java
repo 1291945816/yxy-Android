@@ -111,10 +111,12 @@ public class SquareFragment extends Fragment
 //                 Log.e("json", json);
                  Type type = new TypeToken<ResponeObject<List<ImageEntity>>>(){}.getType();
                 ResponeObject<ArrayList<ImageEntity>> responeObject = new Gson().fromJson(json, type);
-                squareList.addAll(responeObject.getData());
-                new Handler(Looper.getMainLooper()).post(()->{
-                    adapter.notifyDataSetChanged();
-                });
+                if (responeObject.getCode().equals("200")) {
+                    squareList.addAll(responeObject.getData());
+                    new Handler(Looper.getMainLooper()).post(() -> {
+                        adapter.notifyDataSetChanged();
+                    });
+                }
             }
         });
         adapter = new SquareViewAdapter(getContext(), squareList);

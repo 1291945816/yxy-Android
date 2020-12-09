@@ -19,11 +19,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SimpleItemAnimator;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.hitomi.tilibrary.transfer.TransferConfig;
 import com.hitomi.tilibrary.transfer.Transferee;
+import com.shashank.sony.fancytoastlib.FancyToast;
 import com.vansz.glideimageloader.GlideImageLoader;
 import com.vansz.universalimageloader.UniversalImageLoader;
 
@@ -34,7 +36,9 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import kilig.ink.yxy.R;
 import kilig.ink.yxy.entity.AblumItem;
@@ -75,18 +79,20 @@ public class InAlbumActivity extends AppCompatActivity {
         topTitle.setText(ablumItem.getAblumName());
         InitData();
         config();
+
        recyclerView = (RecyclerView)findViewById(R.id.inalbum_pict);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
          adapter = new InAlbumAdapter(this, photosList);
-        adapter.invokeListenr(pos->{
+        adapter.invokeListener(pos->{
             config.setNowThumbnailIndex(pos);
             Log.d("111", "onCreate: "+pos);
             transferee.apply(config).show();
 
         });
-
+        adapter.invokeUListener(this::changePublish);
+        adapter.invokeDListener(this::deleteItemPicture);
         recyclerView.setAdapter(adapter);
 
 
@@ -103,6 +109,41 @@ public class InAlbumActivity extends AppCompatActivity {
             finish();
         });
     }
+
+    private void deleteItemPicture(int pos, InalbumPicture inalbumPicture) {
+        try {
+            OkhttpUtils.post("ablum/deletePicture/" + inalbumPicture.getId(), "", new Callback() {
+                @Override
+                public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                    runOnUiThread(()->{
+                        FancyToast.makeText(getApplicationContext(),"出现异常，删除失败",FancyToast.SUCCESS,FancyToast.LENGTH_SHORT,false).show();
+                    });
+                }
+
+                @Override
+                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                    String json = response.body().string();
+                    ResponeObject responeObject = new Gson().fromJson(json, ResponeObject.class);
+                    if (responeObject != null && responeObject.getCode().equals("200")){
+                        runOnUiThread(()->{
+                            adapter.removeItem(pos);
+                            FancyToast.makeText(getApplicationContext(),responeObject.getMessage(),FancyToast.SUCCESS,FancyToast.LENGTH_SHORT,false).show();
+                        });
+                    }else {
+                        runOnUiThread(()->{
+                            FancyToast.makeText(getApplicationContext(),"出现异常，删除失败",FancyToast.SUCCESS,FancyToast.LENGTH_SHORT,false).show();
+                        });
+                    }
+
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
 
     void InitData() {
         OkhttpUtils.get("ablum/pictures/"+ablumItem.getAblumId(), null, new Callback() {
@@ -151,4 +192,47 @@ public class InAlbumActivity extends AppCompatActivity {
                  .setImageLoader(GlideImageLoader.with(getApplicationContext()))
                 .bindRecyclerView(recyclerView,R.id.item_photo);
     }
+
+
+    private void changePublish(int pos,InalbumPicture picture){
+        Map<String,String> map=new HashMap<>();
+        map.put("pictureId",picture.getId());
+        map.put("publish",String.valueOf(!picture.isPublish()));
+        String toJson = new Gson().toJson(map);
+        try {
+            OkhttpUtils.post("ablum/changePublishStatus", toJson, new Callback() {
+                @Override
+                public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                    runOnUiThread(()->{
+                        FancyToast.makeText(getApplicationContext(),e.getMessage(),FancyToast.ERROR,FancyToast.LENGTH_SHORT,false).show();
+                    });
+
+
+                }
+
+                @Override
+                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                    String responseString = response.body().string();
+                    ResponeObject responeObject = new Gson().fromJson(responseString, ResponeObject.class);
+                    if (responeObject== null || !responeObject.getCode().equals("200")){
+                        runOnUiThread(()->{
+                            FancyToast.makeText(getApplicationContext(),"更新失败，请重试",FancyToast.ERROR,FancyToast.LENGTH_SHORT,false).show();
+                        });
+                    }else{
+                        runOnUiThread(()->{
+                            picture.setPublish(!picture.isPublish());
+
+                            adapter.notifyItemChanged(pos);
+                            FancyToast.makeText(getApplicationContext(),"更新发布状态成功",FancyToast.SUCCESS,FancyToast.LENGTH_SHORT,false).show();
+                        });
+                    }
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
 }

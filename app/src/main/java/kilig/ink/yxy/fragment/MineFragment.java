@@ -148,7 +148,11 @@ public class MineFragment extends Fragment  {
                                                     OkhttpUtils.postWithBody("yxyUser/uploadAvatar", map, listener, new Callback() {
                                                         @Override
                                                         public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                                                            Log.d(TAG, "onFailure: " + 66);
+                                                            if (isAdded()){
+                                                                getActivity().runOnUiThread(()->{
+                                                                    FancyToast.makeText(getContext(),"上传成功", FancyToast.SUCCESS).show();
+                                                                });
+                                                            }
 
                                                         }
 

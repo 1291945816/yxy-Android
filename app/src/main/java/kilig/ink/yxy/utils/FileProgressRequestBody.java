@@ -18,7 +18,7 @@ public class FileProgressRequestBody extends RequestBody {
         void transferred( double size );
     }
 
-    public static final int SEGMENT_SIZE = 1*1024; // okio.Segment.SIZE
+    public static final int SEGMENT_SIZE = 10*1024; // okio.Segment.SIZE
 
     protected File file;
     protected ProgressListener listener;
