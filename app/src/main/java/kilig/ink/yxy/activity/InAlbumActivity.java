@@ -19,7 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.SimpleItemAnimator;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -30,6 +30,7 @@ import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
+import com.shashank.sony.fancytoastlib.FancyToast;
 import com.shashank.sony.fancytoastlib.FancyToast;
 import com.shashank.sony.fancytoastlib.FancyToast;
 import com.vansz.glideimageloader.GlideImageLoader;
@@ -45,6 +46,7 @@ import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -96,26 +98,28 @@ public class InAlbumActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
 
          adapter = new InAlbumAdapter(this, photosList);
-        adapter.invokeListenr(pos->{
+        adapter.invokeListener(pos->{
             config.setNowThumbnailIndex(pos);
-            Log.d("111", "onCreate: "+pos);
             transferee.apply(config).show();
 
         });
-
+        adapter.invokeUListener(this::changePublish);
+        adapter.invokeDListener(this::deleteItemPicture);
         recyclerView.setAdapter(adapter);
         Activity activity = this;
         // 添加图片按钮
         FloatingActionButton floatingActionButton = findViewById(R.id.floating_action_button_in_album);
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PictureSelector.create(activity)
-                        .openGallery(PictureMimeType.ofImage())
-                        .loadImageEngine(GlideEngine.createGlideEngine()) // 请参考Demo GlideEngine.java
-                        .forResult(PictureConfig.CHOOSE_REQUEST);
-            }
-        });
+        floatingActionButton.setOnClickListener(v -> {
+                    Intent toPublish = new Intent(InAlbumActivity.this, PublishPictureActivity.class);
+                    toPublish.putExtra("album",ablumItem);
+                    startActivity(toPublish);
+
+
+
+                }
+
+
+        );
 
 
 
@@ -169,47 +173,6 @@ public class InAlbumActivity extends AppCompatActivity {
     }
 
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
-            switch (requestCode) {
-                case PictureConfig.CHOOSE_REQUEST:
-                    // todo zyb 2 hps:写一下图片上传接口
-                    // 获取到所有的选择结果
-                    // 其中localMedia.getPath()是照片在设备中的绝对地址
-                    // 下面有个imageToBase64方法，是把图片路径转化为byte[](应该能用，还没测试)
-                    List<LocalMedia> selectList = PictureSelector.obtainMultipleResult(data);
-                    for (LocalMedia localMedia: selectList) {
-                        Map<String,String> Image_info = new HashMap<String,String>();
-                        Image_info.put("publishVisiable","0");
-                        Image_info.put("pictureInfo",localMedia.getFileName());
-                        Image_info.put("ablumId",String.valueOf(ablumItem.getAblumId()));
-                        Image_info.put("pictureName",localMedia.getFileName());
-                        Image_info.put("file", Arrays.toString(imageToBase64(localMedia.getPath())));
-                        // 下面的是我测试的代码，可以删了
-                        try {
-                            OkhttpUtils.postWithBody("picture/uploadPicture", Image_info,listener, new Callback() {
-                                @Override
-                                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                                    InitData();
-                                    Log.e("UploadImage", response.toString() );
-                                }
-
-                                @Override
-                                public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                                }
-                            });
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    break;
-                default:
-                    break;
-            }
-        }
-    }
 
     void InitData() {
         OkhttpUtils.get("ablum/pictures/"+ablumItem.getAblumId(), null, new Callback() {

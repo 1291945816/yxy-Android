@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -87,9 +88,6 @@ public class MineFragment extends Fragment  {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
-
-
         view = inflater.inflate(R.layout.fragment_mine,container,false);
         imgProfile = view.findViewById(R.id.img_profile);
         backgroundImageView = view.findViewById(R.id.image_background);
@@ -116,6 +114,10 @@ public class MineFragment extends Fragment  {
                     alertBuilder.setCancelable(false);
                     AlertDialog alertDialog = alertBuilder.create();
                     alertDialog.show();
+                    //将取消按钮设为红色，大小为15
+                    alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#E58981"));
+                    alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextSize(15);
+
                     TextView tv_look_profile = view.findViewById(R.id.look_profile);
                     TextView tv_change_profile = view.findViewById(R.id.change_profile);
 
@@ -143,7 +145,11 @@ public class MineFragment extends Fragment  {
                                                     OkhttpUtils.postWithBody("yxyUser/uploadAvatar", map, listener, new Callback() {
                                                         @Override
                                                         public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                                                            Log.d(TAG, "onFailure: " + 66);
+                                                            if (isAdded()){
+                                                                getActivity().runOnUiThread(()->{
+                                                                    FancyToast.makeText(getContext(),"上传成功", FancyToast.SUCCESS).show();
+                                                                });
+                                                            }
 
                                                         }
 

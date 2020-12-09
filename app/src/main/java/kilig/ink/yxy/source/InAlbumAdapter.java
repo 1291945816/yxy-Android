@@ -1,12 +1,7 @@
 package kilig.ink.yxy.source;
 
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.os.Handler;
-import android.os.Looper;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -157,6 +152,7 @@ public class InAlbumAdapter extends RecyclerView.Adapter<InAlbumAdapter.ViewHold
                             }).show();
                             break;
                     }
+                    Toast.makeText(context,info,Toast.LENGTH_SHORT).show();
                     return true;
                 }
             });

@@ -1,5 +1,6 @@
 package kilig.ink.yxy.utils;
 
+import android.net.Uri;
 import android.util.Log;
 
 import com.bumptech.glide.Glide;
@@ -113,4 +114,32 @@ public  class OkhttpUtils {
         builder.headers(headerBuilder.build()).post(file1);
         okHttpClient.newCall(builder.build()).enqueue(callback);
     }
+
+    public static void postPictureWithFile(String url ,Map<String,String> uploadInfo,FileProgressRequestBody.ProgressListener listener,Callback callback)throws IOException{
+        String pictureInfo = uploadInfo.get("pictureInfo");
+        String ablumId = uploadInfo.get("ablumId");
+        String pictureName = uploadInfo.get("pictureName");
+        String visiable = uploadInfo.get("publishVisiable");
+        String filePath = uploadInfo.get("filePath");
+        File file = new File(filePath);
+        FileProgressRequestBody fileProgressRequestBody = new FileProgressRequestBody(file, "application/form-data;charset=utf-8", listener);
+        MultipartBody build = new MultipartBody.Builder().setType(MultipartBody.FORM)
+                .addFormDataPart("file", Uri.decode(pictureName+file.getName().substring(file.getName().lastIndexOf("."))), fileProgressRequestBody)
+                .addFormDataPart("pictureName", pictureName)
+                .addFormDataPart("publishVisiable", visiable)
+                .addFormDataPart("ablumId", ablumId)
+                .addFormDataPart("pictureInfo", pictureInfo)
+                .build();
+
+        Request.Builder builder = new Request.Builder();
+        // 创建一个 request
+        Request request = builder.url(BASE_URL+url).build();
+        // 创建一个 Headers.Builder
+        Headers.Builder headerBuilder = request.headers().newBuilder();
+        headerBuilder.add("token",token);
+        // 设置自定义的 builder
+        builder.headers(headerBuilder.build()).post(build);
+        okHttpClient.newCall(builder.build()).enqueue(callback);
+    }
+
 }
