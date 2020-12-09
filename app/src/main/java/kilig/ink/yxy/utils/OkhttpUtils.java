@@ -113,5 +113,4 @@ public  class OkhttpUtils {
         builder.headers(headerBuilder.build()).post(file1);
         okHttpClient.newCall(builder.build()).enqueue(callback);
     }
-
 }

@@ -52,7 +52,8 @@ public class SquareFragment extends Fragment
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
+    {
         view = inflater.inflate(R.layout.fragment_square, container,false);
         initView();
         initData();
@@ -62,7 +63,6 @@ public class SquareFragment extends Fragment
     private void initView()
     {
         refreshLayout = view.findViewById(R.id.refreshLayout_square);
-        recyclerView = view.findViewById(R.id.recyclerView_square);
         refreshLayout.setOnRefreshListener(new OnRefreshListener()
         {
             @Override
@@ -82,12 +82,11 @@ public class SquareFragment extends Fragment
             }
         });
 
+        recyclerView = view.findViewById(R.id.recyclerView_square);
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(manager);
     }
-
-
 
     private void initData()
     {

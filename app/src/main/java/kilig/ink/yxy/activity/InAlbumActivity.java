@@ -19,23 +19,34 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.SimpleItemAnimator;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.hitomi.tilibrary.transfer.TransferConfig;
 import com.hitomi.tilibrary.transfer.Transferee;
+import com.luck.picture.lib.PictureSelector;
+import com.luck.picture.lib.config.PictureConfig;
+import com.luck.picture.lib.config.PictureMimeType;
+import com.luck.picture.lib.entity.LocalMedia;
+import com.shashank.sony.fancytoastlib.FancyToast;
+import com.shashank.sony.fancytoastlib.FancyToast;
 import com.shashank.sony.fancytoastlib.FancyToast;
 import com.vansz.glideimageloader.GlideImageLoader;
 import com.vansz.universalimageloader.UniversalImageLoader;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,7 +59,9 @@ import kilig.ink.yxy.entity.PhotoItem;
 import kilig.ink.yxy.entity.ResponeObject;
 import kilig.ink.yxy.entity.SpacesItemDecoration;
 import kilig.ink.yxy.source.AlbumsAdapter;
+import kilig.ink.yxy.source.GlideEngine;
 import kilig.ink.yxy.source.InAlbumAdapter;
+import kilig.ink.yxy.utils.FileProgressRequestBody;
 import kilig.ink.yxy.utils.OkhttpUtils;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -94,6 +107,25 @@ public class InAlbumActivity extends AppCompatActivity {
         adapter.invokeUListener(this::changePublish);
         adapter.invokeDListener(this::deleteItemPicture);
         recyclerView.setAdapter(adapter);
+        Activity activity = this;
+        // 添加图片按钮
+        FloatingActionButton floatingActionButton = findViewById(R.id.floating_action_button_in_album);
+        floatingActionButton.setOnClickListener(v -> {
+                    Intent toPublish = new Intent(InAlbumActivity.this, PublishPictureActivity.class);
+                    toPublish.putExtra("album",ablumItem);
+                    startActivity(toPublish);
+
+
+
+                }
+//                PictureSelector.create(activity)
+//                        .openGallery(PictureMimeType.ofImage())
+//                        .loadImageEngine(GlideEngine.createGlideEngine()) // 请参考Demo GlideEngine.java
+//                        .forResult(PictureConfig.CHOOSE_REQUEST);
+
+        );
+
+
 
 
 
@@ -144,6 +176,32 @@ public class InAlbumActivity extends AppCompatActivity {
 
     }
 
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case PictureConfig.CHOOSE_REQUEST:
+                    // todo zyb 2 hps:写一下图片上传接口
+                    // 获取到所有的选择结果
+                    // 其中localMedia.getPath()是照片在设备中的绝对地址
+                    // 下面有个imageToBase64方法，是把图片路径转化为byte[](应该能用，还没测试)
+                    List<LocalMedia> selectList = PictureSelector.obtainMultipleResult(data);
+                    for (LocalMedia localMedia: selectList) {
+                        Map<String, String> Image_info = new HashMap<String, String>();
+                        Image_info.put("publishVisiable", "0");
+                        Image_info.put("pictureInfo", localMedia.getFileName());
+                        Image_info.put("ablumId", String.valueOf(ablumItem.getAblumId()));
+                        Image_info.put("pictureName", localMedia.getFileName());
+                    }
+                        // 下面的是我测试的代码，可以删了
+                         break;
+                default:
+                    break;
+            }
+        }
+    }
 
     void InitData() {
         OkhttpUtils.get("ablum/pictures/"+ablumItem.getAblumId(), null, new Callback() {

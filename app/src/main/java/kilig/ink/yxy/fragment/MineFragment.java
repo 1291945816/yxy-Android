@@ -88,9 +88,6 @@ public class MineFragment extends Fragment  {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
-
-
         view = inflater.inflate(R.layout.fragment_mine,container,false);
         imgProfile = view.findViewById(R.id.img_profile);
         backgroundImageView = view.findViewById(R.id.image_background);
