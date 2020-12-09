@@ -6,34 +6,57 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/shot_profile"
+    <ImageView
+        android:id="@+id/imageView"
         android:layout_width="match_parent"
-        android:layout_height="65dp"
-        android:text="拍照"
-        android:textSize="30sp"
-        android:gravity="center"
-        android:background="@drawable/textview_in_dialog_boder"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_height="40dp"
+        android:background="#93D9D9"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.004"
-        tools:layout_editor_absoluteX="0dp"></TextView>
+        app:layout_constraintVertical_bias="0.0"
+        tools:layout_editor_absoluteX="16dp">
 
-    <TextView
-        android:id="@+id/local_profile"
+    </ImageView>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cons"
         android:layout_width="match_parent"
-        android:layout_height="65dp"
-        android:text="相册"
-        android:textSize="30sp"
-        android:gravity="center"
-        android:background="@drawable/textview_in_dialog_boder"
+        android:layout_height="130dp"
+        android:orientation="vertical"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/shot_profile"
-        app:layout_constraintVertical_bias="0.018"
-        tools:layout_editor_absoluteX="0dp"></TextView>
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        app:layout_constraintVertical_bias="0.049"
+        tools:layout_editor_absoluteX="-16dp">
+
+        <TextView
+            android:id="@+id/look_profile"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@drawable/textview_in_dialog_boder"
+            android:gravity="center"
+            android:text="查看头像"
+            android:textSize="17sp"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.188"
+            tools:layout_editor_absoluteX="0dp"></TextView>
+
+        <TextView
+            android:id="@+id/change_profile"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@drawable/textview_in_dialog_boder"
+            android:gravity="center"
+            android:text="修改头像"
+            android:textSize="17sp"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/look_profile"
+            app:layout_constraintVertical_bias="0.515"
+            tools:layout_editor_absoluteX="0dp"></TextView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
