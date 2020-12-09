@@ -20,7 +20,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,6 +32,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.FutureTarget;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.transition.DrawableCrossFadeFactory;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -56,6 +60,10 @@ public class ImageDetailActivity extends AppCompatActivity
     ImageView detailLikeImgView;
     TextView  detailDownloadNumTextView;
     ImageView detailDownloadImgView;
+    TextView  detailCommentNumTextView;
+    ImageView detailAddCommentImageView;
+
+    BottomSheetDialog dialog;
 
     CommentAdapter adapter;
     RecyclerView recyclerView;
@@ -95,6 +103,8 @@ public class ImageDetailActivity extends AppCompatActivity
         detailLikeImgView = findViewById(R.id.imageView_detail_like);
         detailDownloadNumTextView = findViewById(R.id.textView_detail_downloadNum);
         detailDownloadImgView = findViewById(R.id.imageView_detail_download);
+//        detailCommentNumTextView = findViewById(R.id.textView_detail_commentNument);
+        detailAddCommentImageView = findViewById(R.id.imageView_detail_comment);
 
         Glide.with(this)
                 .load(entity.getDisplayImgUrl())
@@ -118,6 +128,7 @@ public class ImageDetailActivity extends AppCompatActivity
             detailLikeImgView.setImageResource(R.drawable.ic_like);
         }
         detailDownloadNumTextView.setText(String.valueOf(entity.getDownloadNum()));
+//        detailCommentNumTextView.setText(String.valueOf(entity.get));
 
         detailLikeImgView.setOnClickListener(new View.OnClickListener()
         {
@@ -207,17 +218,6 @@ public class ImageDetailActivity extends AppCompatActivity
                         final File imageFile = target.get();
                         String fileName = entity.getDisplayImgName() + entity.getDisplayImgUrl().substring(entity.getDisplayImgUrl().lastIndexOf('/')+1);
                         boolean saveSuccess = MyFileUtils.saveFile(imageFile, fileName);
-                        //不能在子线程用toast
-//                        if (saveSuccess)
-//                        {
-//                            Log.e(TAG, "Save：图片保存成功");
-//                            Toast.makeText(context, "图片保存成功", Toast.LENGTH_SHORT).show();
-//                        }
-//                        else
-//                        {
-//                            Log.e(TAG, "Save：图片保存失败");
-//                            Toast.makeText(context, "图片保存失败", Toast.LENGTH_SHORT).show();
-//                        }
                     }
                     catch (Exception e)
                     {
@@ -226,7 +226,66 @@ public class ImageDetailActivity extends AppCompatActivity
                 }).start();
                 Toast.makeText(ImageDetailActivity.this, "图片正在保存~", Toast.LENGTH_SHORT).show();
             }
+        });
 
+        detailAddCommentImageView.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                dialog = new BottomSheetDialog(ImageDetailActivity.this);
+                View commentView = LayoutInflater.from(ImageDetailActivity.this).inflate(R.layout.view_add_comment,null);
+                EditText commentEdiText = commentView.findViewById(R.id.editText_add_comment);
+                TextView titleTextView = commentView.findViewById(R.id.textView_comment_title);
+                titleTextView.setText(entity.getDisplayImgName());
+                Button publishButton = commentView.findViewById(R.id.button_add_comment);
+                publishButton.setOnClickListener(v1 ->
+                {
+                    String comment = commentEdiText.getText().toString();
+                    if (comment.isEmpty())
+                    {
+                        Toast.makeText(ImageDetailActivity.this, "请输入内容", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    Map<String, String> commentInfo = new HashMap<>();
+                    commentInfo.put("comment", comment);
+                    commentInfo.put("pictureId", entity.getImgID());
+
+                    String info = new Gson().toJson(commentInfo);
+                    try
+                    {
+                        OkhttpUtils.post("picture/comment", info, new Callback()
+                        {
+                            @Override
+                            public void onFailure(@NotNull Call call, @NotNull IOException e)
+                            {
+                                runOnUiThread(() -> Toast.makeText(ImageDetailActivity.this, "评论失败", Toast.LENGTH_SHORT).show());
+                            }
+
+                            @Override
+                            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException
+                            {
+                                runOnUiThread(new Runnable()
+                                {
+                                    @Override
+                                    public void run()
+                                    {
+                                        Toast.makeText(ImageDetailActivity.this, "评论成功", Toast.LENGTH_SHORT).show();
+                                        initCommentData();
+                                        dialog.cancel();
+                                    }
+                                });
+                            }
+                        });
+                    } catch (IOException e)
+                    {
+                        e.printStackTrace();
+                    }
+                });
+                dialog.setContentView(commentView);
+                dialog.show();
+            }
         });
     }
 
