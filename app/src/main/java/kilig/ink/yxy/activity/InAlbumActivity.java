@@ -98,6 +98,7 @@ public class InAlbumActivity extends AppCompatActivity {
          adapter = new InAlbumAdapter(this, photosList);
         adapter.invokeListener(pos->{
             config.setNowThumbnailIndex(pos);
+            Log.d("111", "onCreate: "+pos);
             transferee.apply(config).show();
 
         });
