@@ -74,6 +74,9 @@ public class InAlbumAdapter extends RecyclerView.Adapter<InAlbumAdapter.ViewHold
                         case R.id.comment:
                             info="谁评论了";
                             break;
+                        case R.id.delete:
+                            info="删除";
+                            break;
                     }
                     Toast.makeText(context,info,Toast.LENGTH_SHORT).show();
                     return true;
