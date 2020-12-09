@@ -17,9 +17,18 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.hitomi.tilibrary.transfer.TransferConfig;
+import com.hitomi.tilibrary.transfer.Transferee;
+import com.vansz.glideimageloader.GlideImageLoader;
+import com.vansz.universalimageloader.UniversalImageLoader;
+
+import org.jetbrains.annotations.NotNull;
+
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,29 +38,58 @@ import kilig.ink.yxy.entity.AblumItem;
 import kilig.ink.yxy.entity.InalbumPicture;
 import kilig.ink.yxy.entity.PhotoItem;
 import kilig.ink.yxy.entity.SpacesItemDecoration;
+import kilig.ink.yxy.source.AlbumsAdapter;
 import kilig.ink.yxy.source.InAlbumAdapter;
+import kilig.ink.yxy.utils.OkhttpUtils;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
 public class InAlbumActivity extends AppCompatActivity {
 
     private List<InalbumPicture> photosList ;
+    private List<String> list;
     private TextView topTitle;
     private RecyclerView recyclerView;
+    private Transferee transferee;
+    private TransferConfig config;
+    private AblumItem ablumItem;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inalbum);
+        transferee = Transferee.getDefault(this);
         photosList= new ArrayList<>();
+        list=new ArrayList<>();
         Intent intent = getIntent();
         AblumItem album = (AblumItem)intent.getSerializableExtra("album");
         TextView topTitle = findViewById(R.id.topTitle_in_album);
         topTitle.setText(album.getAblumName());
         InitData();
+        config();
        recyclerView = (RecyclerView)findViewById(R.id.inalbum_pict);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this,2);
-        recyclerView.setLayoutManager(gridLayoutManager);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+
         InAlbumAdapter adapter = new InAlbumAdapter(this, photosList);
+        adapter.invokeListenr(pos->{
+            config.setNowThumbnailIndex(pos);
+            Log.d("111", "onCreate: "+pos);
+            transferee.apply(config).show();
+
+        });
+
         recyclerView.setAdapter(adapter);
+
+
+
+
+
+
+
+
 
         // 返回相册按钮
         ImageButton tv_return = findViewById(R.id.btn_backup);
@@ -61,13 +99,35 @@ public class InAlbumActivity extends AppCompatActivity {
     }
 
     void InitData() {
-        for (int i = 0; i < 10; i++) {
-            InalbumPicture photo = new InalbumPicture();
-           photo.setPublish(i > 3);
-           photo.setImgUrl("http://120.25.213.148:9000/yxy-pictures/3/ac1bd18ff289410f3e46978be15fa6b6.jpg");
-           photo.setThumbnailUrl("http://120.25.213.148:9000/yxy-pictures/thumbnail/ac1bd18ff289410f3e46978be15fa6b6.jpg");
-           photosList.add(photo);
-        }
+        OkhttpUtils.get("ablum/pictures", null, new Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                /**
+                 * //
+                 */
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                String string = response.body().string();
+
+
+            }
+        });
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        transferee.destroy();
+    }
+    private void config(){
+         config=TransferConfig.build()
+                .setBackgroundColor(R.color.black)
+                .setSourceUrlList(list)
+                 .enableScrollingWithPageChange(true)
+                 .enableJustLoadHitPage(true)
+                 .setImageLoader(GlideImageLoader.with(getApplicationContext()))
+                .bindRecyclerView(recyclerView,R.id.item_photo);
+    }
 }
