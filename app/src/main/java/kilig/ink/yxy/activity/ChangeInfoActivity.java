@@ -1,5 +1,6 @@
 package kilig.ink.yxy.activity;
 
+import androidx.annotation.LongDef;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
@@ -7,12 +8,15 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.roger.catloadinglibrary.CatLoadingView;
@@ -39,6 +43,7 @@ public class ChangeInfoActivity extends AppCompatActivity {
     private ImageButton backup;
     private CatLoadingView mView;
     private CatLoadingView aView;
+    private static final String TAG = "ChangeInfoActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,14 +60,41 @@ public class ChangeInfoActivity extends AppCompatActivity {
             LayoutInflater inflater = this.getLayoutInflater();
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             View view_intro = inflater.inflate(R.layout.dialog_change_introduce, null);
+            EditText edtNewIntro = view_intro.findViewById(R.id.edt_changeintro);
+            TextView tv_restnum = view_intro.findViewById(R.id.tv_restnum);
+
+            String newIntro = edtNewIntro.getText().toString();
+            //动态监测EditText的输入字数
+            edtNewIntro.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    tv_restnum.setText(String.valueOf(s.length())+"/20");
+                    //Log.d(TAG, "输入字符长度为："+String.valueOf(s.length()));
+                    if(s.length()>=20){
+                        Toast.makeText(ChangeInfoActivity.this, "字数已达上限了，亲", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
             builder.setView(view_intro)
                     .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            EditText edtNewIntro = view_intro.findViewById(R.id.edt_changeintro);
-                            String newIntro = edtNewIntro.getText().toString();
+
+//                            Log.d(TAG, tv_restnum.getText().toString());
+//                            Log.d(TAG, newIntro);
+
                             Map<String,String> introInfo = new HashMap<>();
-                            introInfo.put("userIntro",newIntro);
+                            introInfo.put("userIntro",edtNewIntro.getText().toString());
                             Gson gson = new Gson();
                             String intro_info = gson.toJson(introInfo);
                             aView = new CatLoadingView();
@@ -137,14 +169,38 @@ public class ChangeInfoActivity extends AppCompatActivity {
             LayoutInflater inflater = this.getLayoutInflater();
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             View view=inflater.inflate(R.layout.dialog_change_nickname, null);
+            EditText edtNewNickname = view.findViewById(R.id.edt_changenickname);
+            TextView tvnewnicname_num = view.findViewById(R.id.tv_change_restnum);
+
+            String newNickname  = edtNewNickname.getText().toString();
+            //动态检测输入框输入字符的长度
+            edtNewNickname.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    tvnewnicname_num.setText(String.valueOf(s.length())+"/8");
+                    //Log.d(TAG, "输入字符长度为："+String.valueOf(s.length()));
+                    if(s.length()>=8){
+                        Toast.makeText(ChangeInfoActivity.this, "字数已达上限", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+
             builder.setView(view);
             builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    EditText edtNewNickname = view.findViewById(R.id.edt_changenickname);
-                    String newNickname  = edtNewNickname.getText().toString();
                     Map<String,String> NicknameInfo = new HashMap<>();
-                    NicknameInfo.put("nickname",newNickname);
+                    NicknameInfo.put("nickname",edtNewNickname.getText().toString());
                     Gson gson = new Gson();
                     String nickname_info = gson.toJson(NicknameInfo);
                     mView = new CatLoadingView();
