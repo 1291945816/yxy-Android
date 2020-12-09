@@ -61,9 +61,7 @@ public class SettingActivity extends AppCompatActivity {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
 
-
-
-                    //Toast.makeText(SettingActivity.this,"你点击了确定",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SettingActivity.this,"设置成功~",Toast.LENGTH_SHORT).show();
                 }
             });
             builder.setNegativeButton("取消",null);
