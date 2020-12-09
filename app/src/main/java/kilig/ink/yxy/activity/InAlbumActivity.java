@@ -100,7 +100,6 @@ public class InAlbumActivity extends AppCompatActivity {
          adapter = new InAlbumAdapter(this, photosList);
         adapter.invokeListener(pos->{
             config.setNowThumbnailIndex(pos);
-            Log.d("111", "onCreate: "+pos);
             transferee.apply(config).show();
 
         });
@@ -118,10 +117,7 @@ public class InAlbumActivity extends AppCompatActivity {
 
 
                 }
-//                PictureSelector.create(activity)
-//                        .openGallery(PictureMimeType.ofImage())
-//                        .loadImageEngine(GlideEngine.createGlideEngine()) // 请参考Demo GlideEngine.java
-//                        .forResult(PictureConfig.CHOOSE_REQUEST);
+
 
         );
 
@@ -177,31 +173,6 @@ public class InAlbumActivity extends AppCompatActivity {
     }
 
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
-            switch (requestCode) {
-                case PictureConfig.CHOOSE_REQUEST:
-                    // todo zyb 2 hps:写一下图片上传接口
-                    // 获取到所有的选择结果
-                    // 其中localMedia.getPath()是照片在设备中的绝对地址
-                    // 下面有个imageToBase64方法，是把图片路径转化为byte[](应该能用，还没测试)
-                    List<LocalMedia> selectList = PictureSelector.obtainMultipleResult(data);
-                    for (LocalMedia localMedia: selectList) {
-                        Map<String, String> Image_info = new HashMap<String, String>();
-                        Image_info.put("publishVisiable", "0");
-                        Image_info.put("pictureInfo", localMedia.getFileName());
-                        Image_info.put("ablumId", String.valueOf(ablumItem.getAblumId()));
-                        Image_info.put("pictureName", localMedia.getFileName());
-                    }
-                        // 下面的是我测试的代码，可以删了
-                         break;
-                default:
-                    break;
-            }
-        }
-    }
 
     void InitData() {
         OkhttpUtils.get("ablum/pictures/"+ablumItem.getAblumId(), null, new Callback() {
