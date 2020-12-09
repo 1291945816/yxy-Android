@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -26,7 +27,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.transition.DrawableCrossFadeFactory;
 
-
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.luck.picture.lib.PictureSelector;
@@ -34,7 +34,6 @@ import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.listener.OnResultCallbackListener;
-import com.shashank.sony.fancytoastlib.FancyToast;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -106,69 +105,79 @@ public class MineFragment extends Fragment  {
         //progressBar=view.findViewById(R.id.circle_loading_view);
 
 
-
-
-
-
         //点击头像，进行头像上传
-        imgProfile.setOnClickListener(v->{
-            /*
-            LayoutInflater inflaterProfile = getActivity().getLayoutInflater();
-            AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getActivity());
-            view = inflaterProfile.inflate(R.layout.dialog_profile, null);
-            alertBuilder.setView(view);*/
-            PictureSelector.create(this)
-                    .openGallery(PictureMimeType.ofImage())
-                    .isCamera(true)
-                    .imageEngine(GlideEngine.createGlideEngine())
-                    .selectionMode(PictureConfig.SINGLE)
-                    .forResult(new OnResultCallbackListener() {
-                        @Override
-                        public void onResult(List result) {
-                            if (result.size() != 0) {
-                                LocalMedia localMedia = (LocalMedia) result.get(0);
-                                Log.d(TAG, "onResult: "+localMedia.getRealPath());
-                                Map<String,String> map=new HashMap<>();
-                                map.put("fileName",localMedia.getFileName());
-                                map.put("filePath",localMedia.getRealPath());
-                                try {
-                                    OkhttpUtils.postWithBody("yxyUser/uploadAvatar", map,listener, new Callback() {
-                                        @Override
-                                        public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                                            Log.d(TAG, "onFailure: "+66);
+        imgProfile.setOnClickListener(v-> {
+                    LayoutInflater inflaterProfile = getActivity().getLayoutInflater();
+                    AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getActivity());
+                    view = inflaterProfile.inflate(R.layout.dialog_profile, null);
+                    alertBuilder.setView(view);
+                    alertBuilder.setNegativeButton("取消", null);
+                    alertBuilder.setCancelable(false);
+                    AlertDialog alertDialog = alertBuilder.create();
+                    alertDialog.show();
+                    TextView tv_look_profile = view.findViewById(R.id.look_profile);
+                    TextView tv_change_profile = view.findViewById(R.id.change_profile);
 
+                    tv_change_profile.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            PictureSelector.create(MineFragment.this)
+                                    .openGallery(PictureMimeType.ofImage())
+                                    .isCamera(true)
+                                    .imageEngine(GlideEngine.createGlideEngine())
+                                    .selectionMode(PictureConfig.SINGLE)
+                                    .forResult(new OnResultCallbackListener() {
+                                        @Override
+                                        public void onResult(List result) {
+                                            if (result.size() != 0) {
+                                                LocalMedia localMedia = (LocalMedia) result.get(0);
+                                                Log.d(TAG, "onResult: " + localMedia.getRealPath());
+                                                Map<String, String> map = new HashMap<>();
+                                                map.put("fileName", localMedia.getFileName());
+                                                map.put("filePath", localMedia.getRealPath());
+                                                //取得图片后，让弹窗消失
+                                                alertDialog.dismiss();
+
+                                                try {
+                                                    OkhttpUtils.postWithBody("yxyUser/uploadAvatar", map, listener, new Callback() {
+                                                        @Override
+                                                        public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                                                            Log.d(TAG, "onFailure: " + 66);
+
+                                                        }
+
+                                                        @Override
+                                                        public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                                                            String string = response.body().string();
+                                                            Gson gson = new Gson();
+                                                            ResponeObject responeObject = gson.fromJson(string, ResponeObject.class);
+                                                            if (isAdded()) {
+                                                                getActivity().runOnUiThread(() -> {
+                                                                    Toast.makeText(getActivity(), responeObject.getMessage(), Toast.LENGTH_SHORT);
+                                                                });
+                                                            }
+                                                        }
+                                                    });
+                                                } catch (IOException e) {
+                                                    e.printStackTrace();
+                                                }
+                                            }
                                         }
 
                                         @Override
-                                        public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                                            String string = response.body().string();
-                                            Gson gson = new Gson();
-                                            ResponeObject responeObject = gson.fromJson(string, ResponeObject.class);
-                                            if (isAdded()){
-                                                getActivity().runOnUiThread(()->{
-                                                    Toast.makeText(getActivity(),responeObject.getMessage(),Toast.LENGTH_SHORT);
-                                                });
-                                            }
+                                        public void onCancel() {
 
                                         }
                                     });
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        }
-
-                        @Override
-                        public void onCancel() {
-
                         }
                     });
-
-
-
-
-            Toast.makeText(getActivity(),"等一下，马上就能上传头像啦^_^",Toast.LENGTH_SHORT).show();
-
+                    //Toast.makeText(getActivity(),"等一下，马上就能上传头像啦^_^",Toast.LENGTH_SHORT).show();
+                    tv_look_profile.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Toast.makeText(getActivity(), "你点击了查看头像", Toast.LENGTH_SHORT).show();
+                        }
+                    });
         });
 
 
@@ -187,16 +196,16 @@ public class MineFragment extends Fragment  {
 
         //帮助提示
         helpButton.setOnClickListener(v->{
-            AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).setTitle("帮助提示")
+            AlertDialog malertDialog = new AlertDialog.Builder(getActivity()).setTitle("帮助提示")
                     .setMessage("“首页”是图片广场，可进行图片的浏览和下载；“个人相册”用于管理您的图片；“我的”是用户中心" )
                     .setIcon(R.drawable.ic_help)
                     .setPositiveButton("确定", null).create();
-            alertDialog.show();
+            malertDialog.show();
         });
 
         //关于
         aboutButton.setOnClickListener(v->{
-            AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).setTitle("关于我们")
+            AlertDialog salertDialog = new AlertDialog.Builder(getActivity()).setTitle("关于我们")
                     .setMessage("您好，这里是伊享云开发团队，开发不易，历时一个多月，如果您对我们的软件有任何吐槽或建议，欢迎您联系我们，邮箱：1291945816@qq.com" )
                     .setIcon(R.drawable.ic_cloud_)
                     .setPositiveButton("确定", new DialogInterface.OnClickListener() {
@@ -205,7 +214,7 @@ public class MineFragment extends Fragment  {
                             Toast.makeText(getActivity(),"感谢相遇~",Toast.LENGTH_SHORT).show();
                         }
                     }).create();
-            alertDialog.show();
+            salertDialog.show();
         });
 
         OkhttpUtils.get("yxyUser/userInfo", null, new Callback() {
