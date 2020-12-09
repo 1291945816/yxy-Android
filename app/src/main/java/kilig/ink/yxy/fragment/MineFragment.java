@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -116,6 +117,10 @@ public class MineFragment extends Fragment  {
                     alertBuilder.setCancelable(false);
                     AlertDialog alertDialog = alertBuilder.create();
                     alertDialog.show();
+                    //将取消按钮设为红色，大小为15
+                    alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#E58981"));
+                    alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextSize(15);
+
                     TextView tv_look_profile = view.findViewById(R.id.look_profile);
                     TextView tv_change_profile = view.findViewById(R.id.change_profile);
 

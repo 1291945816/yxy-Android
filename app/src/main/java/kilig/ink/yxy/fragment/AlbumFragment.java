@@ -2,6 +2,7 @@ package kilig.ink.yxy.fragment;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -76,16 +77,16 @@ public class AlbumFragment extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final EditText inputServer = new EditText(getContext());
-                inputServer.setFocusable(true);
-
+                //新建相册的对话框，采取自定义布局
+                LayoutInflater inflater = getActivity().getLayoutInflater();
+                View mview=inflater.inflate(R.layout.dialog_newalbum, null);
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                builder.setTitle("输入相册名称")
-                        .setIcon(R.drawable.androidicon)
-                        .setView(inputServer)
-                        .setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                builder.setView(mview)
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
+                                EditText inputServer = mview.findViewById(R.id.edt_newalbum);
+                                //inputServer.setFocusable(true);
                                 Map<String,String> body=new HashMap<>();
                                 body.put("ablumName",inputServer.getText().toString());
                                 Gson gson = new Gson();
@@ -117,14 +118,19 @@ public class AlbumFragment extends Fragment {
 
 
                             }
-                        });
-                builder.setPositiveButton("取消",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                Toast.makeText(getActivity(),"成功取消",Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                builder.show();
+                        })
+                        .setNegativeButton("取消",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Toast.makeText(getActivity(),"取消成功",Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                builder.setCancelable(false);
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+                //设置弹窗按钮的颜色
+                alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextColor(Color.parseColor("#E58981"));
+                alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#A2A2AA"));
             }
         });
 
