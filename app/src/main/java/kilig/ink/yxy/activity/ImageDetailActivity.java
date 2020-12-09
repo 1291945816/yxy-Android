@@ -1,9 +1,14 @@
 package kilig.ink.yxy.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import kilig.ink.yxy.R;
+import kilig.ink.yxy.entity.CommentEntity;
 import kilig.ink.yxy.entity.ImageEntity;
+import kilig.ink.yxy.entity.ResponeObject;
+import kilig.ink.yxy.source.CommentAdapter;
 import kilig.ink.yxy.utils.MyFileUtils;
 import kilig.ink.yxy.utils.OkhttpUtils;
 import okhttp3.Call;
@@ -12,6 +17,8 @@ import okhttp3.Response;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -23,12 +30,16 @@ import com.bumptech.glide.request.FutureTarget;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.transition.DrawableCrossFadeFactory;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
@@ -46,6 +57,11 @@ public class ImageDetailActivity extends AppCompatActivity
     TextView  detailDownloadNumTextView;
     ImageView detailDownloadImgView;
 
+    CommentAdapter adapter;
+    RecyclerView recyclerView;
+    ArrayList<CommentEntity> commentList;
+    String json;
+
     DrawableCrossFadeFactory factory = new DrawableCrossFadeFactory.Builder().setCrossFadeEnabled(true).build();
 
     @Override
@@ -53,16 +69,24 @@ public class ImageDetailActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_detail);
+
         Intent intent = getIntent();
         if (intent != null)
         {
             entity = (ImageEntity) intent.getSerializableExtra("ImageEntity");
         }
+
         initView();
+        initCommentData();
     }
 
     private void initView()
     {
+        recyclerView = findViewById(R.id.recyclerView_detail_comments);
+        LinearLayoutManager manager = new LinearLayoutManager(this);
+        manager.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(manager);
+
         detailDisplayImgView = findViewById(R.id.imageView_detail_img);
         detailImgNameTextView = findViewById(R.id.textView_detail_imgName);
         detailAuthorNameTextView = findViewById(R.id.textView_detail_authorName);
@@ -71,8 +95,6 @@ public class ImageDetailActivity extends AppCompatActivity
         detailLikeImgView = findViewById(R.id.imageView_detail_like);
         detailDownloadNumTextView = findViewById(R.id.textView_detail_downloadNum);
         detailDownloadImgView = findViewById(R.id.imageView_detail_download);
-
-
 
         Glide.with(this)
                 .load(entity.getDisplayImgUrl())
@@ -206,5 +228,33 @@ public class ImageDetailActivity extends AppCompatActivity
             }
 
         });
+    }
+
+    private void initCommentData()
+    {
+        Map<String, String> map = new HashMap<>();
+        map.put("pictureId", String.valueOf(entity.getImgID()));
+        commentList = new ArrayList<>();
+        OkhttpUtils.get("picture/comment", map, new Callback()
+        {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e)
+            {
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException
+            {
+                json = response.body().string();
+                Type type = new TypeToken<ResponeObject<List<CommentEntity>>>(){}.getType();
+                ResponeObject<ArrayList<CommentEntity>> responeObject = new Gson().fromJson(json, type);
+                commentList.addAll(responeObject.getData());
+                new Handler(Looper.getMainLooper()).post(()->{
+                    adapter.notifyDataSetChanged();
+                });
+            }
+        });
+        adapter = new CommentAdapter(this, commentList);
+        recyclerView.setAdapter(adapter);
     }
 }

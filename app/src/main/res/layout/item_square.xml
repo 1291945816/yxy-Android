@@ -67,7 +67,7 @@
         android:scaleType="fitCenter"
         app:layout_constraintTop_toTopOf="@id/textView_square_imgName"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/textView_square_by"
+        app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginEnd="20dp"
         android:contentDescription="profile of author" />
 
@@ -99,7 +99,7 @@
         app:layout_constraintTop_toTopOf="@+id/imageView_square_like"
         app:layout_constraintBottom_toBottomOf="@id/imageView_square_like"
         app:layout_constraintStart_toEndOf="@id/imageView_square_like"
-        app:layout_constraintEnd_toStartOf="@id/imageView_square_comment"
+        app:layout_constraintEnd_toStartOf="@id/imageView_square_author_profile"
         android:src="@drawable/ic_download"
         android:layout_width="28dp"
         android:layout_height="28dp"/>
@@ -115,36 +115,15 @@
         android:textSize="18sp"
         android:text="0"/>
 
-    <ImageView
-        android:id="@+id/imageView_square_comment"
-        app:layout_constraintTop_toTopOf="@+id/imageView_square_like"
-        app:layout_constraintBottom_toBottomOf="@id/imageView_square_like"
-        app:layout_constraintStart_toEndOf="@id/imageView_square_download"
-        app:layout_constraintEnd_toEndOf="@id/imageView_square_more"
-        android:src="@drawable/ic_comment"
-        android:layout_width="28dp"
-        android:layout_height="28dp"/>
-
-    <TextView
-        android:id="@+id/textView_square_commentNum"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@id/textView_square_likeNum"
-        app:layout_constraintLeft_toLeftOf="@id/imageView_square_comment"
-        app:layout_constraintRight_toRightOf="@id/imageView_square_comment"
-        android:maxLength="9"
-        android:textSize="18sp"
-        android:text="0"/>
-
-    <ImageView
-        android:id="@+id/imageView_square_more"
-        app:layout_constraintTop_toTopOf="@+id/imageView_square_like"
-        app:layout_constraintBottom_toBottomOf="@id/imageView_square_like"
-        app:layout_constraintStart_toEndOf="@id/imageView_square_comment"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:src="@drawable/ic_more"
-        android:layout_width="28dp"
-        android:layout_height="28dp"/>
+<!--    <ImageView-->
+<!--        android:id="@+id/imageView_square_more"-->
+<!--        app:layout_constraintTop_toTopOf="@+id/imageView_square_like"-->
+<!--        app:layout_constraintBottom_toBottomOf="@id/imageView_square_like"-->
+<!--        app:layout_constraintStart_toEndOf="@id/imageView_square_comment"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        android:src="@drawable/ic_more"-->
+<!--        android:layout_width="28dp"-->
+<!--        android:layout_height="28dp"/>-->
 
 <!--    <View-->
 <!--        android:layout_width="match_parent"-->
