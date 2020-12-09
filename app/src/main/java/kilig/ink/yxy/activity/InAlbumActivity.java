@@ -96,7 +96,7 @@ public class InAlbumActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
 
          adapter = new InAlbumAdapter(this, photosList);
-        adapter.invokeListenr(pos->{
+        adapter.invokeListener(pos->{
             config.setNowThumbnailIndex(pos);
             Log.d("111", "onCreate: "+pos);
             transferee.apply(config).show();
@@ -186,23 +186,8 @@ public class InAlbumActivity extends AppCompatActivity {
                         Image_info.put("pictureInfo",localMedia.getFileName());
                         Image_info.put("ablumId",String.valueOf(ablumItem.getAblumId()));
                         Image_info.put("pictureName",localMedia.getFileName());
-                        Image_info.put("file", Arrays.toString(imageToBase64(localMedia.getPath())));
-                        // 下面的是我测试的代码，可以删了
-                        try {
-                            OkhttpUtils.postWithBody("picture/uploadPicture", Image_info,listener, new Callback() {
-                                @Override
-                                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                                    InitData();
-                                    Log.e("UploadImage", response.toString() );
-                                }
 
-                                @Override
-                                public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                                }
-                            });
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                        // 下面的是我测试的代码，可以删了
                     }
                     break;
                 default:

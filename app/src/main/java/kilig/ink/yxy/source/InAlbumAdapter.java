@@ -27,6 +27,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
 import com.shashank.sony.fancytoastlib.FancyToast;
 
 import org.jetbrains.annotations.NotNull;
@@ -34,10 +35,13 @@ import org.jetbrains.annotations.NotNull;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.jar.Attributes;
 
 import javax.security.auth.login.LoginException;
 
@@ -131,9 +135,84 @@ public class InAlbumAdapter extends RecyclerView.Adapter<InAlbumAdapter.ViewHold
                             break;
                         case R.id.star:
                             info = "谁点赞了";
+                            OkhttpUtils.get("ablum/starInfo?pictureId=" + picture.getId(), null, new Callback() {
+                                @Override
+                                public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                                    FancyToast.makeText(context, "查看失败", FancyToast.INFO, FancyToast.LENGTH_SHORT, false);
+                                }
+
+                                @Override
+                                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                                    Log.e("response", response.body().toString());
+                                    Gson gson = new GsonBuilder().serializeNulls().create();
+                                    ResponeObject responeObject = gson.fromJson(response.body().string(), ResponeObject.class);
+                                    if (!responeObject.getCode().equals("200")) {
+                                        Log.e("CheckFail", responeObject.getCode());
+                                        return;
+                                    }
+                                    String data = gson.toJson(responeObject.getData());
+                                    Map[] resultBean = new Gson().fromJson(data,Map[].class);
+                                    String Names= "";
+                                    for(Map user:resultBean)
+                                    {
+                                        Names+=user.get("yxyNickName")+"，";
+                                    }
+                                    Names=Names.substring(0, Names.length()-1);
+                                    String finalNames = Names;
+                                    ((Activity) context).runOnUiThread(() -> {
+                                        new MaterialAlertDialogBuilder(context)
+                                                .setMessage(finalNames +"点赞了这张图片").show();
+                                    });
+                                }
+                            });
                             break;
                         case R.id.comment:
                             info = "谁评论了";
+                            OkhttpUtils.get("picture/comment?pictureId=" + picture.getId(), null, new Callback() {
+                                @Override
+                                public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                                    FancyToast.makeText(context, "查看失败", FancyToast.INFO, FancyToast.LENGTH_SHORT, false);
+                                }
+
+                                @Override
+                                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                                    Log.e("response", response.body().toString());
+                                    Gson gson = new GsonBuilder().serializeNulls().create();
+                                    ResponeObject responeObject = gson.fromJson(response.body().string(), ResponeObject.class);
+                                    if (!responeObject.getCode().equals("200")) {
+                                        Log.e("CheckFail", responeObject.getCode());
+                                        return;
+                                    }
+                                    String data = gson.toJson(responeObject.getData());
+                                    Map[] resultBean = new Gson().fromJson(data,Map[].class);
+                                    Arrays.sort(resultBean, new Comparator<Map>() {
+                                        @Override
+                                        public int compare(Map o1, Map o2) {
+                                            try {
+                                                if( dateToStamp((String) o1.get("comment_time"),"yyyy-MM-dd HH:mm:ss")>dateToStamp((String) o2.get("comment_time"),"yyyy-MM-dd HH:mm:ss"))
+                                                    return 1;
+                                                else
+                                                    return -1;
+                                            } catch (ParseException e) {
+                                                e.printStackTrace();
+                                            }
+                                            return 0;
+                                        }
+                                    });
+
+                                    String comments= "";
+                                    for(Map user:resultBean)
+                                    {
+                                        comments+=user.get("yxyNickName")+"："+user.get("comment")+"\n";
+                                    }
+                                    comments=comments.substring(0, comments.length()-1);
+                                    String finalNames = comments;
+                                    ((Activity) context).runOnUiThread(() -> {
+                                        new MaterialAlertDialogBuilder(context)
+                                                .setMessage(finalNames).show();
+                                    });
+                                }
+                            });
                             break;
                         case R.id.delete:
                             new MaterialAlertDialogBuilder(context)
@@ -231,13 +310,12 @@ public class InAlbumAdapter extends RecyclerView.Adapter<InAlbumAdapter.ViewHold
     /**
      * 将时间转换为时间戳
      */
-    public static String dateToStamp(String s) throws ParseException {
+    public static long dateToStamp(String s,String pattern) throws ParseException {
         String res;
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
         Date date = simpleDateFormat.parse(s);
         long ts = date.getTime();
-        res = String.valueOf(ts);
-        return res;
+        return ts;
     }
 
     /**
