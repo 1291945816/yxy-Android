@@ -1,7 +1,7 @@
 package kilig.ink.yxy.entity;
 
 public class InalbumPicture {
-    private String id; //相册Id
+    private String id; //图片Id
     private boolean publish; //发布
     private String thumbnailUrl; //缩图
     private String imgUrl; //图片URL
