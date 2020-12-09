@@ -43,7 +43,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar2"
         app:layout_constraintVertical_bias="0.0"
-        tools:layout_editor_absoluteX="-44dp"></View>
+        tools:layout_editor_absoluteX="-44dp">
+    </View>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView2"
@@ -51,9 +52,7 @@
         android:layout_height="250dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        app:cardCornerRadius="15dp"
         app:cardElevation="12dp"
-        app:cardBackgroundColor="#7DC1BB"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="10dp">
@@ -62,19 +61,30 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="#93D9D9"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0"
+                tools:layout_editor_absoluteX="0dp">
+            </ImageView>
+
             <TextView
                 android:id="@+id/tvw_changenickname"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:background="@drawable/textview_border"
+                android:background="@drawable/textview_in_dialog_boder"
                 android:gravity="center"
                 android:text="修改昵称"
-                android:textSize="18sp"
+                android:textSize="16sp"
+                android:textColor="#FF857D7D"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.33"
+                app:layout_constraintVertical_bias="0.404"
                 tools:layout_editor_absoluteX="20dp">
             </TextView>
 
@@ -82,16 +92,17 @@
                 android:id="@+id/tvw_changePsw"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:background="@drawable/textview_border"
+                android:background="@drawable/textview_in_dialog_boder"
                 android:gravity="center"
                 android:text="修改密码"
-                android:textSize="18sp"
+                android:textSize="16sp"
+                android:textColor="#FF857D7D"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvw_changenickname"
-                app:layout_constraintVertical_bias="0.163"
-                tools:layout_editor_absoluteX="4dp">
+                app:layout_constraintVertical_bias="0.347"
+                tools:layout_editor_absoluteX="20dp">
             </TextView>
 
         </androidx.constraintlayout.widget.ConstraintLayout>

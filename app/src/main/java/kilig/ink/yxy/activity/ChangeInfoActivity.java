@@ -125,11 +125,13 @@ public class ChangeInfoActivity extends AppCompatActivity {
             });
             builder.setNegativeButton("取消",null);
 
-            // 点击返回不会取消对话框
+            // 点击返回不能取消对话框
             builder.setCancelable(false);
-
-            builder.create();
-            builder.show();
+            AlertDialog alertDialog = builder.create();
+            //builder.create();
+            alertDialog.show();
+            alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextColor(Color.parseColor("#E58981"));
+            alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#A2A2AA"));
         });
 
         //跳转到修改密码界面

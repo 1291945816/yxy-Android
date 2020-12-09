@@ -35,6 +35,7 @@ import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.listener.OnResultCallbackListener;
+import com.shashank.sony.fancytoastlib.FancyToast;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -117,7 +118,7 @@ public class MineFragment extends Fragment  {
                     AlertDialog alertDialog = alertBuilder.create();
                     alertDialog.show();
                     //将取消按钮设为红色，大小为15
-                    alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#DB5860"));
+                    alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#E58981"));
                     alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextSize(15);
 
                     TextView tv_look_profile = view.findViewById(R.id.look_profile);
