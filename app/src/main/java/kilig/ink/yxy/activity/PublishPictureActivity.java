@@ -150,6 +150,7 @@ public class PublishPictureActivity extends AppCompatActivity implements View.On
                             runOnUiThread(()->{
                                 mView.onDestroyView();
                                 FancyToast.makeText(getApplicationContext(),responeObject.getMessage(),FancyToast.SUCCESS,FancyToast.LENGTH_SHORT,false).show();
+                                finish();
                             });
 
                         }else {
