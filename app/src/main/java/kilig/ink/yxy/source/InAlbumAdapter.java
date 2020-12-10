@@ -1,16 +1,24 @@
 package kilig.ink.yxy.source;
 
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.database.DataSetObserver;
+import android.net.Uri;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,8 +37,11 @@ import com.google.gson.JsonArray;
 import com.shashank.sony.fancytoastlib.FancyToast;
 
 import org.jetbrains.annotations.NotNull;
+import org.w3c.dom.Text;
+import org.xmlpull.v1.XmlPullParser;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -40,11 +51,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.jar.Attributes;
+import java.util.zip.Inflater;
 
 import javax.security.auth.login.LoginException;
 
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import kilig.ink.yxy.R;
+import kilig.ink.yxy.entity.CommentItem;
 import kilig.ink.yxy.entity.InalbumPicture;
 import kilig.ink.yxy.entity.ResponeObject;
 import kilig.ink.yxy.utils.OkhttpUtils;
@@ -120,8 +133,8 @@ public class InAlbumAdapter extends RecyclerView.Adapter<InAlbumAdapter.ViewHold
                                                 .setMessage(
                                                         "图片名称：" + map.get("pictureName") + " \n" +
                                                                 "图片描述：" + map.get("pictureInfo") + " \n" +
-                                                                "点赞次数：" + Math.round((double)map.get("starNum")) + " \n" +
-                                                                "下载次数：" + Math.round((double)map.get("downloadSum")) + " \n" +
+                                                                "点赞次数：" + Math.round((double) map.get("starNum")) + " \n" +
+                                                                "下载次数：" + Math.round((double) map.get("downloadSum")) + " \n" +
                                                                 "作者账号：" + map.get("yxyUserName") + " \n" +
                                                                 "作者名称：" + map.get("yxyNickName") + " \n" +
                                                                 "创建时间：" + stampToDate(map.get("pictureCreateTime").toString()) + " \n" +
@@ -149,17 +162,16 @@ public class InAlbumAdapter extends RecyclerView.Adapter<InAlbumAdapter.ViewHold
                                         return;
                                     }
                                     String data = gson.toJson(responeObject.getData());
-                                    Map[] resultBean = new Gson().fromJson(data,Map[].class);
-                                    String Names= "";
-                                    for(Map user:resultBean)
-                                    {
-                                        Names+=user.get("yxyNickName")+"，";
+                                    Map[] resultBean = new Gson().fromJson(data, Map[].class);
+                                    String Names = "";
+                                    for (Map user : resultBean) {
+                                        Names += user.get("yxyNickName") + "，";
                                     }
-                                    Names=Names.substring(0, Names.length()-1);
+                                    Names = Names.substring(0, Names.length() - 1);
                                     String finalNames = Names;
                                     ((Activity) context).runOnUiThread(() -> {
                                         new MaterialAlertDialogBuilder(context)
-                                                .setMessage(finalNames +"点赞了这张图片").show();
+                                                .setMessage(finalNames + "点赞了这张图片").show();
                                     });
                                 }
                             });
@@ -182,12 +194,14 @@ public class InAlbumAdapter extends RecyclerView.Adapter<InAlbumAdapter.ViewHold
                                         return;
                                     }
                                     String data = gson.toJson(responeObject.getData());
-                                    Map[] resultBean = new Gson().fromJson(data,Map[].class);
-                                    Arrays.sort(resultBean, new Comparator<Map>() {
+                                    Log.e("data", data );
+                                    CommentItem[] items = new Gson().fromJson(data, CommentItem[].class);
+                                    Log.e("items", items.toString() );
+                                    Arrays.sort(items, new Comparator<CommentItem>() {
                                         @Override
-                                        public int compare(Map o1, Map o2) {
+                                        public int compare(CommentItem o1, CommentItem o2) {
                                             try {
-                                                if( dateToStamp((String) o1.get("comment_time"),"yyyy-MM-dd HH:mm:ss")>dateToStamp((String) o2.get("comment_time"),"yyyy-MM-dd HH:mm:ss"))
+                                                if (dateToStamp((String) o1.getCommentTime(), "yyyy-MM-dd HH:mm:ss") > dateToStamp((String) o2.getCommentTime(),"yyy-MM-dd HH:mm:ss"))
                                                     return 1;
                                                 else
                                                     return -1;
@@ -197,20 +211,86 @@ public class InAlbumAdapter extends RecyclerView.Adapter<InAlbumAdapter.ViewHold
                                             return 0;
                                         }
                                     });
-
-                                    String comments= "";
-                                    for(Map user:resultBean)
-                                    {
-                                        comments+=user.get("yxyNickName")+"："+user.get("comment")+"\n";
-                                    }
-                                    comments=comments.substring(0, comments.length()-1);
-                                    String finalNames = comments;
                                     ((Activity) context).runOnUiThread(() -> {
                                         new MaterialAlertDialogBuilder(context)
-                                                .setMessage(finalNames).show();
+                                                .setView(LayoutInflater.from(context).inflate(R.layout.dialog_comment,((Activity) context).findViewById(R.id.dialog_comment_list)))
+                                                .setAdapter(new ListAdapter() {
+                                            @Override
+                                            public boolean areAllItemsEnabled() {
+                                                return false;
+                                            }
+
+                                            @Override
+                                            public boolean isEnabled(int position) {
+                                                return false;
+                                            }
+
+                                            @Override
+                                            public void registerDataSetObserver(DataSetObserver observer) {
+
+                                            }
+
+                                            @Override
+                                            public void unregisterDataSetObserver(DataSetObserver observer) {
+
+                                            }
+
+                                            @Override
+                                            public int getCount() {
+                                                return items.length;
+                                            }
+
+                                            @Override
+                                            public Object getItem(int position) {
+                                                return items[position];
+                                            }
+
+                                            @Override
+                                            public long getItemId(int position) {
+                                                return position;
+                                            }
+
+                                            @Override
+                                            public boolean hasStableIds() {
+                                                return false;
+                                            }
+
+                                            @Override
+                                            public View getView(int position, View convertView, ViewGroup parent) {
+                                                CommentViewHolder holder = null;
+                                                if (convertView == null) {
+                                                    convertView = LayoutInflater.from(context).inflate(R.layout.dialog_comment_item,((Activity) context).findViewById(R.id.dialog_comment_list));
+                                                    holder = new CommentViewHolder(convertView);
+                                                    convertView.setTag(holder);
+                                                } else {
+                                                    holder = (CommentViewHolder)convertView.getTag();
+                                                }
+                                                Glide.with(context).load(items[position].getYxyUserAvatar()).into(holder.imageView);
+                                                holder.NickNameView.setText(items[position].getNickName());
+                                                holder.CommentView.setText(items[position].getComment());
+                                                return convertView;
+                                            }
+
+                                            @Override
+                                            public int getItemViewType(int position) {
+                                                return 0;
+                                            }
+
+                                            @Override
+                                            public int getViewTypeCount() {
+                                                return items.length;
+                                            }
+
+                                            @Override
+                                            public boolean isEmpty() {
+                                                return false;
+                                            }
+                                        },null)
+                                        .show();
                                     });
                                 }
                             });
+
                             break;
                         case R.id.delete:
                             new MaterialAlertDialogBuilder(context)
@@ -234,7 +314,6 @@ public class InAlbumAdapter extends RecyclerView.Adapter<InAlbumAdapter.ViewHold
                             }).show();
                             break;
                     }
-                    Toast.makeText(context,info,Toast.LENGTH_SHORT).show();
                     return true;
                 }
             });
@@ -263,6 +342,20 @@ public class InAlbumAdapter extends RecyclerView.Adapter<InAlbumAdapter.ViewHold
             imageView = itemView.findViewById(R.id.item_photo);
             publishView = itemView.findViewById(R.id.publish);
             detail = itemView.findViewById(R.id.dropdown_menu_photo);
+        }
+
+    }
+
+    static class CommentViewHolder extends RecyclerView.ViewHolder {
+        ImageView imageView;
+        TextView NickNameView;
+        TextView CommentView;
+
+        public CommentViewHolder(@NonNull View itemView) {
+            super(itemView);
+            imageView = itemView.findViewById(R.id.comment_item_photo);
+            NickNameView = itemView.findViewById(R.id.comment_item_nickname);
+            CommentView = itemView.findViewById(R.id.comment_item_comment);
         }
 
     }
@@ -309,7 +402,7 @@ public class InAlbumAdapter extends RecyclerView.Adapter<InAlbumAdapter.ViewHold
     /**
      * 将时间转换为时间戳
      */
-    public static long dateToStamp(String s,String pattern) throws ParseException {
+    public static long dateToStamp(String s, String pattern) throws ParseException {
         String res;
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
         Date date = simpleDateFormat.parse(s);
@@ -320,7 +413,7 @@ public class InAlbumAdapter extends RecyclerView.Adapter<InAlbumAdapter.ViewHold
     /**
      * 将时间戳转换为时间
      */
-    public static String stampToDate(String s){
+    public static String stampToDate(String s) {
         String res;
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         long lt = new Long(s);

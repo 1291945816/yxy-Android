@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <ImageView
+        android:layout_height="50dp"
+        android:layout_width="50dp"
+        android:id="@+id/comment_item_photo">
+    </ImageView>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minHeight="50dp"
+        android:id="@+id/comment_item_nickname"
+        android:textSize="20sp"
+        android:text="213213231"
+        android:textColor="@color/colorAccent"
+        android:gravity="center_vertical"
+        >
+    </TextView>
+    <TextView
+        android:minHeight="50dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="："
+        android:gravity="center"
+        android:textSize="20sp"
+        android:textColor="@color/colorPrimary">
+        android:gravity="center_vertical"
+    </TextView>
+    <TextView
+        android:minHeight="50dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/comment_item_comment"
+        android:textSize="20sp"
+        android:text="感觉还行"
+        android:layout_gravity="center"
+        android:gravity="center_vertical">
+    </TextView>
+
+</LinearLayout>
