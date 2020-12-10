@@ -290,7 +290,9 @@ public class InAlbumAdapter extends RecyclerView.Adapter<InAlbumAdapter.ViewHold
                                                         } else {
                                                             holder = (CommentViewHolder) convertView.getTag();
                                                         }
-                                                        Glide.with(context).load(items[position].getYxyUserAvatar()).into(holder.imageView);
+                                                        Glide.with(context).load(items[position].getYxyUserAvatar())
+                                                                .apply(bitmapTransform(new CropCircleTransformation())) //头像变圆
+                                                                .into(holder.imageView);
                                                         holder.NickNameView.setText(items[position].getNickName());
                                                         holder.CommentView.setText(items[position].getComment());
                                                         return convertView;
