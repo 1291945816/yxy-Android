@@ -275,7 +275,6 @@ public class SquareViewAdapter extends RecyclerView.Adapter<SquareViewAdapter.Vi
             {
                 int position = holder.getAdapterPosition();
                 ImageEntity entity = squareList.get(position);
-                //todo 跳转到用户主页
                 Toast.makeText(context, entity.getAuthorName(), Toast.LENGTH_SHORT).show();
             }
         });

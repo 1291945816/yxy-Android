@@ -33,6 +33,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.gson.Gson;
@@ -98,7 +99,8 @@ public class InAlbumAdapter extends RecyclerView.Adapter<InAlbumAdapter.ViewHold
             holder.publishView.setImageResource(R.drawable.album_star_red);
         Glide.with(context)
                 .load(picture.getThumbnailUrl())
-                .skipMemoryCache(true)
+//                .skipMemoryCache(true)
+//                .apply(RequestOptions.bitmapTransform(new CropCircleTransformation()))
                 .into(holder.imageView);
         holder.detail.setOnClickListener(v -> {
             PopupMenu popup = new PopupMenu(context, holder.detail);
@@ -291,7 +293,10 @@ public class InAlbumAdapter extends RecyclerView.Adapter<InAlbumAdapter.ViewHold
                                                         } else {
                                                             holder = (CommentViewHolder) convertView.getTag();
                                                         }
-                                                        Glide.with(context).load(items[position].getYxyUserAvatar()).into(holder.imageView);
+                                                        Glide.with(context)
+                                                                .load(items[position].getYxyUserAvatar())
+                                                                .apply(RequestOptions.bitmapTransform(new CropCircleTransformation()))
+                                                                .into(holder.imageView);
                                                         holder.NickNameView.setText(items[position].getNickName());
                                                         holder.CommentView.setText(items[position].getComment());
                                                         return convertView;
