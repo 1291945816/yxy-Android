@@ -137,7 +137,7 @@ public class SquareFragment extends Fragment
         {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e)
-    {
+            {
             }
 
             @Override
@@ -151,7 +151,7 @@ public class SquareFragment extends Fragment
                 new Handler(Looper.getMainLooper()).post(()->{
                     adapter.notifyDataSetChanged();
                 });
-    }
+            }
         });
-}
+    }
 }
