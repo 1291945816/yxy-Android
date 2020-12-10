@@ -264,7 +264,7 @@ public class InAlbumAdapter extends RecyclerView.Adapter<InAlbumAdapter.ViewHold
                                                 } else {
                                                     holder = (CommentViewHolder)convertView.getTag();
                                                 }
-                                                Glide.with(context).load(items[position].getPhotoImageUrl()).into(holder.imageView);
+                                                Glide.with(context).load(items[position].getYxyUserAvatar()).into(holder.imageView);
                                                 holder.NickNameView.setText(items[position].getNickName());
                                                 holder.CommentView.setText(items[position].getComment());
                                                 return convertView;

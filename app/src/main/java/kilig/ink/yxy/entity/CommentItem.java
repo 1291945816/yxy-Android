@@ -2,10 +2,18 @@ package kilig.ink.yxy.entity;
 
 
 public class CommentItem {
-    private String photoImageUrl;
+
+    private String yxyUserAvatar;
     private String yxyNickName;
     private String comment;
     private String comment_time;
+    public String getYxyUserAvatar() {
+        return yxyUserAvatar;
+    }
+
+    public void setYxyUserAvatar(String yxyUserAvatar) {
+        this.yxyUserAvatar = yxyUserAvatar;
+    }
 
     public String getCommentTime() {
         return comment_time;
@@ -15,13 +23,6 @@ public class CommentItem {
         comment_time = commentTime;
     }
 
-    public String getPhotoImageUrl() {
-        return photoImageUrl;
-    }
-
-    public void setPhotoImageUrl(String photoImageUrl) {
-        this.photoImageUrl = photoImageUrl;
-    }
 
     public String getNickName() {
         return yxyNickName;
