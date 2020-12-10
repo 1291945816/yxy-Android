@@ -34,8 +34,9 @@
         android:layout_height="wrap_content"
         android:id="@+id/comment_item_comment"
         android:textSize="20sp"
-        android:text="感觉还行">
-        android:gravity="center_vertical"
+        android:text="感觉还行"
+        android:layout_gravity="center"
+        android:gravity="center_vertical">
     </TextView>
 
 </LinearLayout>
