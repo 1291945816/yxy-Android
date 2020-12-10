@@ -6,9 +6,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.database.DataSetObserver;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -166,13 +170,27 @@ public class InAlbumAdapter extends RecyclerView.Adapter<InAlbumAdapter.ViewHold
                                     String Names = "";
                                     for (Map user : resultBean) {
                                         Names += user.get("yxyNickName") + "，";
+                                        SpannableStringBuilder style = new SpannableStringBuilder(Names);
                                     }
-                                    Names = Names.substring(0, Names.length() - 1);
-                                    String finalNames = Names;
-                                    ((Activity) context).runOnUiThread(() -> {
-                                        new MaterialAlertDialogBuilder(context)
-                                                .setMessage(finalNames + "点赞了这张图片").show();
-                                    });
+                                    if (Names.length() != 0) {
+                                        Names = Names.substring(0, Names.length() - 1);
+                                        Names += "点赞了这张图片";
+                                        SpannableStringBuilder style = new SpannableStringBuilder(Names);
+                                        int i = 0;
+                                        for (Map user : resultBean) {
+                                            style.setSpan(new ForegroundColorSpan(Color.RED), i, i + ((String) user.get("yxyNickName")).length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                            i += ((String) user.get("yxyNickName")).length() + 1;
+                                        }
+                                        ((Activity) context).runOnUiThread(() -> {
+                                            new MaterialAlertDialogBuilder(context)
+                                                    .setMessage(style).show();
+                                        });
+                                    } else {
+                                        ((Activity) context).runOnUiThread(() -> {
+                                            new MaterialAlertDialogBuilder(context)
+                                                    .setMessage("无人点赞").show();
+                                        });
+                                    }
                                 }
                             });
                             break;
@@ -193,14 +211,22 @@ public class InAlbumAdapter extends RecyclerView.Adapter<InAlbumAdapter.ViewHold
                                         return;
                                     }
                                     String data = gson.toJson(responeObject.getData());
-                                    Log.e("data", data );
+                                    Log.e("data", data);
                                     CommentItem[] items = new Gson().fromJson(data, CommentItem[].class);
-                                    Log.e("items", items.toString() );
+                                    if (items.length == 0) {
+                                        ((Activity) context).runOnUiThread(() -> {
+                                            new MaterialAlertDialogBuilder(context)
+                                                    .setMessage("无人评论")
+                                                    .show();
+                                        });
+                                        return;
+                                    }
+                                    Log.e("items", items.toString());
                                     Arrays.sort(items, new Comparator<CommentItem>() {
                                         @Override
                                         public int compare(CommentItem o1, CommentItem o2) {
                                             try {
-                                                if (dateToStamp((String) o1.getCommentTime(), "yyyy-MM-dd HH:mm:ss") > dateToStamp((String) o2.getCommentTime(),"yyy-MM-dd HH:mm:ss"))
+                                                if (dateToStamp((String) o1.getCommentTime(), "yyyy-MM-dd HH:mm:ss") > dateToStamp((String) o2.getCommentTime(), "yyy-MM-dd HH:mm:ss"))
                                                     return 1;
                                                 else
                                                     return -1;
@@ -212,80 +238,80 @@ public class InAlbumAdapter extends RecyclerView.Adapter<InAlbumAdapter.ViewHold
                                     });
                                     ((Activity) context).runOnUiThread(() -> {
                                         new MaterialAlertDialogBuilder(context)
-                                                .setView(LayoutInflater.from(context).inflate(R.layout.dialog_comment,((Activity) context).findViewById(R.id.dialog_comment_list)))
+                                                .setView(LayoutInflater.from(context).inflate(R.layout.dialog_comment, ((Activity) context).findViewById(R.id.dialog_comment_list)))
                                                 .setAdapter(new ListAdapter() {
-                                            @Override
-                                            public boolean areAllItemsEnabled() {
-                                                return false;
-                                            }
+                                                    @Override
+                                                    public boolean areAllItemsEnabled() {
+                                                        return false;
+                                                    }
 
-                                            @Override
-                                            public boolean isEnabled(int position) {
-                                                return false;
-                                            }
+                                                    @Override
+                                                    public boolean isEnabled(int position) {
+                                                        return false;
+                                                    }
 
-                                            @Override
-                                            public void registerDataSetObserver(DataSetObserver observer) {
+                                                    @Override
+                                                    public void registerDataSetObserver(DataSetObserver observer) {
 
-                                            }
+                                                    }
 
-                                            @Override
-                                            public void unregisterDataSetObserver(DataSetObserver observer) {
+                                                    @Override
+                                                    public void unregisterDataSetObserver(DataSetObserver observer) {
 
-                                            }
+                                                    }
 
-                                            @Override
-                                            public int getCount() {
-                                                return items.length;
-                                            }
+                                                    @Override
+                                                    public int getCount() {
+                                                        return items.length;
+                                                    }
 
-                                            @Override
-                                            public Object getItem(int position) {
-                                                return items[position];
-                                            }
+                                                    @Override
+                                                    public Object getItem(int position) {
+                                                        return items[position];
+                                                    }
 
-                                            @Override
-                                            public long getItemId(int position) {
-                                                return position;
-                                            }
+                                                    @Override
+                                                    public long getItemId(int position) {
+                                                        return position;
+                                                    }
 
-                                            @Override
-                                            public boolean hasStableIds() {
-                                                return false;
-                                            }
+                                                    @Override
+                                                    public boolean hasStableIds() {
+                                                        return false;
+                                                    }
 
-                                            @Override
-                                            public View getView(int position, View convertView, ViewGroup parent) {
-                                                CommentViewHolder holder = null;
-                                                if (convertView == null) {
-                                                    convertView = LayoutInflater.from(context).inflate(R.layout.dialog_comment_item,((Activity) context).findViewById(R.id.dialog_comment_list));
-                                                    holder = new CommentViewHolder(convertView);
-                                                    convertView.setTag(holder);
-                                                } else {
-                                                    holder = (CommentViewHolder)convertView.getTag();
-                                                }
-                                                Glide.with(context).load(items[position].getYxyUserAvatar()).into(holder.imageView);
-                                                holder.NickNameView.setText(items[position].getNickName());
-                                                holder.CommentView.setText(items[position].getComment());
-                                                return convertView;
-                                            }
+                                                    @Override
+                                                    public View getView(int position, View convertView, ViewGroup parent) {
+                                                        CommentViewHolder holder = null;
+                                                        if (convertView == null) {
+                                                            convertView = LayoutInflater.from(context).inflate(R.layout.dialog_comment_item, ((Activity) context).findViewById(R.id.dialog_comment_list));
+                                                            holder = new CommentViewHolder(convertView);
+                                                            convertView.setTag(holder);
+                                                        } else {
+                                                            holder = (CommentViewHolder) convertView.getTag();
+                                                        }
+                                                        Glide.with(context).load(items[position].getYxyUserAvatar()).into(holder.imageView);
+                                                        holder.NickNameView.setText(items[position].getNickName());
+                                                        holder.CommentView.setText(items[position].getComment());
+                                                        return convertView;
+                                                    }
 
-                                            @Override
-                                            public int getItemViewType(int position) {
-                                                return 0;
-                                            }
+                                                    @Override
+                                                    public int getItemViewType(int position) {
+                                                        return 0;
+                                                    }
 
-                                            @Override
-                                            public int getViewTypeCount() {
-                                                return items.length;
-                                            }
+                                                    @Override
+                                                    public int getViewTypeCount() {
+                                                        return items.length;
+                                                    }
 
-                                            @Override
-                                            public boolean isEmpty() {
-                                                return false;
-                                            }
-                                        },null)
-                                        .show();
+                                                    @Override
+                                                    public boolean isEmpty() {
+                                                        return false;
+                                                    }
+                                                }, null)
+                                                .show();
                                     });
                                 }
                             });
