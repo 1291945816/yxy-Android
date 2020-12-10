@@ -32,7 +32,7 @@
                 android:id="@+id/picture_name"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/shape_edittext_publish_picture"
+                android:backgroundTint="#FFFFFF"
                 android:singleLine="true"
                 android:maxLength="10" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -41,7 +41,7 @@
             android:id="@+id/selectFile"
             android:layout_width="wrap_content"
             android:layout_height="68dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="3dp"
 
             android:text="选择文件"
             app:layout_constraintLeft_toRightOf="@id/pictureName"
@@ -80,11 +80,11 @@
             android:id="@+id/text"
             android:layout_width="100dp"
             android:layout_height="30dp"
-            android:layout_marginLeft="236dp"
+            android:layout_marginLeft="10dp"
             android:layout_marginTop="25dp"
             android:text="发布到广场"
             android:gravity="center"
-            android:textColor="@color/black"
+            android:textColor="@color/gray"
             android:textSize="16sp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/pictureIntro" />
