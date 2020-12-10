@@ -33,7 +33,6 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.gson.Gson;
@@ -99,8 +98,7 @@ public class InAlbumAdapter extends RecyclerView.Adapter<InAlbumAdapter.ViewHold
             holder.publishView.setImageResource(R.drawable.album_star_red);
         Glide.with(context)
                 .load(picture.getThumbnailUrl())
-//                .skipMemoryCache(true)
-//                .apply(RequestOptions.bitmapTransform(new CropCircleTransformation()))
+                .skipMemoryCache(true)
                 .into(holder.imageView);
         holder.detail.setOnClickListener(v -> {
             PopupMenu popup = new PopupMenu(context, holder.detail);
@@ -206,7 +204,6 @@ public class InAlbumAdapter extends RecyclerView.Adapter<InAlbumAdapter.ViewHold
 
                                 @Override
                                 public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                                    Log.e("response", response.body().toString());
                                     Gson gson = new GsonBuilder().serializeNulls().create();
                                     ResponeObject responeObject = gson.fromJson(response.body().string(), ResponeObject.class);
                                     if (!responeObject.getCode().equals("200")) {
@@ -293,9 +290,8 @@ public class InAlbumAdapter extends RecyclerView.Adapter<InAlbumAdapter.ViewHold
                                                         } else {
                                                             holder = (CommentViewHolder) convertView.getTag();
                                                         }
-                                                        Glide.with(context)
-                                                                .load(items[position].getYxyUserAvatar())
-                                                                .apply(RequestOptions.bitmapTransform(new CropCircleTransformation()))
+                                                        Glide.with(context).load(items[position].getYxyUserAvatar())
+                                                                .apply(bitmapTransform(new CropCircleTransformation())) //头像变圆
                                                                 .into(holder.imageView);
                                                         holder.NickNameView.setText(items[position].getNickName());
                                                         holder.CommentView.setText(items[position].getComment());
