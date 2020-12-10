@@ -30,7 +30,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.ChangeInfoActivity" />
-        <activity android:name=".activity.ImageDetailActivity" />
+        <activity android:name=".activity.ImageDetailActivity"
+            />
         <activity
             android:name=".activity.MainActivity"
             android:theme="@style/AppMainTheme" />

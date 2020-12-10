@@ -35,6 +35,9 @@ import com.bumptech.glide.request.transition.DrawableCrossFadeFactory;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.hitomi.tilibrary.transfer.TransferConfig;
+import com.hitomi.tilibrary.transfer.Transferee;
+import com.vansz.universalimageloader.UniversalImageLoader;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -62,21 +65,31 @@ public class ImageDetailActivity extends AppCompatActivity
     ImageView detailDownloadImgView;
     TextView  detailCommentNumTextView;
     ImageView detailAddCommentImageView;
+    private Transferee transferee;
+
 
     BottomSheetDialog dialog;
 
     CommentAdapter adapter;
     RecyclerView recyclerView;
     ArrayList<CommentEntity> commentList;
+
     String json;
 
     DrawableCrossFadeFactory factory = new DrawableCrossFadeFactory.Builder().setCrossFadeEnabled(true).build();
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        transferee.destroy();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_detail);
+        transferee = Transferee.getDefault(this);
 
         Intent intent = getIntent();
         if (intent != null)
@@ -106,6 +119,11 @@ public class ImageDetailActivity extends AppCompatActivity
 //        detailCommentNumTextView = findViewById(R.id.textView_detail_commentNument);
         detailAddCommentImageView = findViewById(R.id.imageView_detail_comment);
 
+
+
+
+
+
         Glide.with(this)
                 .load(entity.getDisplayImgUrl())
                 .error(R.drawable.cloudlogo)
@@ -116,6 +134,16 @@ public class ImageDetailActivity extends AppCompatActivity
                 .load(entity.getAuthorProfileImgUrl())
                 .apply(RequestOptions.bitmapTransform(new CropCircleTransformation()))
                 .into(detailAuthorProfileImgView);
+
+        detailDisplayImgView.setOnClickListener(v->{
+            List<String> list=new ArrayList<>();
+            list.add(entity.getDisplayImgUrl());
+            TransferConfig config=TransferConfig.build()
+                    .setImageLoader(UniversalImageLoader.with(ImageDetailActivity.this))
+                    .setSourceUrlList(list)
+                    .create();
+            transferee.apply(config).show();
+        });
         detailImgNameTextView.setText(entity.getDisplayImgName());
         detailAuthorNameTextView.setText(entity.getAuthorName());
         detailStarNumTextView.setText(String.valueOf(entity.getStarNum()));
