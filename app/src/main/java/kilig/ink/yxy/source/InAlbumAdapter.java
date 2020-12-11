@@ -133,7 +133,7 @@ public class InAlbumAdapter extends RecyclerView.Adapter<InAlbumAdapter.ViewHold
                                     ((Activity) context).runOnUiThread(() -> {
                                         new MaterialAlertDialogBuilder(context)
                                                 .setTitle("图片详情")
-                                                .setIcon(R.drawable.androidicon)
+//                                                .setIcon(R.drawable.androidicon)
                                                 .setMessage(
                                                         "图片名称：" + map.get("pictureName") + " \n" +
                                                                 "图片描述：" + map.get("pictureInfo") + " \n" +
@@ -178,7 +178,7 @@ public class InAlbumAdapter extends RecyclerView.Adapter<InAlbumAdapter.ViewHold
                                         SpannableStringBuilder style = new SpannableStringBuilder(Names);
                                         int i = 0;
                                         for (Map user : resultBean) {
-                                            style.setSpan(new ForegroundColorSpan(Color.RED), i, i + ((String) user.get("yxyNickName")).length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                            style.setSpan(new ForegroundColorSpan(Color.parseColor("#03DAC5")), i, i + ((String) user.get("yxyNickName")).length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                                             i += ((String) user.get("yxyNickName")).length() + 1;
                                         }
                                         ((Activity) context).runOnUiThread(() -> {
